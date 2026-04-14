@@ -3,96 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Archivum — Church Architecture Identifier</title>
+<title>Archi Vision — Church Architecture Identifier</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #F7F4EE;
-    --surface: #FFFFFF;
-    --surface2: #F0EDE5;
-    --border: rgba(60,45,20,0.12);
-    --border-mid: rgba(60,45,20,0.22);
-    --ink: #1C1712;
-    --ink-2: #5C5040;
-    --ink-3: #9C8C78;
-    --accent: #2D4A3E;
-    --accent-light: #E8F0EC;
-    --accent-mid: #4A7A66;
-    --gold: #8B6914;
-    --gold-light: #F5EDD4;
-    --danger: #7A2C2C;
-    --danger-light: #F5E8E8;
-    --radius: 4px;
-    --radius-lg: 8px;
-    --radius-xl: 14px;
+    --bg: #F7F4EE; --surface: #FFFFFF; --surface2: #F0EDE5;
+    --border: rgba(60,45,20,0.12); --border-mid: rgba(60,45,20,0.22);
+    --ink: #1C1712; --ink-2: #5C5040; --ink-3: #9C8C78;
+    --accent: #2D4A3E; --accent-light: #E8F0EC; --accent-mid: #4A7A66;
+    --gold: #8B6914; --gold-light: #F5EDD4;
+    --danger: #7A2C2C; --danger-light: #F5E8E8;
+    --radius: 4px; --radius-lg: 8px; --radius-xl: 14px;
   }
-
   body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
 
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 58px; position: sticky; top: 0; z-index: 100;
-  }
-
-  .logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px; font-weight: 600; color: var(--ink);
-    letter-spacing: 0.04em; display: flex; align-items: center; gap: 10px;
-  }
-
-  .logo-mark {
-    width: 28px; height: 28px; background: var(--accent); border-radius: 3px;
-    display: flex; align-items: center; justify-content: center;
-  }
-
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 58px; position: sticky; top: 0; z-index: 200; }
+  .logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--ink); letter-spacing: 0.04em; display: flex; align-items: center; gap: 10px; }
+  .logo-mark { width: 28px; height: 28px; background: var(--accent); border-radius: 3px; display: flex; align-items: center; justify-content: center; }
   nav { display: flex; gap: 4px; }
-
-  .nav-btn {
-    padding: 6px 16px; border-radius: var(--radius);
-    font-family: 'DM Sans', sans-serif; font-size: 13px;
-    cursor: pointer; border: 1px solid transparent;
-    color: var(--ink-2); background: transparent; transition: all 0.15s;
-  }
-  .nav-btn:hover { background: var(--surface2); color: var(--ink); }
+  .nav-btn { padding: 6px 14px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; border: 1px solid transparent; color: var(--ink-2); background: transparent; transition: all 0.15s; }
+  .nav-btn:hover { background: var(--surface2); }
   .nav-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .nav-count { background: var(--gold); color: #fff; border-radius: 10px; font-size: 11px; padding: 1px 6px; margin-left: 5px; font-weight: 500; }
+  .nav-count { background: var(--gold); color: #fff; border-radius: 10px; font-size: 11px; padding: 1px 6px; margin-left: 4px; font-weight: 500; }
 
-  /* Config bar */
-  .config-bar {
-    background: var(--gold-light);
-    border-bottom: 1px solid rgba(139,105,20,0.2);
-    padding: 8px 2rem;
-    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  }
-  .config-label { font-size: 12px; font-weight: 500; color: var(--gold); white-space: nowrap; }
-  .config-bar input[type=text] {
-    padding: 6px 10px; border: 1px solid rgba(139,105,20,0.3);
-    border-radius: var(--radius); font-size: 12px;
-    font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--ink);
-  }
-  .config-bar input[type=text]:focus { outline: none; border-color: var(--accent-mid); }
-  #api-url { min-width: 200px; max-width: 300px; }
-  #model-name { max-width: 150px; }
-  .test-btn {
-    padding: 6px 14px; border: 1px solid rgba(139,105,20,0.3);
-    border-radius: var(--radius); font-size: 12px;
-    font-family: 'DM Sans', sans-serif; background: var(--surface);
-    color: var(--gold); cursor: pointer; transition: background 0.15s;
-  }
-  .test-btn:hover { background: var(--surface2); }
-  .config-status { font-size: 11px; padding: 3px 10px; border-radius: 10px; font-weight: 500; }
-  .status-ok { background: #E8F0EC; color: #2D4A3E; }
-  .status-err { background: var(--danger-light); color: var(--danger); }
-  .status-idle { background: var(--surface2); color: var(--ink-3); }
-
-  main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+  main { max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
   .page { display: none; }
   .page.active { display: block; }
 
@@ -101,112 +38,134 @@
   .upload-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px; }
   .upload-headline { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 500; color: var(--ink); text-align: center; line-height: 1.15; margin-bottom: 10px; }
   .upload-headline em { font-style: italic; color: var(--accent-mid); }
-  .upload-desc { font-size: 14px; color: var(--ink-2); text-align: center; max-width: 460px; line-height: 1.65; margin-bottom: 2rem; }
-
-  .drop-zone {
-    width: 100%; max-width: 580px;
-    border: 1.5px dashed var(--border-mid); border-radius: var(--radius-xl);
-    padding: 3rem 2rem; text-align: center; cursor: pointer;
-    transition: all 0.2s; background: var(--surface);
-  }
+  .upload-desc { font-size: 14px; color: var(--ink-2); text-align: center; max-width: 480px; line-height: 1.65; margin-bottom: 2rem; }
+  .drop-zone { width: 100%; max-width: 560px; border: 1.5px dashed var(--border-mid); border-radius: var(--radius-xl); padding: 2.5rem 2rem; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--surface); }
   .drop-zone:hover, .drop-zone.drag-over { border-color: var(--accent-mid); background: var(--accent-light); }
   .drop-zone-inner { pointer-events: none; }
-  .drop-icon { width: 52px; height: 52px; margin: 0 auto 1.25rem; background: var(--surface2); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .drop-icon { width: 52px; height: 52px; margin: 0 auto 1rem; background: var(--surface2); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
   .drop-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
-  .drop-sub { font-size: 13px; color: var(--ink-3); margin-bottom: 1.5rem; line-height: 1.55; }
+  .drop-sub { font-size: 13px; color: var(--ink-3); margin-bottom: 1.25rem; line-height: 1.55; }
+  .geo-status { font-size: 12px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .geo-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .geo-ok .geo-dot { background: #4A7A66; }
+  .geo-err .geo-dot { background: #C0392B; }
+  .geo-wait .geo-dot { background: var(--ink-3); }
   .choose-btn { display: inline-block; padding: 10px 26px; background: var(--accent); color: #fff; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: opacity 0.15s; }
   .choose-btn:hover { opacity: 0.88; }
-  .drop-formats { font-size: 11px; color: var(--ink-3); margin-top: 12px; }
+  .drop-formats { font-size: 11px; color: var(--ink-3); margin-top: 10px; }
   input[type=file] { display: none; }
 
   /* Results */
-  .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border: 1px solid var(--border-mid); border-radius: var(--radius); font-size: 13px; color: var(--ink-2); background: var(--surface); cursor: pointer; margin-bottom: 1.5rem; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+  .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border: 1px solid var(--border-mid); border-radius: var(--radius); font-size: 13px; color: var(--ink-2); background: var(--surface); cursor: pointer; margin-bottom: 1.25rem; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
   .back-btn:hover { background: var(--surface2); }
-
-  .results-grid { display: grid; grid-template-columns: 420px 1fr; gap: 1.5rem; align-items: start; }
-  .church-image-wrap { border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--border); background: var(--surface2); aspect-ratio: 4/3; }
-  .church-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .results-grid { display: grid; grid-template-columns: 1fr 360px; gap: 1.5rem; align-items: start; }
+  .church-canvas-wrap { border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--border); background: #111; position: relative; line-height: 0; }
+  #bbox-canvas { display: block; width: 100%; height: auto; }
+  .canvas-hint { font-size: 11px; color: var(--ink-3); text-align: center; padding: 6px 0 2px; }
 
   .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; }
-  .result-card-header { padding: 1.25rem 1.5rem 1rem; border-bottom: 1px solid var(--border); background: var(--ink); color: #fff; }
-  .result-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 500; line-height: 1.2; margin-bottom: 4px; }
-  .result-location { font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.05em; }
-  .confidence-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+  .result-card-header { padding: 1.1rem 1.4rem 1rem; border-bottom: 1px solid var(--border); background: var(--ink); color: #fff; }
+  .result-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 500; line-height: 1.2; margin-bottom: 3px; }
+  .result-location-text { font-size: 12px; color: rgba(255,255,255,0.6); }
+  .conf-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
   .conf-badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em; }
   .conf-high { background: rgba(72,200,140,0.2); color: #5DCAA5; }
-  .conf-med { background: rgba(235,180,60,0.2); color: #EF9F27; }
-  .conf-low { background: rgba(220,80,60,0.2); color: #F09595; }
+  .conf-med  { background: rgba(235,180,60,0.2);  color: #EF9F27; }
+  .conf-low  { background: rgba(220,80,60,0.2);   color: #F09595; }
+  .geo-tag { font-size: 11px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 4px; margin-top: 6px; }
 
-  .result-card-body { padding: 1.25rem 1.5rem; }
-  .stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 1.25rem; }
-  .stat-box { background: var(--surface2); border-radius: var(--radius-lg); padding: 10px 12px; border: 1px solid var(--border); }
-  .stat-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); margin-bottom: 4px; }
-  .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.2; }
-
+  .result-card-body { padding: 1.1rem 1.4rem; }
+  .stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 1.1rem; }
+  .stat-box { background: var(--surface2); border-radius: var(--radius-lg); padding: 9px 10px; border: 1px solid var(--border); }
+  .stat-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); margin-bottom: 3px; }
+  .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.2; }
   .section-head { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); margin-bottom: 8px; }
-
-  .tags-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.25rem; }
-  .tag { font-size: 11px; padding: 4px 11px; border-radius: 20px; font-weight: 500; }
+  .tags-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 1.1rem; }
+  .tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
   .tag-green { background: #E8F0EC; color: #2D4A3E; }
-  .tag-gold { background: var(--gold-light); color: var(--gold); }
+  .tag-gold  { background: var(--gold-light); color: var(--gold); }
   .tag-stone { background: var(--surface2); color: var(--ink-2); border: 1px solid var(--border); }
-  .tag-blue { background: #E6EFF8; color: #1A4A7A; }
+  .tag-blue  { background: #E6EFF8; color: #1A4A7A; }
 
-  .features-block { margin-bottom: 1.25rem; }
-  .feature-item { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.5; color: var(--ink); }
-  .feature-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .feat-line { width: 2px; height: 18px; background: var(--accent-mid); border-radius: 2px; flex-shrink: 0; margin-top: 2px; }
+  .features-block { margin-bottom: 1.1rem; }
+  .feature-item { display: flex; gap: 8px; align-items: flex-start; padding: 7px 8px; margin: 0 -8px; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.45; color: var(--ink); cursor: pointer; border-radius: var(--radius); transition: background 0.12s; }
+  .feature-item:last-child { border-bottom: none; }
+  .feature-item:hover, .feature-item.active { background: var(--accent-light); }
+  .feat-swatch { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; margin-top: 5px; }
+  .feat-label { flex: 1; }
+  .feat-name { font-weight: 500; }
+  .feat-desc { font-size: 12px; color: var(--ink-3); margin-top: 1px; }
+  .feat-locate { font-size: 10px; color: var(--accent-mid); font-weight: 500; margin-left: auto; flex-shrink: 0; opacity: 0; transition: opacity 0.15s; }
+  .feature-item:hover .feat-locate, .feature-item.active .feat-locate { opacity: 1; }
 
-  .description-block { background: var(--gold-light); border-left: 3px solid var(--gold); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 12px 14px; font-family: 'Cormorant Garamond', serif; font-size: 15px; font-style: italic; line-height: 1.65; color: var(--gold); margin-bottom: 1.25rem; }
+  .description-block { background: var(--gold-light); border-left: 3px solid var(--gold); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 10px 12px; font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; line-height: 1.6; color: var(--gold); margin-bottom: 1.1rem; }
 
-  .save-church-btn { width: 100%; padding: 11px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity 0.15s; }
-  .save-church-btn:hover { opacity: 0.88; }
-  .save-church-btn:disabled { opacity: 0.45; cursor: not-allowed; background: var(--surface2); color: var(--ink-2); border: 1px solid var(--border); }
+  .action-row { display: flex; gap: 8px; }
+  .save-btn { flex: 1; padding: 10px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity 0.15s; }
+  .save-btn:hover { opacity: 0.88; }
+  .save-btn:disabled { opacity: 0.45; cursor: not-allowed; background: var(--surface2); color: var(--ink-2); border: 1px solid var(--border); }
+  .share-map-btn { padding: 10px 16px; background: transparent; border: 1px solid var(--border-mid); border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink-2); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .share-map-btn:hover { background: var(--surface2); }
 
   /* States */
-  .state-box { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 260px; text-align: center; padding: 2rem; }
-  .spinner { width: 30px; height: 30px; border: 2px solid var(--border-mid); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.75s linear infinite; margin-bottom: 1rem; }
+  .state-box { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 240px; text-align: center; padding: 2rem; }
+  .spinner { width: 28px; height: 28px; border: 2px solid var(--border-mid); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.75s linear infinite; margin-bottom: 1rem; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .state-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
-  .state-sub { font-size: 13px; color: var(--ink-3); line-height: 1.55; }
-
-  .error-box { background: var(--danger-light); border: 1px solid rgba(120,40,40,0.15); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; }
-  .error-title { font-size: 14px; font-weight: 500; color: var(--danger); margin-bottom: 6px; }
+  .state-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+  .state-sub { font-size: 12px; color: var(--ink-3); line-height: 1.55; }
+  .error-box { background: var(--danger-light); border: 1px solid rgba(120,40,40,0.15); border-radius: var(--radius-lg); padding: 1.1rem 1.4rem; }
+  .error-title { font-size: 14px; font-weight: 500; color: var(--danger); margin-bottom: 5px; }
   .error-sub { font-size: 13px; color: #A05050; line-height: 1.55; }
-  .error-detail { font-size: 11px; color: #A05050; margin-top: 8px; font-family: monospace; background: rgba(120,40,40,0.06); padding: 6px 8px; border-radius: var(--radius); word-break: break-all; }
+  .error-detail { font-size: 11px; color: #A05050; margin-top: 6px; font-family: monospace; background: rgba(120,40,40,0.06); padding: 5px 8px; border-radius: var(--radius); word-break: break-all; }
 
-  /* Saved */
-  .saved-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.5rem; }
-  .saved-headline { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 500; color: var(--ink); }
+  /* MAP PAGE */
+  .map-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 10px; }
+  .map-headline { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 500; color: var(--ink); }
+  .map-meta { font-size: 13px; color: var(--ink-3); }
+  #map-container { width: 100%; height: 520px; border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--border); background: var(--surface2); position: relative; }
+  .map-loading { display: flex; align-items: center; justify-content: center; height: 100%; gap: 10px; font-size: 13px; color: var(--ink-3); }
+  .map-submissions { margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .sub-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; }
+  .sub-card-img { width: 100%; height: 140px; object-fit: cover; background: var(--surface2); display: block; }
+  .sub-card-body { padding: 12px 14px; }
+  .sub-card-name { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .sub-card-meta { font-size: 11px; color: var(--ink-3); display: flex; gap: 8px; flex-wrap: wrap; }
+  .sub-card-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
+
+  /* SAVED PAGE */
+  .saved-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.25rem; }
+  .saved-headline { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 500; color: var(--ink); }
   .saved-count-text { font-size: 13px; color: var(--ink-3); }
-  .saved-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
-  .saved-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; transition: border-color 0.15s; }
-  .saved-card:hover { border-color: var(--border-mid); }
-  .saved-card-img { width: 100%; height: 160px; object-fit: cover; display: block; background: var(--surface2); }
-  .saved-card-body { padding: 14px 16px; }
-  .saved-card-name { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 500; color: var(--ink); margin-bottom: 3px; line-height: 1.25; }
-  .saved-card-meta { font-size: 12px; color: var(--ink-3); margin-bottom: 10px; }
-  .saved-card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
-  .saved-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--border); }
+  .saved-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .saved-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden; }
+  .saved-card-img { width: 100%; height: 150px; object-fit: cover; display: block; background: var(--surface2); }
+  .saved-card-body { padding: 13px 15px; }
+  .saved-card-name { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 500; color: var(--ink); margin-bottom: 3px; line-height: 1.25; }
+  .saved-card-meta { font-size: 12px; color: var(--ink-3); margin-bottom: 8px; }
+  .saved-card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+  .saved-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 9px; border-top: 1px solid var(--border); }
   .saved-date { font-size: 11px; color: var(--ink-3); }
   .del-btn { background: transparent; border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 10px; font-size: 11px; color: var(--ink-3); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
   .del-btn:hover { border-color: rgba(120,40,40,0.3); color: var(--danger); background: var(--danger-light); }
-
   .empty-state { grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; color: var(--ink-3); }
   .empty-icon { width: 48px; height: 48px; margin: 0 auto 1rem; background: var(--surface2); border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
   .empty-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 500; color: var(--ink-2); margin-bottom: 6px; }
   .empty-sub { font-size: 13px; line-height: 1.6; }
 
-  @media (max-width: 700px) {
+  /* Popup */
+  .map-popup { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 12px 14px; max-width: 220px; font-family: 'DM Sans', sans-serif; }
+  .map-popup img { width: 100%; height: 100px; object-fit: cover; border-radius: var(--radius); margin-bottom: 8px; display: block; }
+  .map-popup-name { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .map-popup-meta { font-size: 11px; color: var(--ink-3); }
+
+  @media (max-width: 720px) {
     header { padding: 0 1rem; }
-    .config-bar { padding: 8px 1rem; }
     main { padding: 1.5rem 1rem 3rem; }
     .upload-headline { font-size: 28px; }
     .results-grid { grid-template-columns: 1fr; }
-    .church-image-wrap { aspect-ratio: 16/9; }
     .stat-row { grid-template-columns: 1fr 1fr; }
-    .saved-grid { grid-template-columns: 1fr; }
-    .nav-btn { padding: 6px 10px; font-size: 12px; }
+    .nav-btn { padding: 6px 9px; font-size: 12px; }
+    #map-container { height: 380px; }
   }
 </style>
 </head>
@@ -221,39 +180,26 @@
         <rect x="4" y="12" width="8" height="4" fill="white" opacity="0.5"/>
       </svg>
     </div>
-    Archivum
+    Archi Vision
   </div>
   <nav>
-    <button class="nav-btn active" onclick="showPage('identify', this)">Identify</button>
-    <button class="nav-btn" onclick="showPage('saved', this)">Saved <span class="nav-count" id="saved-count">0</span></button>
+    <button class="nav-btn active" onclick="showPage('identify',this)">Identify</button>
+    <button class="nav-btn" onclick="showPage('map',this)">Community map <span class="nav-count" id="map-count">0</span></button>
+    <button class="nav-btn" onclick="showPage('saved',this)">My saved <span class="nav-count" id="saved-count">0</span></button>
   </nav>
 </header>
-
-<!-- Config bar -->
-<div class="config-bar">
-  <span class="config-label">API URL</span>
-  <input type="text" id="api-url" value="http://192.168.1.11:8000" placeholder="http://192.168.1.11:8000" oninput="saveConfig()">
-  <span class="config-label">Model</span>
-  <input type="text" id="model-name" value="llava" placeholder="e.g. llava, bakllava" oninput="saveConfig()">
-  <button class="test-btn" onclick="testConnection()">Test connection</button>
-  <span class="config-status status-idle" id="conn-status">Not tested</span>
-</div>
 
 <main>
 
   <!-- IDENTIFY PAGE -->
   <div id="page-identify" class="page active">
-
     <div id="upload-section" class="upload-section">
-      <div class="upload-eyebrow">Architectural Analysis</div>
-      <h1 class="upload-headline">Identify any <em>church</em><br>from a photograph</h1>
-      <p class="upload-desc">Upload a photo and receive instant analysis — architectural style, construction period, key features, and historical context.</p>
-
+      <div class="upload-eyebrow">Community · Architectural Analysis</div>
+      <h1 class="upload-headline">Photograph a <em>church</em>,<br>share it with the world</h1>
+      <p class="upload-desc">Upload a photo to get instant AI analysis — and add your discovery to our shared map so architects and students everywhere can explore it.</p>
       <div class="drop-zone" id="drop-zone"
         onclick="document.getElementById('file-input').click()"
-        ondragover="handleDragOver(event)"
-        ondragleave="handleDragLeave(event)"
-        ondrop="handleDrop(event)">
+        ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
         <div class="drop-zone-inner">
           <div class="drop-icon">
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -263,9 +209,13 @@
             </svg>
           </div>
           <div class="drop-title">Drop your photo here</div>
-          <div class="drop-sub">Works with facade shots, interior views,<br>or any angle showing architectural detail</div>
-          <button class="choose-btn" onclick="event.stopPropagation(); document.getElementById('file-input').click()">Browse files</button>
-          <div class="drop-formats">JPG · PNG · WEBP · up to 20MB</div>
+          <div class="drop-sub">Facades, interiors, or any architectural detail</div>
+          <div class="geo-status geo-wait" id="geo-status">
+            <div class="geo-dot"></div>
+            <span id="geo-text">Requesting your location…</span>
+          </div>
+          <button class="choose-btn" onclick="event.stopPropagation(); document.getElementById('file-input').click()">Choose photo</button>
+          <div class="drop-formats">JPG · PNG · WEBP</div>
         </div>
       </div>
       <input type="file" id="file-input" accept="image/*" onchange="handleFile(this.files[0])">
@@ -273,32 +223,37 @@
 
     <div id="results-section" style="display:none">
       <button class="back-btn" onclick="resetScan()">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <polyline points="9,2 4,7 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="9,2 4,7 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         New scan
       </button>
       <div class="results-grid">
-        <div class="church-image-wrap">
-          <img id="preview-img" src="" alt="Uploaded church photo">
+        <div>
+          <div class="church-canvas-wrap"><canvas id="bbox-canvas"></canvas></div>
+          <div class="canvas-hint" id="canvas-hint"></div>
         </div>
         <div id="result-panel">
-          <div class="result-card">
-            <div class="state-box">
-              <div class="spinner"></div>
-              <div class="state-title">Analysing architecture…</div>
-              <div class="state-sub">Sending to your local model</div>
-            </div>
-          </div>
+          <div class="result-card"><div class="state-box"><div class="spinner"></div><div class="state-title">Analysing with Gemini…</div><div class="state-sub">Identifying style, period and features</div></div></div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- MAP PAGE -->
+  <div id="page-map" class="page">
+    <div class="map-header">
+      <div>
+        <div class="map-headline">Community map</div>
+        <div class="map-meta" id="map-meta">Loading submissions…</div>
+      </div>
+    </div>
+    <div id="map-container"><div class="map-loading"><div class="spinner"></div> Loading map…</div></div>
+    <div class="map-submissions" id="map-submissions"></div>
+  </div>
+
   <!-- SAVED PAGE -->
   <div id="page-saved" class="page">
     <div class="saved-header">
-      <h2 class="saved-headline">Saved churches</h2>
+      <h2 class="saved-headline">My saved churches</h2>
       <span class="saved-count-text" id="saved-count-text">0 churches</span>
     </div>
     <div class="saved-grid" id="saved-grid"></div>
@@ -306,273 +261,491 @@
 
 </main>
 
+<!-- Leaflet (free, no API key needed for map tiles) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
-  /* =====================
-     CONFIG
-  ===================== */
-  function getApiUrl() {
-    return (document.getElementById('api-url').value || 'http://192.168.1.11:8000').replace(/\/$/, '');
-  }
-  function getModel() {
-    return document.getElementById('model-name').value.trim() || 'llava';
-  }
-  function saveConfig() {
-    try {
-      localStorage.setItem('archivum-api-url', document.getElementById('api-url').value);
-      localStorage.setItem('archivum-model', document.getElementById('model-name').value);
-    } catch(e) {}
-  }
-  function loadConfig() {
-    try {
-      const url = localStorage.getItem('archivum-api-url');
-      const model = localStorage.getItem('archivum-model');
-      if (url) document.getElementById('api-url').value = url;
-      if (model) document.getElementById('model-name').value = model;
-    } catch(e) {}
-  }
-  async function testConnection() {
-    const el = document.getElementById('conn-status');
-    el.textContent = 'Testing…'; el.className = 'config-status status-idle';
-    try {
-      const res = await fetch(getApiUrl() + '/v1/models', { signal: AbortSignal.timeout(5000) });
-      if (res.ok) { el.textContent = 'Connected'; el.className = 'config-status status-ok'; }
-      else { el.textContent = 'HTTP ' + res.status; el.className = 'config-status status-err'; }
-    } catch(e) {
-      el.textContent = 'Unreachable'; el.className = 'config-status status-err';
-    }
-  }
+/* =====================
+   CONSTANTS
+===================== */
+const GEMINI_KEY = 'AIzaSyAgUaB56hzwBMSXe_vXTyXtu1ziFhSDUxQ';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
+const STORAGE_KEY = 'archi-vision-community';
+const SAVED_KEY   = 'archi-vision-saved';
 
-  /* =====================
-     STATE & STORAGE
-  ===================== */
-  let saved = [];
-  let currentResult = null;
-  let currentImageDataUrl = null;
+const BBOX_COLORS = [
+  { stroke: '#4A7A66', fill: 'rgba(74,122,102,0.13)'  },
+  { stroke: '#8B6914', fill: 'rgba(139,105,20,0.13)'  },
+  { stroke: '#1A4A7A', fill: 'rgba(26,74,122,0.13)'   },
+  { stroke: '#7A2C2C', fill: 'rgba(122,44,44,0.13)'   },
+];
+const TAG_CLASSES = ['tag-green','tag-gold','tag-stone','tag-blue'];
 
-  function loadSaved() {
-    try { const r = localStorage.getItem('archivum-saved'); if (r) saved = JSON.parse(r); } catch(e) { saved = []; }
-    updateCount(); renderSaved();
-  }
-  function persistSaved() {
-    try { localStorage.setItem('archivum-saved', JSON.stringify(saved)); } catch(e) {}
-    updateCount();
-  }
-  function updateCount() {
-    const n = saved.length;
-    document.getElementById('saved-count').textContent = n;
-    const ct = document.getElementById('saved-count-text');
-    if (ct) ct.textContent = n + ' church' + (n !== 1 ? 'es' : '');
-  }
+/* =====================
+   STATE
+===================== */
+let userLat = null, userLng = null;
+let baseImage = null;
+let currentFeatures = [];
+let activeFeatureIdx = -1;
+let currentResult = null;
+let currentImageDataUrl = null;
+let communityData = [];
+let saved = [];
+let leafletMap = null;
+let mapInitialised = false;
 
-  /* =====================
-     NAVIGATION
-  ===================== */
-  function showPage(name, btn) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('page-' + name).classList.add('active');
-    if (btn) btn.classList.add('active');
-    if (name === 'saved') renderSaved();
+/* =====================
+   GEOLOCATION
+===================== */
+function initGeo() {
+  if (!navigator.geolocation) {
+    setGeoStatus('err', 'Location not available in this browser');
+    return;
   }
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      userLat = pos.coords.latitude;
+      userLng = pos.coords.longitude;
+      setGeoStatus('ok', `Location found (${userLat.toFixed(4)}, ${userLng.toFixed(4)})`);
+    },
+    () => setGeoStatus('err', 'Location permission denied — photo won\'t appear on map')
+  );
+}
+function setGeoStatus(state, msg) {
+  const el = document.getElementById('geo-status');
+  const tx = document.getElementById('geo-text');
+  el.className = 'geo-status geo-' + state;
+  tx.textContent = msg;
+}
 
-  /* =====================
-     DRAG & DROP / FILE
-  ===================== */
-  function handleDragOver(e) { e.preventDefault(); document.getElementById('drop-zone').classList.add('drag-over'); }
-  function handleDragLeave() { document.getElementById('drop-zone').classList.remove('drag-over'); }
-  function handleDrop(e) {
-    e.preventDefault(); document.getElementById('drop-zone').classList.remove('drag-over');
-    const f = e.dataTransfer.files[0]; if (f) handleFile(f);
+/* =====================
+   COMMUNITY STORAGE
+===================== */
+function loadCommunity() {
+  try { const r = localStorage.getItem(STORAGE_KEY); if (r) communityData = JSON.parse(r); } catch(e) { communityData = []; }
+  updateMapCount();
+}
+function saveCommunity() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(communityData)); } catch(e) {}
+  updateMapCount();
+}
+function addToCommunity(entry) {
+  communityData.unshift(entry);
+  // Keep max 200 entries to avoid localStorage bloat
+  if (communityData.length > 200) communityData = communityData.slice(0, 200);
+  saveCommunity();
+  if (mapInitialised) addMarker(entry);
+  renderMapSubmissions();
+}
+function updateMapCount() {
+  document.getElementById('map-count').textContent = communityData.length;
+}
+
+/* =====================
+   PERSONAL SAVED
+===================== */
+function loadSaved() {
+  try { const r = localStorage.getItem(SAVED_KEY); if (r) saved = JSON.parse(r); } catch(e) { saved = []; }
+  updateSavedCount();
+}
+function persistSaved() {
+  try { localStorage.setItem(SAVED_KEY, JSON.stringify(saved)); } catch(e) {}
+  updateSavedCount();
+}
+function updateSavedCount() {
+  const n = saved.length;
+  document.getElementById('saved-count').textContent = n;
+  const ct = document.getElementById('saved-count-text');
+  if (ct) ct.textContent = n + ' church' + (n !== 1 ? 'es' : '');
+}
+
+/* =====================
+   NAVIGATION
+===================== */
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (name === 'map')   initMap();
+  if (name === 'saved') renderSaved();
+}
+
+/* =====================
+   MAP
+===================== */
+function initMap() {
+  if (mapInitialised) { renderMapSubmissions(); return; }
+  mapInitialised = true;
+
+  const container = document.getElementById('map-container');
+  container.innerHTML = '<div id="leaflet-map" style="width:100%;height:100%;"></div>';
+
+  leafletMap = L.map('leaflet-map').setView([48, 10], 4);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 19
+  }).addTo(leafletMap);
+
+  communityData.forEach(addMarker);
+  renderMapSubmissions();
+
+  // Fly to user location if available
+  if (userLat !== null) leafletMap.setView([userLat, userLng], 8);
+}
+
+function addMarker(entry) {
+  if (!entry.lat || !entry.lng || !leafletMap) return;
+
+  const icon = L.divIcon({
+    className: '',
+    html: `<div style="
+      width:34px;height:34px;border-radius:50%;
+      border:2.5px solid #2D4A3E;
+      background:#fff;
+      overflow:hidden;
+      box-shadow:0 1px 4px rgba(0,0,0,0.25);
+    ">${entry.imageDataUrl
+      ? `<img src="${entry.imageDataUrl}" style="width:100%;height:100%;object-fit:cover;">`
+      : `<div style="width:100%;height:100%;background:#E8F0EC;display:flex;align-items:center;justify-content:center;font-size:14px;">⛪</div>`
+    }</div>`,
+    iconSize: [34, 34],
+    iconAnchor: [17, 17]
+  });
+
+  const marker = L.marker([entry.lat, entry.lng], { icon }).addTo(leafletMap);
+
+  const popupHtml = `<div class="map-popup">
+    ${entry.imageDataUrl ? `<img src="${entry.imageDataUrl}" alt="${escHtml(entry.name)}">` : ''}
+    <div class="map-popup-name">${escHtml(entry.name)}</div>
+    <div class="map-popup-meta">${escHtml(entry.style)} · ${escHtml(entry.period)}</div>
+    <div class="map-popup-meta" style="margin-top:3px;">${escHtml(entry.submittedAt)}</div>
+  </div>`;
+
+  marker.bindPopup(popupHtml, { maxWidth: 240 });
+}
+
+function renderMapSubmissions() {
+  const el = document.getElementById('map-submissions');
+  const meta = document.getElementById('map-meta');
+  meta.textContent = communityData.length + ' church' + (communityData.length !== 1 ? 'es' : '') + ' submitted by the community';
+
+  if (!communityData.length) {
+    el.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-title">No submissions yet</div><div class="empty-sub">Be the first — identify a church and add it to the map!</div></div>`;
+    return;
   }
-  function handleFile(file) {
-    if (!file || !file.type.startsWith('image/')) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      currentImageDataUrl = e.target.result;
-      document.getElementById('preview-img').src = currentImageDataUrl;
-      document.getElementById('upload-section').style.display = 'none';
-      document.getElementById('results-section').style.display = 'block';
-      analyseChurch(currentImageDataUrl);
+  el.innerHTML = communityData.slice(0, 12).map(c => {
+    const tags = (c.tags||[]).slice(0,3).map((t,i) => `<span class="tag ${TAG_CLASSES[i%4]}">${escHtml(t)}</span>`).join('');
+    const img  = c.imageDataUrl ? `<img class="sub-card-img" src="${c.imageDataUrl}" alt="${escHtml(c.name)}">` : `<div class="sub-card-img"></div>`;
+    const loc  = (c.lat && c.lng) ? `${c.lat.toFixed(3)}, ${c.lng.toFixed(3)}` : 'No location';
+    return `<div class="sub-card">${img}
+      <div class="sub-card-body">
+        <div class="sub-card-name">${escHtml(c.name)}</div>
+        <div class="sub-card-meta"><span>${escHtml(c.style)}</span><span>${escHtml(c.period)}</span><span>${loc}</span></div>
+        <div class="sub-card-tags">${tags}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* =====================
+   CANVAS / BBOX
+===================== */
+function drawCanvas(activeIdx) {
+  const canvas = document.getElementById('bbox-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  if (baseImage) ctx.drawImage(baseImage, 0, 0, W, H);
+
+  currentFeatures.forEach((f, i) => {
+    if (!f.bbox) return;
+    const [x1r, y1r, x2r, y2r] = f.bbox;
+    const x1 = x1r * W, y1 = y1r * H, x2 = x2r * W, y2 = y2r * H;
+    const col = BBOX_COLORS[i % BBOX_COLORS.length];
+    const isActive = i === activeIdx;
+
+    ctx.fillStyle = isActive ? col.stroke + '33' : col.fill;
+    ctx.fillRect(x1, y1, x2 - x1, y2 - y1);
+    ctx.strokeStyle = col.stroke;
+    ctx.lineWidth = isActive ? 2.5 : 1.5;
+    ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
+
+    const label = f.name || ('Feature ' + (i + 1));
+    ctx.font = `500 ${isActive ? 12 : 11}px "DM Sans", sans-serif`;
+    const tw = ctx.measureText(label).width;
+    const ph = 17, pw = tw + 12, pr = 3;
+    const lx = x1, ly = Math.max(0, y1 - ph - 2);
+    rrect(ctx, lx, ly, pw, ph, pr);
+    ctx.fillStyle = col.stroke; ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.fillText(label, lx + 6, ly + ph - 5);
+  });
+}
+
+function rrect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+}
+
+function highlightFeature(idx) {
+  activeFeatureIdx = idx;
+  drawCanvas(idx);
+  document.querySelectorAll('.feature-item').forEach((el, i) => el.classList.toggle('active', i === idx));
+  const hint = document.getElementById('canvas-hint');
+  hint.textContent = idx >= 0 && currentFeatures[idx]
+    ? 'Showing: ' + (currentFeatures[idx].name || 'Feature ' + (idx+1))
+    : (currentFeatures.some(f => f.bbox) ? 'Click a feature to locate it on the photo' : '');
+}
+
+/* =====================
+   DRAG & DROP
+===================== */
+function handleDragOver(e) { e.preventDefault(); document.getElementById('drop-zone').classList.add('drag-over'); }
+function handleDragLeave()  { document.getElementById('drop-zone').classList.remove('drag-over'); }
+function handleDrop(e) {
+  e.preventDefault(); document.getElementById('drop-zone').classList.remove('drag-over');
+  const f = e.dataTransfer.files[0]; if (f) handleFile(f);
+}
+function handleFile(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    currentImageDataUrl = e.target.result;
+    document.getElementById('upload-section').style.display = 'none';
+    document.getElementById('results-section').style.display = 'block';
+    const img = new Image();
+    img.onload = () => {
+      baseImage = img;
+      const canvas = document.getElementById('bbox-canvas');
+      canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
+      drawCanvas(-1);
     };
-    reader.readAsDataURL(file);
-  }
-  function resetScan() {
-    currentResult = null; currentImageDataUrl = null;
-    document.getElementById('upload-section').style.display = 'flex';
-    document.getElementById('results-section').style.display = 'none';
-    document.getElementById('file-input').value = '';
-  }
+    img.src = currentImageDataUrl;
+    analyseChurch(currentImageDataUrl);
+  };
+  reader.readAsDataURL(file);
+}
+function resetScan() {
+  currentResult = null; currentImageDataUrl = null;
+  baseImage = null; currentFeatures = []; activeFeatureIdx = -1;
+  const canvas = document.getElementById('bbox-canvas');
+  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+  document.getElementById('canvas-hint').textContent = '';
+  document.getElementById('upload-section').style.display = 'flex';
+  document.getElementById('results-section').style.display = 'none';
+  document.getElementById('file-input').value = '';
+}
 
-  /* =====================
-     AI ANALYSIS
-  ===================== */
-  const SYSTEM_PROMPT = `You are an expert architectural historian specialising in ecclesiastical architecture. Analyse the church in the image. Respond ONLY with a valid JSON object — no markdown, no backticks, no commentary before or after. Use exactly this structure:
+/* =====================
+   GEMINI AI ANALYSIS
+===================== */
+const SYSTEM_PROMPT = `You are an expert architectural historian specialising in ecclesiastical architecture.
+Analyse the church in the image. Respond ONLY with a valid JSON object — no markdown, no backticks, no extra text.
+Use exactly this structure:
 {
   "name": "Church name if identifiable, or descriptive name like 'Gothic parish church'",
   "location": "Country or region if identifiable, otherwise 'Unknown location'",
   "confidence": "high or medium or low",
   "period": "e.g. 12th century, 1840s, c.1200-1250",
-  "style": "Primary architectural style e.g. Gothic Revival",
-  "architect": "Architect name if known, else Unknown",
+  "style": "Primary architectural style",
+  "architect": "Architect if known, else Unknown",
   "features": [
-    "Feature name: brief explanation",
-    "Feature name: brief explanation",
-    "Feature name: brief explanation",
-    "Feature name: brief explanation"
+    { "name": "Short feature name", "description": "Brief explanation", "bbox": [x1,y1,x2,y2] }
   ],
-  "tags": ["tag1", "tag2", "tag3", "tag4"],
-  "description": "2-3 sentence architectural description suitable for architecture students and professionals."
-}`;
+  "tags": ["tag1","tag2","tag3","tag4"],
+  "description": "2-3 sentence architectural description for students and professionals."
+}
+bbox values are normalised 0.0-1.0 (x1,y1 = top-left, x2,y2 = bottom-right). Provide 4 features. Omit bbox if unsure of location.`;
 
-  async function analyseChurch(dataUrl) {
-    const panel = document.getElementById('result-panel');
-    const endpoint = getApiUrl();
-    panel.innerHTML = `<div class="result-card"><div class="state-box"><div class="spinner"></div><div class="state-title">Analysing architecture\u2026</div><div class="state-sub">Sending to ${endpoint}</div></div></div>`;
+async function analyseChurch(dataUrl) {
+  const panel = document.getElementById('result-panel');
+  panel.innerHTML = `<div class="result-card"><div class="state-box"><div class="spinner"></div><div class="state-title">Analysing with Gemini…</div><div class="state-sub">Identifying style, period and features</div></div></div>`;
 
-    const base64 = dataUrl.split(',')[1];
-    const mime = dataUrl.split(';')[0].split(':')[1];
+  const base64 = dataUrl.split(',')[1];
+  const mime   = dataUrl.split(';')[0].split(':')[1];
 
-    try {
-      const res = await fetch(endpoint + '/v1/chat/completions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: getModel(),
-          max_tokens: 1000,
-          messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
-            {
-              role: 'user',
-              content: [
-                { type: 'image_url', image_url: { url: `data:${mime};base64,${base64}` } },
-                { type: 'text', text: 'Identify and analyse this church. Respond only with the JSON object.' }
-              ]
-            }
+  try {
+    const res = await fetch(GEMINI_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [
+            { text: SYSTEM_PROMPT + '\n\nAnalyse this church image now.' },
+            { inline_data: { mime_type: mime, data: base64 } }
           ]
-        })
-      });
+        }],
+        generationConfig: { maxOutputTokens: 1200, temperature: 0.2 }
+      })
+    });
 
-      if (!res.ok) {
-        const t = await res.text();
-        throw new Error(`HTTP ${res.status} — ${t.slice(0, 200)}`);
-      }
+    if (!res.ok) { const t = await res.text(); throw new Error(`Gemini HTTP ${res.status}: ${t.slice(0,200)}`); }
 
-      const data = await res.json();
-      const raw = data.choices?.[0]?.message?.content || '';
-      if (!raw) throw new Error('Model returned an empty response.');
+    const data = await res.json();
+    const raw  = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    if (!raw) throw new Error('Empty response from Gemini.');
 
-      const clean = raw.replace(/```json|```/g, '').trim();
-      const match = clean.match(/\{[\s\S]*\}/);
-      if (!match) throw new Error('Model did not return JSON. Got: ' + raw.slice(0, 300));
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const match = clean.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('Gemini did not return JSON. Got: ' + raw.slice(0,300));
 
-      const result = JSON.parse(match[0]);
-      currentResult = result;
-      renderResult(result, panel);
+    const result = JSON.parse(match[0]);
+    result.features = (result.features||[]).map(f =>
+      typeof f === 'string'
+        ? { name: f.split(':')[0].trim(), description: f.split(':').slice(1).join(':').trim(), bbox: null }
+        : { name: f.name||'', description: f.description||'', bbox: f.bbox||null }
+    );
 
-    } catch(err) {
-      let hint = 'Check your API URL and model name, then try again.';
-      if (err.message.includes('fetch') || err.message.includes('Network')) hint = 'Could not reach the API. Make sure the server is running and the URL is correct.';
-      else if (err.message.includes('JSON')) hint = 'The model responded but not in JSON format. Try a vision-capable model like llava or bakllava.';
-
-      panel.innerHTML = `<div class="result-card" style="padding:1.5rem"><div class="error-box">
-        <div class="error-title">Analysis failed</div>
-        <div class="error-sub">${hint}</div>
-        <div class="error-detail">${escHtml(err.message)}</div>
-      </div></div>`;
+    currentResult   = result;
+    currentFeatures = result.features;
+    drawCanvas(-1);
+    if (currentFeatures.some(f => f.bbox)) {
+      document.getElementById('canvas-hint').textContent = 'Click a feature to locate it on the photo';
     }
+    renderResult(result, panel);
+
+  } catch(err) {
+    let hint = 'Check your internet connection and try again.';
+    if (err.message.includes('400')) hint = 'Gemini rejected the request. The image may be too large or unsupported.';
+    if (err.message.includes('403') || err.message.includes('API key')) hint = 'API key error. Check the key is valid and has Gemini access.';
+    panel.innerHTML = `<div class="result-card" style="padding:1.4rem"><div class="error-box">
+      <div class="error-title">Analysis failed</div>
+      <div class="error-sub">${hint}</div>
+      <div class="error-detail">${escHtml(err.message)}</div>
+    </div></div>`;
   }
+}
 
-  /* =====================
-     RENDER RESULT
-  ===================== */
-  const TAG_CLASSES = ['tag-green','tag-gold','tag-stone','tag-blue'];
-
-  function renderResult(r, panel) {
-    const cc = r.confidence === 'high' ? 'conf-high' : r.confidence === 'medium' ? 'conf-med' : 'conf-low';
-    const cl = r.confidence === 'high' ? 'High confidence' : r.confidence === 'medium' ? 'Medium confidence' : 'Low confidence';
-    const tags = (r.tags||[]).map((t,i)=>`<span class="tag ${TAG_CLASSES[i%4]}">${escHtml(t)}</span>`).join('');
-    const feats = (r.features||[]).map(f=>`<div class="feature-item"><div class="feat-line"></div><span>${escHtml(f)}</span></div>`).join('');
-    const desc = r.description ? `<div class="description-block">${escHtml(r.description)}</div>` : '';
-
-    panel.innerHTML = `<div class="result-card">
-      <div class="result-card-header">
-        <div class="result-name">${escHtml(r.name)}</div>
-        <div class="result-location">${escHtml(r.location)}</div>
-        <div class="confidence-row"><span class="conf-badge ${cc}">${cl}</span></div>
+/* =====================
+   RENDER RESULT
+===================== */
+function renderResult(r, panel) {
+  const cc = r.confidence === 'high' ? 'conf-high' : r.confidence === 'medium' ? 'conf-med' : 'conf-low';
+  const cl = r.confidence === 'high' ? 'High confidence' : r.confidence === 'medium' ? 'Medium confidence' : 'Low confidence';
+  const tags  = (r.tags||[]).map((t,i) => `<span class="tag ${TAG_CLASSES[i%4]}">${escHtml(t)}</span>`).join('');
+  const feats = (r.features||[]).map((f,i) => {
+    const col = BBOX_COLORS[i%BBOX_COLORS.length];
+    return `<div class="feature-item" onclick="highlightFeature(${i})">
+      <div class="feat-swatch" style="background:${col.stroke};margin-top:5px;"></div>
+      <div class="feat-label">
+        <div class="feat-name">${escHtml(f.name)}</div>
+        <div class="feat-desc">${escHtml(f.description)}</div>
       </div>
-      <div class="result-card-body">
-        <div class="stat-row">
-          <div class="stat-box"><div class="stat-label">Period</div><div class="stat-value">${escHtml(r.period)}</div></div>
-          <div class="stat-box"><div class="stat-label">Style</div><div class="stat-value">${escHtml(r.style)}</div></div>
-          <div class="stat-box"><div class="stat-label">Architect</div><div class="stat-value">${escHtml(r.architect)}</div></div>
+      ${f.bbox ? '<div class="feat-locate">locate &#9654;</div>' : ''}
+    </div>`;
+  }).join('');
+  const desc  = r.description ? `<div class="description-block">${escHtml(r.description)}</div>` : '';
+  const geoLine = (userLat !== null)
+    ? `<div class="geo-tag"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="4" r="2" stroke="rgba(255,255,255,0.5)" stroke-width="1"/><path d="M5 10C5 10 1 6.5 1 4a4 4 0 018 0C9 6.5 5 10 5 10z" stroke="rgba(255,255,255,0.5)" stroke-width="1" fill="none"/></svg>${userLat.toFixed(4)}, ${userLng.toFixed(4)}</div>`
+    : `<div class="geo-tag">No location — won't appear on map</div>`;
+
+  panel.innerHTML = `<div class="result-card">
+    <div class="result-card-header">
+      <div class="result-name">${escHtml(r.name)}</div>
+      <div class="result-location-text">${escHtml(r.location)}</div>
+      <div class="conf-row"><span class="conf-badge ${cc}">${cl}</span></div>
+      ${geoLine}
+    </div>
+    <div class="result-card-body">
+      <div class="stat-row">
+        <div class="stat-box"><div class="stat-label">Period</div><div class="stat-value">${escHtml(r.period)}</div></div>
+        <div class="stat-box"><div class="stat-label">Style</div><div class="stat-value">${escHtml(r.style)}</div></div>
+        <div class="stat-box"><div class="stat-label">Architect</div><div class="stat-value">${escHtml(r.architect)}</div></div>
+      </div>
+      <div class="section-head">Style tags</div>
+      <div class="tags-row">${tags}</div>
+      <div class="section-head">Key features — click to locate on photo</div>
+      <div class="features-block">${feats}</div>
+      ${desc}
+      <div class="action-row">
+        <button class="save-btn" id="save-btn" onclick="saveChurch()">Save to my library</button>
+        <button class="share-map-btn" id="map-btn" onclick="addToMap()">Add to map</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* =====================
+   SAVE & MAP ACTIONS
+===================== */
+function saveChurch() {
+  if (!currentResult) return;
+  saved.unshift({ id: Date.now(), ...currentResult, imageDataUrl: currentImageDataUrl, savedAt: new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) });
+  persistSaved();
+  const btn = document.getElementById('save-btn');
+  if (btn) { btn.textContent = 'Saved!'; btn.disabled = true; }
+}
+
+function addToMap() {
+  if (!currentResult) return;
+  const entry = {
+    id: Date.now(),
+    ...currentResult,
+    lat: userLat,
+    lng: userLng,
+    imageDataUrl: currentImageDataUrl,
+    submittedAt: new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
+  };
+  addToCommunity(entry);
+  const btn = document.getElementById('map-btn');
+  if (btn) { btn.textContent = 'Added to map!'; btn.disabled = true; btn.style.background = 'var(--accent-light)'; btn.style.color = 'var(--accent)'; }
+}
+
+/* =====================
+   RENDER SAVED
+===================== */
+function renderSaved() {
+  const grid = document.getElementById('saved-grid');
+  if (!saved.length) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="empty-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="12" rx="2" stroke="#9C8C78" stroke-width="1.2"/><path d="M7 5V3.5A1.5 1.5 0 018.5 2h3A1.5 1.5 0 0113 3.5V5" stroke="#9C8C78" stroke-width="1.2"/></svg></div>
+      <div class="empty-title">Nothing saved yet</div>
+      <div class="empty-sub">Identify a church and save it to your personal library.</div>
+    </div>`; return;
+  }
+  grid.innerHTML = saved.map(c => {
+    const img  = c.imageDataUrl ? `<img class="saved-card-img" src="${c.imageDataUrl}" alt="${escHtml(c.name)}">` : `<div class="saved-card-img"></div>`;
+    const tags = (c.tags||[]).slice(0,3).map((t,i) => `<span class="tag ${TAG_CLASSES[i%4]}">${escHtml(t)}</span>`).join('');
+    return `<div class="saved-card">${img}
+      <div class="saved-card-body">
+        <div class="saved-card-name">${escHtml(c.name)}</div>
+        <div class="saved-card-meta">${escHtml(c.style)} · ${escHtml(c.period)}</div>
+        <div class="saved-card-tags">${tags}</div>
+        <div class="saved-card-footer">
+          <span class="saved-date">Saved ${escHtml(c.savedAt)}</span>
+          <button class="del-btn" onclick="deleteSaved(${c.id})">Remove</button>
         </div>
-        <div class="section-head">Style tags</div>
-        <div class="tags-row">${tags}</div>
-        <div class="section-head">Key architectural features</div>
-        <div class="features-block">${feats}</div>
-        ${desc}
-        <button class="save-church-btn" id="save-btn" onclick="saveChurch()">Save to library</button>
       </div>
     </div>`;
-  }
+  }).join('');
+}
+function deleteSaved(id) {
+  saved = saved.filter(c => c.id !== id);
+  persistSaved(); renderSaved();
+}
 
-  /* =====================
-     SAVE / DELETE
-  ===================== */
-  function saveChurch() {
-    if (!currentResult) return;
-    saved.unshift({ id: Date.now(), ...currentResult, imageDataUrl: currentImageDataUrl, savedAt: new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) });
-    persistSaved();
-    const btn = document.getElementById('save-btn');
-    if (btn) { btn.textContent = 'Saved to library'; btn.disabled = true; }
-  }
-  function deleteChurch(id) {
-    saved = saved.filter(c => c.id !== id);
-    persistSaved(); renderSaved();
-  }
+/* =====================
+   UTILS
+===================== */
+function escHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
-  /* =====================
-     RENDER SAVED
-  ===================== */
-  function renderSaved() {
-    const grid = document.getElementById('saved-grid');
-    if (!saved.length) {
-      grid.innerHTML = `<div class="empty-state">
-        <div class="empty-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="12" rx="2" stroke="#9C8C78" stroke-width="1.2"/><path d="M7 5V3.5A1.5 1.5 0 018.5 2h3A1.5 1.5 0 0113 3.5V5" stroke="#9C8C78" stroke-width="1.2"/></svg></div>
-        <div class="empty-title">Your library is empty</div>
-        <div class="empty-sub">Identify a church and save it here to build your reference collection.</div>
-      </div>`; return;
-    }
-    grid.innerHTML = saved.map(c => {
-      const img = c.imageDataUrl ? `<img class="saved-card-img" src="${c.imageDataUrl}" alt="${escHtml(c.name)}">` : `<div class="saved-card-img"></div>`;
-      const tags = (c.tags||[]).slice(0,3).map((t,i)=>`<span class="tag ${TAG_CLASSES[i%4]}">${escHtml(t)}</span>`).join('');
-      return `<div class="saved-card">${img}
-        <div class="saved-card-body">
-          <div class="saved-card-name">${escHtml(c.name)}</div>
-          <div class="saved-card-meta">${escHtml(c.style)} · ${escHtml(c.period)}</div>
-          <div class="saved-card-tags">${tags}</div>
-          <div class="saved-card-footer">
-            <span class="saved-date">Saved ${escHtml(c.savedAt)}</span>
-            <button class="del-btn" onclick="deleteChurch(${c.id})">Remove</button>
-          </div>
-        </div>
-      </div>`;
-    }).join('');
-  }
-
-  /* =====================
-     UTILS
-  ===================== */
-  function escHtml(s) {
-    if (!s) return '';
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  /* =====================
-     INIT
-  ===================== */
-  loadConfig();
-  loadSaved();
+/* =====================
+   INIT
+===================== */
+initGeo();
+loadCommunity();
+loadSaved();
 </script>
 </body>
 </html>
