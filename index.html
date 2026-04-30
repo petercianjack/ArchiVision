@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Archi Vision</title>
+<title>Archi Vision v2</title>
+<!-- BUILD: gemini-2.0-flash -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232D4A3E'/%3E%3Cellipse cx='16' cy='16' rx='10' ry='6' stroke='white' stroke-width='1.8' fill='none'/%3E%3Ccircle cx='16' cy='16' r='3.5' fill='white'/%3E%3Ccircle cx='17' cy='15' r='1.2' fill='%232D4A3E'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +21,9 @@
   --urgent:#C0392B;--urgent-l:#FDECEA;
   --monitor:#B7770D;--monitor-l:#FEF3DC;
   --routine:#2D6A4F;--routine-l:#E8F5EE;
+  --sig1:#4A1A6B;--sig1-l:#F3EAF9;
+  --sig2:#1A3A6B;--sig2-l:#EAF0F9;
+  --sig3:#1A5C3A;--sig3-l:#EAF5EE;
   --r:4px;--rl:8px;--rxl:14px;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
@@ -121,7 +125,7 @@ input[type=file]{display:none}
 .mbr-cs{background:rgba(192,57,43,.25);color:#F09595}
 .result-model-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.5);margin-top:5px}
 .rmdot{width:6px;height:6px;border-radius:50%}
-.dot-gf{background:#5DCAA5}.dot-gp{background:#EF9F27}.dot-g4{background:#85B7EB}.dot-hf{background:#FF6B35}
+.dot-gf{background:#5DCAA5}.dot-gp{background:#EF9F27}.dot-g4{background:#85B7EB}.dot-hf{background:#FF6B35}.dot-cl{background:#CC785C}
 
 .result-card-body{padding:1.1rem 1.4rem}
 .reanalyse-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
@@ -171,6 +175,39 @@ input[type=file]{display:none}
 .ca-routine{background:var(--routine-l);color:var(--routine)}
 .condition-locate{font-size:10px;color:var(--ink-3);font-weight:500;margin-left:auto;flex-shrink:0;opacity:0;transition:opacity .15s;padding-top:2px}
 .condition-item:hover .condition-locate,.condition-item.active .condition-locate{opacity:1}
+
+/* SIGNIFICANCE MODE */
+.mode-icon-sig{background:var(--sig1-l)}
+.sig-item{display:flex;gap:10px;align-items:flex-start;padding:10px 10px;margin:0 -10px;border-bottom:1px solid var(--border);cursor:pointer;border-radius:var(--r);transition:background .12s}
+.sig-item:last-child{border-bottom:none}
+.sig-item:hover,.sig-item.active{background:var(--surface2)}
+.sig-grade-bar{width:4px;border-radius:2px;flex-shrink:0;align-self:stretch;min-height:36px}
+.sg-1{background:var(--sig1)}.sg-2{background:var(--sig2)}.sg-3{background:var(--sig3)}.sg-n{background:var(--ink-3)}
+.sig-body{flex:1}
+.sig-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.sig-desc{font-size:12px;color:var(--ink-2);line-height:1.5;margin-bottom:4px}
+.sig-justification{font-size:11px;color:var(--ink-3);font-style:italic;line-height:1.45;margin-bottom:4px}
+.sig-grade-pill{font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;display:inline-block;letter-spacing:.04em}
+.sp-1{background:var(--sig1-l);color:var(--sig1)}
+.sp-2{background:var(--sig2-l);color:var(--sig2)}
+.sp-3{background:var(--sig3-l);color:var(--sig3)}
+.sp-n{background:var(--surface2);color:var(--ink-3)}
+.sig-locate{font-size:10px;color:var(--ink-3);font-weight:500;margin-left:auto;flex-shrink:0;opacity:0;transition:opacity .15s;padding-top:2px}
+.sig-item:hover .sig-locate,.sig-item.active .sig-locate{opacity:1}
+.sig-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1.1rem;padding:10px 12px;background:var(--surface2);border-radius:var(--rl);border:1px solid var(--border)}
+.sig-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-2)}
+.sig-legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.statement-block{background:var(--sig1-l);border-left:3px solid var(--sig1);border-radius:0 var(--rl) var(--rl) 0;padding:12px 14px;margin-bottom:1.1rem}
+.statement-head{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--sig1);margin-bottom:6px}
+.statement-text{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;line-height:1.65;color:var(--sig1)}
+.niah-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rl);padding:10px 14px;margin-bottom:1.1rem;display:flex;gap:10px;align-items:flex-start}
+.niah-icon{width:32px;height:32px;background:var(--sig2-l);border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.niah-body{flex:1}
+.niah-title{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.niah-text{font-size:11px;color:var(--ink-3);line-height:1.5}
+.niah-link{font-size:11px;color:var(--sig2);font-weight:500;text-decoration:none;display:inline-block;margin-top:3px}
+.canvas-legend-sig{display:flex;gap:10px;justify-content:center;padding:8px 0 2px;flex-wrap:wrap}
+.mbr-sig{background:rgba(74,26,107,.2);color:#C39BD3}
 
 /* Overall condition score */
 .condition-score{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.1rem}
@@ -229,6 +266,7 @@ input[type=file]{display:none}
 .saved-card-mode{font-size:10px;font-weight:500;padding:2px 8px;border-radius:8px;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px}
 .scm-id{background:var(--accent-l);color:var(--accent)}
 .scm-cs{background:var(--urgent-l);color:var(--urgent)}
+.scm-sig{background:var(--sig1-l);color:var(--sig1)}
 .saved-card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
 .saved-card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:9px;border-top:1px solid var(--border)}
 .saved-date{font-size:11px;color:var(--ink-3)}
@@ -285,16 +323,23 @@ input[type=file]{display:none}
     Condition Survey <span class="pro-badge">PRO</span>
     <span class="mode-desc">— damage, repair, priority</span>
   </button>
+  <button class="mode-tab" id="mode-tab-sig" onclick="setMode('significance')">
+    <div class="mode-icon mode-icon-sig">
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1" y="7" width="2" height="4" fill="#4A1A6B"/><rect x="4.5" y="4" width="2" height="7" fill="#4A1A6B" opacity=".7"/><rect x="8" y="1" width="2" height="10" fill="#4A1A6B" opacity=".4"/></svg>
+    </div>
+    Significance Assessment <span class="pro-badge">PRO</span>
+    <span class="mode-desc">— merit, rarity, conservation grade</span>
+  </button>
 </div>
 
 <!-- MODEL BAR -->
 <div class="model-bar">
   <button class="model-tab active" id="mtab-gemini-flash" onclick="selectModel('gemini-flash',this)">
-    <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#5DCAA5" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#5DCAA5"/></svg>Gemini 1.5 Flash<span class="mbadge mb-free">Free</span></div>
+    <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#5DCAA5" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#5DCAA5"/></svg>Gemini 2.0 Flash<span class="mbadge mb-free">Free</span></div>
     <div class="model-tab-desc">Fast · Google</div>
   </button>
   <button class="model-tab" id="mtab-gemini-pro" onclick="selectModel('gemini-pro',this)">
-    <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#EF9F27" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#EF9F27"/></svg>Gemini 1.5 Pro<span class="mbadge mb-better">Better</span></div>
+    <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#EF9F27" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#EF9F27"/></svg>Gemini 2.0 Flash Pro<span class="mbadge mb-better">Better</span></div>
     <div class="model-tab-desc">Accurate · Google</div>
   </button>
   <button class="model-tab" id="mtab-gpt-4o" onclick="selectModel('gpt-4o',this)">
@@ -305,10 +350,20 @@ input[type=file]{display:none}
     <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#FF6B35" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#FF6B35"/></svg>LLaVA (HF)<span class="mbadge mb-free">Free</span></div>
     <div class="model-tab-desc">No credit card · Hugging Face</div>
   </button>
+  <button class="model-tab" id="mtab-claude-demo" onclick="selectModel('claude-demo',this)">
+    <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#CC785C" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#CC785C"/></svg>Claude<span class="mbadge" style="background:#FDF0EB;color:#CC785C;">Demo</span></div>
+    <div class="model-tab-desc">Test in this chat · Anthropic</div>
+  </button>
 </div>
 
-<!-- Keys are stored internally -->
-<input type="hidden" id="key-input" value="">
+<!-- Smart key bar — hidden for models with built-in keys, shown for others -->
+<div id="key-bar" style="display:none;background:var(--gold-l);border-bottom:1px solid rgba(139,105,20,.2);padding:7px 2rem;display:none;align-items:center;gap:10px;flex-wrap:wrap;">
+  <label id="key-label" style="font-size:12px;font-weight:500;color:var(--gold);white-space:nowrap;">API key</label>
+  <input type="password" id="key-input" placeholder="Paste your API key…" oninput="saveKey()" autocomplete="off"
+    style="flex:1;min-width:200px;max-width:400px;padding:5px 10px;border:1px solid rgba(139,105,20,.3);border-radius:var(--r);font-size:12px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--ink);">
+  <span id="key-status" style="font-size:11px;padding:3px 10px;border-radius:10px;font-weight:500;background:var(--danger-l);color:var(--danger);">Not set</span>
+  <span id="key-note" style="font-size:11px;color:var(--gold);"></span>
+</div>
 
 <main>
   <!-- ANALYSE PAGE -->
@@ -321,7 +376,7 @@ input[type=file]{display:none}
         <div class="active-pill-dot" id="pill-dot" style="background:var(--accent-m)"></div>
         <span id="pill-mode">Identification mode</span>
         &nbsp;·&nbsp;
-        <span id="pill-model">Gemini 1.5 Flash</span>
+        <span id="pill-model">Gemini 2.0 Flash</span>
       </div>
       <div class="drop-zone" id="drop-zone"
         onclick="document.getElementById('file-input').click()"
@@ -372,10 +427,11 @@ input[type=file]{display:none}
    MODELS
 ============================================================ */
 const MODELS = {
-  'gemini-flash': { name:'Gemini 1.5 Flash', provider:'google', apiModel:'gemini-1.5-flash', dotCls:'dot-gf', keyLbl:'Gemini API key', keyNote:'Get a free key at aistudio.google.com', keySK:'archi-key-gemini', defaultKey:'AIzaSyAgUaB56hzwBMSXe_vXTyXtu1ziFhSDUxQ' },
-  'gemini-pro':   { name:'Gemini 1.5 Pro',   provider:'google', apiModel:'gemini-1.5-pro',   dotCls:'dot-gp', keyLbl:'Gemini API key', keyNote:'Same key as Flash — aistudio.google.com',  keySK:'archi-key-gemini', defaultKey:'AIzaSyAgUaB56hzwBMSXe_vXTyXtu1ziFhSDUxQ' },
+  'gemini-flash': { name:'Gemini 2.0 Flash', provider:'google', apiModel:'gemini-2.0-flash', dotCls:'dot-gf', keyLbl:'Gemini API key', keyNote:'Get a free key at aistudio.google.com', keySK:'archi-key-gemini', defaultKey:'AIzaSyAspB5oPOVSmzwupkgMXmns3PLiPgdjNcI' },
+  'gemini-pro':   { name:'Gemini 2.0 Flash Pro',   provider:'google', apiModel:'gemini-2.0-flash-001',   dotCls:'dot-gp', keyLbl:'Gemini API key', keyNote:'Same key as Flash — aistudio.google.com',  keySK:'archi-key-gemini', defaultKey:'AIzaSyAspB5oPOVSmzwupkgMXmns3PLiPgdjNcI' },
   'gpt-4o':       { name:'GPT-4o',           provider:'openai', apiModel:'gpt-4o',           dotCls:'dot-g4', keyLbl:'OpenAI API key', keyNote:'Get a key at platform.openai.com',          keySK:'archi-key-openai', defaultKey:'' },
   'hf-llava':     { name:'LLaVA (HF)',        provider:'huggingface', apiModel:'llava-hf/llava-1.5-7b-hf', dotCls:'dot-hf', keyLbl:'Hugging Face token', keyNote:'Free — get a token at huggingface.co/settings/tokens', keySK:'archi-key-hf', defaultKey:'' },
+  'claude-demo':  { name:'Claude (Demo)',     provider:'anthropic', apiModel:'claude-sonnet-4-20250514', dotCls:'dot-cl', keyLbl:'Anthropic API key', keyNote:'Demo mode — runs via Anthropic API', keySK:'archi-key-anthropic', defaultKey:'' },
 };
 
 /* ID mode bbox colours */
@@ -411,26 +467,35 @@ let saved = [];
 ============================================================ */
 function setMode(mode) {
   activeMode = mode;
-  const isID = mode === 'identify';
+  const isID  = mode === 'identify';
+  const isCS  = mode === 'survey';
+  const isSIG = mode === 'significance';
 
-  document.getElementById('mode-tab-id').classList.toggle('active', isID);
-  document.getElementById('mode-tab-cs').classList.toggle('active', !isID);
+  document.getElementById('mode-tab-id').classList.toggle('active',  isID);
+  document.getElementById('mode-tab-cs').classList.toggle('active',  isCS);
+  document.getElementById('mode-tab-sig').classList.toggle('active', isSIG);
 
-  // Update upload page copy
   if (isID) {
     document.getElementById('upload-eyebrow').textContent = 'Architectural Analysis';
-    document.getElementById('upload-headline').innerHTML = 'Identify any <em>church</em><br>from a photograph';
-    document.getElementById('upload-desc').textContent = 'Upload a photo to get instant AI analysis — architectural style, construction period, and annotated key features.';
-    document.getElementById('choose-btn').className = 'choose-btn';
-    document.getElementById('pill-mode').textContent = 'Identification mode';
-    document.getElementById('pill-dot').style.background = 'var(--accent-m)';
-  } else {
+    document.getElementById('upload-headline').innerHTML  = 'Identify any <em>church</em><br>from a photograph';
+    document.getElementById('upload-desc').textContent    = 'Upload a photo to get instant AI analysis — architectural style, construction period, and annotated key features.';
+    document.getElementById('choose-btn').className       = 'choose-btn';
+    document.getElementById('pill-mode').textContent      = 'Identification mode';
+    document.getElementById('pill-dot').style.background  = 'var(--accent-m)';
+  } else if (isCS) {
     document.getElementById('upload-eyebrow').textContent = 'Condition Survey';
-    document.getElementById('upload-headline').innerHTML = 'Survey <em>damage</em> &amp;<br>repair needs';
-    document.getElementById('upload-desc').textContent = 'Upload a facade photo for an AI-assisted preliminary condition assessment — defects mapped, severity rated, and recommended actions listed.';
-    document.getElementById('choose-btn').className = 'choose-btn survey';
-    document.getElementById('pill-mode').textContent = 'Condition survey mode';
-    document.getElementById('pill-dot').style.background = 'var(--urgent)';
+    document.getElementById('upload-headline').innerHTML  = 'Survey <em>damage</em> &amp;<br>repair needs';
+    document.getElementById('upload-desc').textContent    = 'Upload a facade photo for an AI-assisted preliminary condition assessment — defects mapped, severity rated, and recommended actions listed.';
+    document.getElementById('choose-btn').className       = 'choose-btn survey';
+    document.getElementById('pill-mode').textContent      = 'Condition survey mode';
+    document.getElementById('pill-dot').style.background  = 'var(--urgent)';
+  } else {
+    document.getElementById('upload-eyebrow').textContent = 'Significance Assessment';
+    document.getElementById('upload-headline').innerHTML  = 'Assess <em>architectural</em><br>merit &amp; conservation value';
+    document.getElementById('upload-desc').textContent    = 'Upload a facade photo to get an AI-assisted Statement of Significance — features graded by rarity, intactness, craftsmanship and vulnerability, structured for planning submissions.';
+    document.getElementById('choose-btn').className       = 'choose-btn survey';
+    document.getElementById('pill-mode').textContent      = 'Significance assessment mode';
+    document.getElementById('pill-dot').style.background  = 'var(--sig1)';
   }
 }
 
@@ -443,19 +508,49 @@ function selectModel(id, btn) {
   const m = MODELS[id];
   document.querySelectorAll('.model-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  const sk = localStorage.getItem(m.keySK) || m.defaultKey;
-  document.getElementById('key-input').value = sk;
-  updateKeyStatus(sk);
   document.getElementById('pill-model').textContent = m.name;
+
+  const bar = document.getElementById('key-bar');
+  if (m.defaultKey) {
+    // Model has a built-in key — hide the bar
+    bar.style.display = 'none';
+  } else {
+    // Model needs a key — show the bar
+    bar.style.display = 'flex';
+    document.getElementById('key-label').textContent = m.keyLbl;
+    document.getElementById('key-note').textContent  = m.keyNote;
+    const saved = localStorage.getItem(m.keySK) || '';
+    document.getElementById('key-input').value = saved;
+    updateKeyStatus(saved);
+  }
 }
-function saveKey() {}
-function updateKeyStatus(v) {}
+
+function saveKey() {
+  const m = MODELS[activeModelId];
+  const v = document.getElementById('key-input').value.trim();
+  if (v) localStorage.setItem(m.keySK, v);
+  updateKeyStatus(v);
+}
+
+function updateKeyStatus(v) {
+  const el = document.getElementById('key-status');
+  if (!el) return;
+  el.textContent  = v ? 'Key set ✓' : 'Not set';
+  el.style.background = v ? '#E8F0EC' : 'var(--danger-l)';
+  el.style.color      = v ? '#2D4A3E' : 'var(--danger)';
+}
+
 function getKey() {
   const m = MODELS[activeModelId];
-  return m.defaultKey || localStorage.getItem(m.keySK) || '';
+  if (m.defaultKey) return m.defaultKey;
+  const input = document.getElementById('key-input');
+  return (input ? input.value.trim() : '') || localStorage.getItem(m.keySK) || '';
 }
+
 function initModelBar() {
-  // Keys are hardcoded in MODELS — nothing to show in UI
+  // Gemini Flash is default and has a built-in key — key bar stays hidden
+  const bar = document.getElementById('key-bar');
+  if (bar) bar.style.display = 'none';
 }
 
 /* ============================================================
@@ -494,6 +589,13 @@ function getBboxColor(feature, index) {
   if (activeMode === 'survey') {
     const sev = (feature.severity || 'routine').toLowerCase();
     return SEV_COLORS[sev] || SEV_COLORS.routine;
+  }
+  if (activeMode === 'significance') {
+    const grade = (feature.grade || 'III');
+    if (grade === 'I')   return {stroke:'#4A1A6B', fill:'rgba(74,26,107,.13)'};
+    if (grade === 'II*') return {stroke:'#1A3A6B', fill:'rgba(26,58,107,.13)'};
+    if (grade === 'II')  return {stroke:'#1A5C3A', fill:'rgba(26,92,58,.13)'};
+    return {stroke:'#888780', fill:'rgba(136,135,128,.1)'};
   }
   return ID_COLORS[index % ID_COLORS.length];
 }
@@ -548,6 +650,13 @@ function showConditionLegend() {
       <div class="legend-item"><div class="legend-dot ld-urgent"></div>Urgent</div>
       <div class="legend-item"><div class="legend-dot ld-monitor"></div>Monitor</div>
       <div class="legend-item"><div class="legend-dot ld-routine"></div>Routine</div>
+    </div>`;
+  } else if (activeMode === 'significance' && currentFeatures.some(f=>f.bbox)) {
+    w.innerHTML = `<div class="canvas-legend-sig">
+      <div class="legend-item"><div class="legend-dot" style="background:#4A1A6B"></div>Grade I</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1A3A6B"></div>Grade II*</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1A5C3A"></div>Grade II</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#888780"></div>Grade III</div>
     </div>`;
   } else { w.innerHTML = ''; }
 }
@@ -638,33 +747,76 @@ Severity guide: urgent = immediate risk to structural integrity or safety, atten
 bbox: normalised 0.0-1.0. Identify up to 6 issues. Omit bbox if location unclear.
 Look for: crack patterns, spalling, efflorescence, mortar erosion, staining, vegetation growth, failed flashings, blocked gutters, damaged decorative elements, inappropriate repairs, settlement signs.`;
 
+const PROMPT_SIG = `You are a conservation architect and architectural historian with deep expertise in ecclesiastical heritage, NIAH assessment methodology, and Historic England conservation principles.
+Assess the architectural significance of the church in the image. Respond ONLY with a valid JSON object — no markdown, no backticks, no extra text.
+{
+  "building_name": "Name if identifiable, or descriptive name",
+  "location": "Country or region",
+  "period": "Construction period",
+  "style": "Architectural style",
+  "overall_grade": "I|II*|II|III",
+  "overall_grade_justification": "One sentence explaining the overall grade",
+  "statement_of_significance": "2-3 sentence formal Statement of Significance suitable for a planning submission, covering architectural, historical and aesthetic value",
+  "niah_equivalent": "Protected Structure|Record of Monuments|Local Interest|Not Listed",
+  "features": [
+    {
+      "name": "Feature name",
+      "grade": "I|II*|II|III|Noted",
+      "criteria": ["rarity","intactness","craftsmanship","historical_association","type_example","vulnerability"],
+      "description": "What the feature is",
+      "significance_justification": "Why it is or isn't significant — be specific about rarity, regional context, survival rate",
+      "niche": true or false,
+      "niche_reason": "If niche=true, explain what makes it rare or exceptional in its regional/national context",
+      "vulnerability": "high|medium|low",
+      "conservation_recommendation": "Specific recommended action for this feature",
+      "bbox": [x1,y1,x2,y2]
+    }
+  ],
+  "architect_notes": "Notes on the architect or builder if identifiable",
+  "comparable_buildings": ["Name of comparable building 1", "Name of comparable building 2"],
+  "references": ["NIAH or other relevant reference if known"]
+}
+Grade guide: I = exceptional national importance. II* = more than special interest. II = special interest warranting preservation. III = local interest only.
+Criteria to assess: rarity (is this unusual for period/region?), intactness (original unaltered fabric?), craftsmanship (exceptional skill or technique?), historical_association (linked to significant person/event?), type_example (best surviving of its kind?), vulnerability (at risk of loss?).
+Set niche:true for features that are: unusual for the building type, rare surviving examples of a technique, exceptionally well-preserved, or of particular regional distinctiveness.
+bbox: normalised 0.0-1.0. Identify 4-6 features. Omit bbox if unsure of location.`;
+
 /* ============================================================
    ANALYSE ROUTER
 ============================================================ */
 async function analyse(dataUrl, modelId, mode) {
   const m = MODELS[modelId];
-  const isCS = mode === 'survey';
+  const isCS  = mode === 'survey';
+  const isSIG = mode === 'significance';
   const panel = document.getElementById('result-panel');
+  const stateTitle = isCS ? 'Surveying condition…' : isSIG ? 'Assessing significance…' : 'Identifying architecture…';
   panel.innerHTML = `<div class="result-card"><div class="state-box"><div class="spinner"></div>
-    <div class="state-title">${isCS ? 'Surveying condition…' : 'Identifying architecture…'}</div>
+    <div class="state-title">${stateTitle}</div>
     <div class="state-sub">Using ${escHtml(m.name)}</div>
   </div></div>`;
 
   const key = getKey();
   if (!key) {
+    const keyHints = {
+      'gpt-4o':      'Get a key at platform.openai.com',
+      'hf-llava':    'Get a free token at huggingface.co/settings/tokens',
+      'claude-demo': 'Get a key at console.anthropic.com — paste it in the key bar above',
+    };
+    const hint = keyHints[activeModelId] || 'Paste your key in the bar above.';
     panel.innerHTML = `<div class="result-card" style="padding:1.4rem"><div class="error-box">
-      <div class="error-title">Configuration error</div>
-      <div class="error-sub">No API key found for ${escHtml(m.name)}. Contact the site administrator.</div>
+      <div class="error-title">API key required for ${escHtml(m.name)}</div>
+      <div class="error-sub">${escHtml(hint)}</div>
     </div></div>`; return;
   }
 
-  const prompt = isCS ? PROMPT_CS : PROMPT_ID;
+  const prompt = isCS ? PROMPT_CS : isSIG ? PROMPT_SIG : PROMPT_ID;
 
   try {
     let result;
-    if (m.provider === 'google')        result = await callGemini(dataUrl, m, key, prompt);
+    if (m.provider === 'google')           result = await callGemini(dataUrl, m, key, prompt);
     else if (m.provider === 'huggingface') result = await callHuggingFace(dataUrl, m, key, prompt);
-    else                                result = await callOpenAI(dataUrl, m, key, prompt);
+    else if (m.provider === 'anthropic')   result = await callAnthropic(dataUrl, m, prompt);
+    else                                   result = await callOpenAI(dataUrl, m, key, prompt);
 
     if (isCS) {
       result.issues = (result.issues||[]).map(f =>
@@ -672,6 +824,14 @@ async function analyse(dataUrl, modelId, mode) {
         : {name:f.name||'', severity:(f.severity||'routine').toLowerCase(), description:f.description||'', action:f.action||'', bbox:f.bbox||null}
       );
       currentFeatures = result.issues;
+    } else if (isSIG) {
+      result.features = (result.features||[]).map(f =>
+        typeof f === 'string' ? {name:f, grade:'III', criteria:[], description:'', significance_justification:'', niche:false, niche_reason:'', vulnerability:'low', conservation_recommendation:'', bbox:null}
+        : { name:f.name||'', grade:f.grade||'III', criteria:f.criteria||[], description:f.description||'',
+            significance_justification:f.significance_justification||'', niche:!!f.niche, niche_reason:f.niche_reason||'',
+            vulnerability:(f.vulnerability||'low').toLowerCase(), conservation_recommendation:f.conservation_recommendation||'', bbox:f.bbox||null }
+      );
+      currentFeatures = result.features;
     } else {
       result.features = (result.features||[]).map(f =>
         typeof f === 'string' ? {name:f.split(':')[0].trim(), description:f.split(':').slice(1).join(':').trim(), bbox:null}
@@ -681,15 +841,16 @@ async function analyse(dataUrl, modelId, mode) {
     }
 
     currentResult = result;
-    currentResult._mode = mode;
+    currentResult._mode  = mode;
     currentResult._model = modelId;
     drawCanvas(-1);
     showConditionLegend();
     if (currentFeatures.some(f=>f.bbox)) {
       document.getElementById('canvas-hint').textContent = 'Click an item to locate it on the photo';
     }
-    if (isCS) renderConditionResult(result, panel, modelId);
-    else       renderIDResult(result, panel, modelId);
+    if (isCS)       renderConditionResult(result, panel, modelId);
+    else if (isSIG) renderSignificanceResult(result, panel, modelId);
+    else            renderIDResult(result, panel, modelId);
 
   } catch(err) {
     let hint = 'Check your API key and internet connection.';
@@ -764,6 +925,35 @@ async function callHuggingFace(dataUrl, m, key, prompt) {
   const data = await res.json();
   const raw  = data.choices?.[0]?.message?.content || '';
   if (!raw) throw new Error('Empty response from Hugging Face.');
+  return parseJSON(raw);
+}
+
+async function callAnthropic(dataUrl, m, prompt) {
+  const base64 = dataUrl.split(',')[1];
+  const mime   = dataUrl.split(';')[0].split(':')[1];
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: m.apiModel,
+      max_tokens: 1400,
+      system: prompt,
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'image', source: { type: 'base64', media_type: mime, data: base64 } },
+          { type: 'text', text: 'Analyse this image now. Respond only with the JSON object.' }
+        ]
+      }]
+    })
+  });
+  if (!res.ok) { const t=await res.text(); throw new Error(`Anthropic HTTP ${res.status}: ${t.slice(0,200)}`); }
+  const data = await res.json();
+  const raw  = data.content?.[0]?.text || '';
+  if (!raw) throw new Error('Empty response from Anthropic.');
   return parseJSON(raw);
 }
 
@@ -885,19 +1075,118 @@ function renderConditionResult(r, panel, modelId) {
 }
 
 /* ============================================================
+   RENDER — SIGNIFICANCE ASSESSMENT
+============================================================ */
+function renderSignificanceResult(r, panel, modelId) {
+  const m = MODELS[modelId]||MODELS['gemini-flash'];
+
+  const gradeColor = g => g==='I'?'#4A1A6B':g==='II*'?'#1A3A6B':g==='II'?'#1A5C3A':'#888780';
+  const gradeLabel = g => g==='I'?'Grade I — Exceptional':g==='II*'?'Grade II* — More than special interest':g==='II'?'Grade II — Special interest':'Grade III — Local interest';
+  const gradePillCls = g => g==='I'?'sp-1':g==='II*'?'sp-2':g==='II'?'sp-3':'sp-n';
+  const gradeBarCls  = g => g==='I'?'sg-1':g==='II*'?'sg-2':g==='II'?'sg-3':'sg-n';
+
+  const overallGrade = r.overall_grade || 'II';
+  const gc = gradeColor(overallGrade);
+
+  const nicheFeatCount = (r.features||[]).filter(f=>f.niche).length;
+
+  const featHtml = (r.features||[]).map((f,i) => {
+    const criteriaHtml = (f.criteria||[]).map(c =>
+      `<span style="font-size:10px;padding:1px 7px;border-radius:8px;background:var(--surface2);color:var(--ink-3);margin-right:3px;">${c.replace('_',' ')}</span>`
+    ).join('');
+    const nicheHtml = f.niche ? `<div style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;color:#4A1A6B;background:var(--sig1-l);padding:2px 8px;border-radius:8px;margin-top:4px;">
+      <svg width="9" height="9" viewBox="0 0 9 9"><polygon points="4.5,0 5.5,3 9,3.5 6.5,6 7.2,9 4.5,7.5 1.8,9 2.5,6 0,3.5 3.5,3" fill="#4A1A6B"/></svg>
+      Niche feature of merit
+    </div>` : '';
+    return `<div class="sig-item" onclick="highlightFeature(${i})">
+      <div class="sig-grade-bar ${gradeBarCls(f.grade||'III')}"></div>
+      <div class="sig-body">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
+          <div class="sig-name">${escHtml(f.name)}</div>
+          <span class="sig-grade-pill ${gradePillCls(f.grade||'III')}">${escHtml(f.grade||'III')}</span>
+        </div>
+        <div class="sig-desc">${escHtml(f.description)}</div>
+        <div class="sig-justification">${escHtml(f.significance_justification)}</div>
+        <div style="margin:4px 0 2px;">${criteriaHtml}</div>
+        ${nicheHtml}
+        ${f.conservation_recommendation?`<div style="font-size:11px;color:var(--accent);margin-top:5px;font-weight:500;">&#8594; ${escHtml(f.conservation_recommendation)}</div>`:''}
+      </div>
+      ${f.bbox?'<div class="sig-locate">locate &#9654;</div>':''}
+    </div>`;
+  }).join('');
+
+  const comparables = (r.comparable_buildings||[]).length
+    ? `<div class="section-head" style="margin-top:.8rem;">Comparable buildings</div>
+       <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1rem;">${(r.comparable_buildings||[]).map(b=>`<span class="tag tag-stone">${escHtml(b)}</span>`).join('')}</div>`
+    : '';
+
+  const refs = (r.references||[]).length
+    ? `<div class="section-head">References</div>
+       <div style="font-size:11px;color:var(--ink-3);margin-bottom:1rem;">${(r.references||[]).map(r=>`<div>&#8212; ${escHtml(r)}</div>`).join('')}</div>`
+    : '';
+
+  const niahBox = `<div class="niah-box">
+    <div class="niah-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="#1A3A6B" stroke-width="1.2"/><path d="M5 8h6M5 5h6M5 11h4" stroke="#1A3A6B" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="niah-body">
+      <div class="niah-title">NIAH equivalent: ${escHtml(r.niah_equivalent||'Not assessed')}</div>
+      <div class="niah-text">AI-assisted preliminary assessment only. Formal statutory designation requires inspection by a Conservation Architect and submission to the relevant authority.</div>
+      <a class="niah-link" href="https://www.buildingsofireland.ie" target="_blank">Search NIAH database &#8599;</a>
+    </div>
+  </div>`;
+
+  const rebtns = Object.entries(MODELS).map(([id,mod])=>
+    `<button class="reanalyse-btn ${id===modelId?'current':''}" onclick="reanalyse('${id}','significance')">
+      <div class="rdot ${mod.dotCls}"></div>${escHtml(mod.name)}
+    </button>`).join('');
+
+  panel.innerHTML = `<div class="result-card">
+    <div class="result-card-header" style="background:#2A1A3E;">
+      <div class="result-name">${escHtml(r.building_name||r.name||'Significance Assessment')}</div>
+      <div class="result-sub">${escHtml(r.location||'')} · ${escHtml(r.period||'')}</div>
+      <div class="conf-row" style="margin-top:8px;">
+        <span style="font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,.15);color:#fff;letter-spacing:.04em;">${escHtml(overallGrade)}</span>
+        <span style="font-size:12px;color:rgba(255,255,255,.7);">${gradeLabel(overallGrade)}</span>
+        ${nicheFeatCount>0?`<span class="mode-badge-result" style="background:rgba(74,26,107,.35);color:#C39BD3;">&#9733; ${nicheFeatCount} niche feature${nicheFeatCount>1?'s':''}</span>`:''}
+      </div>
+      <div class="result-model-tag"><div class="rmdot ${m.dotCls}"></div>${escHtml(m.name)}</div>
+    </div>
+    <div class="result-card-body">
+      <div class="section-head">Re-analyse with</div>
+      <div class="reanalyse-row">${rebtns}</div>
+      <div class="statement-block">
+        <div class="statement-head">Statement of Significance</div>
+        <div class="statement-text">${escHtml(r.statement_of_significance||r.overall_grade_justification||'')}</div>
+      </div>
+      ${niahBox}
+      <div class="sig-legend">
+        <div class="sig-legend-item"><div class="sig-legend-dot" style="background:#4A1A6B"></div>Grade I — Exceptional</div>
+        <div class="sig-legend-item"><div class="sig-legend-dot" style="background:#1A3A6B"></div>Grade II* — More than special</div>
+        <div class="sig-legend-item"><div class="sig-legend-dot" style="background:#1A5C3A"></div>Grade II — Special interest</div>
+        <div class="sig-legend-item"><div class="sig-legend-dot" style="background:#888780"></div>Grade III — Local</div>
+        <div class="sig-legend-item"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="4.5,0 5.5,3 9,3.5 6.5,6 7.2,9 4.5,7.5 1.8,9 2.5,6 0,3.5 3.5,3" fill="#4A1A6B"/></svg><span style="color:#4A1A6B;font-weight:500;">Niche feature</span></div>
+      </div>
+      <div class="section-head">Assessed features — click to locate</div>
+      <div class="features-block">${featHtml}</div>
+      ${r.architect_notes?`<div class="description-block">${escHtml(r.architect_notes)}</div>`:''}
+      ${comparables}
+      ${refs}
+      <button class="save-btn" id="save-btn" onclick="saveResult()">Save to library</button>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
    REANALYSE
 ============================================================ */
 function reanalyse(modelId, mode) {
   if (!currentImageDataUrl) return;
   activeModelId = modelId;
   if (mode) { activeMode = mode; setMode(mode); }
-  const m = MODELS[modelId];
-  document.querySelectorAll('.model-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('mtab-'+modelId).classList.add('active');
-  const sk = localStorage.getItem(m.keySK)||m.defaultKey;
-  document.getElementById('key-input').value = sk;
-  updateKeyStatus(sk);
-  document.getElementById('pill-model').textContent = m.name;
+  // Trigger full model switch UI update
+  const tab = document.getElementById('mtab-'+modelId);
+  if (tab) selectModel(modelId, tab);
   currentFeatures=[]; activeFeatureIdx=-1;
   drawCanvas(-1);
   document.getElementById('canvas-hint').textContent='';
@@ -934,28 +1223,43 @@ function renderSaved() {
     </div>`; return;
   }
   grid.innerHTML = saved.map(c => {
-    const m = MODELS[c._model]||MODELS['gemini-flash'];
-    const isCS = c._mode === 'survey';
-    const img = c.imageDataUrl?`<img class="saved-card-img" src="${c.imageDataUrl}" alt="${escHtml(c.name||'Survey')}">`:
-      `<div class="saved-card-img"></div>`;
+    const m     = MODELS[c._model]||MODELS['gemini-flash'];
+    const isCS  = c._mode === 'survey';
+    const isSIG = c._mode === 'significance';
+    const img   = c.imageDataUrl
+      ? `<img class="saved-card-img" src="${c.imageDataUrl}" alt="${escHtml(c.building_name||c.name||'Analysis')}">`
+      : `<div class="saved-card-img"></div>`;
     const modePill = isCS
       ? `<div class="saved-card-mode scm-cs">Condition Survey</div>`
-      : `<div class="saved-card-mode scm-id">Identification</div>`;
-    const title = isCS ? 'Condition Survey' : (c.name||'Unknown');
-    const meta  = isCS
-      ? `${c.urgent_count||0} urgent · ${c.monitor_count||0} monitor · ${c.routine_count||0} routine`
-      : `${c.style||''} · ${c.period||''}`;
-    const tags = isCS
-      ? [(c.overall_condition||'').toUpperCase()].filter(Boolean).map(t=>`<span class="tag tag-stone">${escHtml(t)}</span>`).join('')
-      : (c.tags||[]).slice(0,3).map((t,i)=>`<span class="tag ${TAG_CLASSES[i%4]}">${escHtml(t)}</span>`).join('');
+      : isSIG
+        ? `<div class="saved-card-mode scm-sig">&#9733; Significance Assessment</div>`
+        : `<div class="saved-card-mode scm-id">Identification</div>`;
+    const title = isSIG
+      ? (c.building_name||c.name||'Significance Assessment')
+      : isCS ? 'Condition Survey' : (c.name||'Unknown');
+    const meta = isSIG
+      ? `${escHtml(c.overall_grade||'')} · ${escHtml(c.style||'')} · ${escHtml(c.period||'')}`
+      : isCS
+        ? `${c.urgent_count||0} urgent · ${c.monitor_count||0} monitor · ${c.routine_count||0} routine`
+        : `${c.style||''} · ${c.period||''}`;
+    const nicheFeatCount = isSIG ? (c.features||[]).filter(f=>f.niche).length : 0;
+    const tags = isSIG
+      ? [
+          c.overall_grade ? `<span class="tag" style="background:var(--sig1-l);color:var(--sig1)">Grade ${escHtml(c.overall_grade)}</span>` : '',
+          c.niah_equivalent ? `<span class="tag tag-stone">${escHtml(c.niah_equivalent)}</span>` : '',
+          nicheFeatCount > 0 ? `<span class="tag" style="background:var(--sig1-l);color:var(--sig1)">&#9733; ${nicheFeatCount} niche</span>` : '',
+        ].filter(Boolean).join('')
+      : isCS
+        ? [(c.overall_condition||'').toUpperCase()].filter(Boolean).map(t=>`<span class="tag tag-stone">${escHtml(t)}</span>`).join('')
+        : (c.tags||[]).slice(0,3).map((t,i)=>`<span class="tag ${TAG_CLASSES[i%4]}">${escHtml(t)}</span>`).join('');
     return `<div class="saved-card">${img}
       <div class="saved-card-body">
         <div class="saved-card-name">${escHtml(title)}</div>
-        <div class="saved-card-meta">${escHtml(meta)}</div>
+        <div class="saved-card-meta">${meta}</div>
         ${modePill}
         <div class="saved-card-tags">${tags}</div>
         <div class="saved-card-footer">
-          <span class="saved-date">Saved ${escHtml(c.savedAt)} · <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block" class="${m.dotCls}"></span>${escHtml(m.name)}</span></span>
+          <span class="saved-date">Saved ${escHtml(c.savedAt)} · <span style="display:inline-flex;align-items:center;gap:3px;"><span style="width:5px;height:5px;border-radius:50%;display:inline-block;" class="${m.dotCls}"></span>${escHtml(m.name)}</span></span>
           <button class="del-btn" onclick="deleteSaved(${c.id})">Remove</button>
         </div>
       </div>
