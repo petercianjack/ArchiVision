@@ -943,10 +943,13 @@ async function callHuggingFace(dataUrl, m, key, prompt) {
 async function callAnthropic(dataUrl, m, prompt) {
   const base64 = dataUrl.split(',')[1];
   const mime   = dataUrl.split(';')[0].split(':')[1];
+  const key    = getKey();
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
       'anthropic-dangerous-direct-browser-access': 'true'
     },
     body: JSON.stringify({
