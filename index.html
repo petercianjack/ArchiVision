@@ -8,6 +8,16 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Cpath d='M3 16 C3 9 16 8 16 8 C16 8 29 9 29 16 C29 23 16 24 16 24 C16 24 3 23 3 16Z' fill='white' stroke='white' stroke-width='0.5'/%3E%3Ccircle cx='16' cy='16' r='5.5' fill='%23222'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23000'/%3E%3Ccircle cx='18' cy='14' r='1.2' fill='white'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archi Vision v2</title>
+<!-- BUILD: gemini-2.0-flash -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Cpath d='M3 16 C3 9 16 8 16 8 C16 8 29 9 29 16 C29 23 16 24 16 24 C16 24 3 23 3 16Z' fill='white' stroke='white' stroke-width='0.5'/%3E%3Ccircle cx='16' cy='16' r='5.5' fill='%23222'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23000'/%3E%3Ccircle cx='18' cy='14' r='1.2' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -18,6 +28,1513 @@
   --accent:#555555;--accent-l:#EFEFEF;--accent-m:#666666;
   --gold:#777777;--gold-l:#F2F2F2;
   --danger:#7A2C2C;--danger-l:#F5E8E8;
+  --urgent:#C0392B;--urgent-l:#FDECEA;
+  --monitor:#B7770D;--monitor-l:#FEF3DC;
+  --routine:#555555;--routine-l:#F2F2F2;
+  --sig1:#4A1A6B;--sig1-l:#F3EAF9;
+  --sig2:#1A3A6B;--sig2-l:#EAF0F9;
+  --sig3:#555555;--sig3-l:#F0F0F0;
+  --r:4px;--rl:8px;--rxl:14px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+
+/* HEADER — eye hero */
+header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:2rem 2rem 1.5rem;
+  position:sticky;top:0;z-index:200;
+  gap:0;
+}
+.logo{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+.logo-mark{display:none}
+.logo-wordmark{display:none}
+#eye-canvas{display:block;cursor:none}
+.logo-wordmark-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px;font-weight:400;
+  letter-spacing:.35em;text-transform:uppercase;
+  color:var(--ink-3);margin-top:4px;
+}
+nav{display:flex;gap:4px;position:absolute;top:14px;right:2rem}
+.nav-btn{padding:5px 12px;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;border:1px solid transparent;color:var(--ink-2);background:transparent;transition:all .15s}
+.nav-btn:hover{background:var(--surface2)}
+.nav-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.nav-count{background:var(--gold);color:#fff;border-radius:10px;font-size:11px;padding:1px 6px;margin-left:4px;font-weight:500}
+
+
+
+/* MODE TOGGLE — hidden, moved to bottom bar */
+.mode-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:stretch}
+.mode-tab{display:flex;align-items:center;gap:8px;padding:12px 20px;cursor:pointer;border-bottom:3px solid transparent;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink-2);background:transparent;transition:all .15s;white-space:nowrap;border-right:1px solid var(--border)}
+.mode-tab:last-of-type{border-right:none}
+.mode-tab:hover{background:var(--surface2);color:var(--ink)}
+.mode-tab.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--accent-l)}
+.mode-icon{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mode-icon-id{background:#EFEFEF}
+.mode-icon-cs{background:var(--urgent-l)}
+.mode-desc{font-size:11px;color:var(--ink-3);font-weight:400;margin-left:2px}
+
+/* MODEL BAR */
+.model-bar{background:var(--surface2);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:stretch;overflow-x:auto}
+.model-tab{display:flex;flex-direction:column;align-items:flex-start;padding:8px 16px;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;gap:1px;white-space:nowrap;border-right:1px solid var(--border);background:transparent;font-family:'DM Sans',sans-serif}
+.model-tab:last-of-type{border-right:none}
+.model-tab:hover{background:var(--surface)}
+.model-tab.active{border-bottom-color:var(--accent);background:var(--surface)}
+.model-tab-name{font-size:12px;font-weight:500;color:var(--ink);display:flex;align-items:center;gap:5px}
+.model-tab-desc{font-size:11px;color:var(--ink-3)}
+.model-tab.active .model-tab-name{color:var(--accent)}
+.mbadge{font-size:10px;font-weight:500;padding:1px 6px;border-radius:8px}
+.mb-free{background:#EFEFEF;color:#2D4A3E}
+.mb-better{background:var(--gold-l);color:var(--gold)}
+.mb-best{background:#E6EFF8;color:#1A4A7A}
+.pro-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;background:linear-gradient(135deg,#8B6914,#C9A84C);color:#fff;letter-spacing:.04em;vertical-align:middle}
+
+/* KEY BAR - removed */
+.key-st{font-size:11px;padding:3px 10px;border-radius:10px;font-weight:500;white-space:nowrap}
+.key-st.ok{background:#EFEFEF;color:#2D4A3E}
+.key-st.err{background:var(--danger-l);color:var(--danger)}
+
+main{max-width:980px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.page{display:none}.page.active{display:block}
+
+/* UPLOAD */
+.upload-section{display:flex;flex-direction:column;align-items:center;padding:1rem 0 2rem}
+.upload-eyebrow{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px}
+.upload-headline{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:500;color:var(--ink);text-align:center;line-height:1.15;margin-bottom:8px}
+.upload-headline em{font-style:italic;color:var(--accent-m)}
+.upload-headline.survey-mode em{color:var(--urgent)}
+.upload-desc{font-size:14px;color:var(--ink-2);text-align:center;max-width:500px;line-height:1.65;margin-bottom:1.25rem}
+.active-pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border-mid);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--ink-2);margin-bottom:1.25rem}
+.active-pill-dot{width:7px;height:7px;border-radius:50%}
+.drop-zone{width:100%;max-width:560px;border:1.5px dashed var(--border-mid);border-radius:var(--rxl);padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface)}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--accent-m);background:var(--accent-l)}
+.drop-zone.survey .drop-zone-inner .drop-icon{background:var(--urgent-l)}
+.drop-zone-inner{pointer-events:none}
+.drop-icon{width:52px;height:52px;margin:0 auto 1rem;background:var(--surface2);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.drop-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:var(--ink);margin-bottom:6px}
+.drop-sub{font-size:13px;color:var(--ink-3);margin-bottom:1.5rem;line-height:1.55}
+.choose-btn{display:inline-block;padding:10px 26px;background:var(--accent);color:#fff;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:opacity .15s}
+.choose-btn:hover{opacity:.88}
+.choose-btn.survey{background:var(--urgent)}
+.drop-formats{font-size:11px;color:var(--ink-3);margin-top:10px}
+input[type=file]{display:none}
+
+/* RESULTS — TATE STYLE */
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1.5px solid #000;border-radius:0;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#000;background:#fff;cursor:pointer;margin-bottom:1.5rem;transition:all .15s}
+.back-btn:hover{background:#000;color:#fff}
+.results-grid{display:grid;grid-template-columns:1fr 380px;gap:1.5rem;align-items:start}
+.church-canvas-wrap{border-radius:var(--rxl);overflow:hidden;border:1px solid var(--border);background:#111;line-height:0}
+#bbox-canvas{display:block;width:100%;height:auto}
+.canvas-hint{font-family:'Barlow',sans-serif;font-size:11px;font-weight:400;color:#888;text-align:center;padding:6px 0 2px;letter-spacing:.04em;text-transform:uppercase}
+
+/* Canvas legend for condition mode */
+.canvas-legend{display:flex;gap:12px;justify-content:center;padding:8px 0 2px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-2)}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.ld-urgent{background:var(--urgent)}
+.ld-monitor{background:var(--monitor)}
+.ld-routine{background:var(--routine)}
+
+/* RESULT CARD */
+.result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rxl);overflow:hidden}
+.result-card-header{padding:1.1rem 1.4rem 1rem;border-bottom:1px solid var(--border);background:var(--ink);color:#fff}
+.result-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;line-height:1.2;margin-bottom:3px}
+.result-sub{font-size:12px;color:rgba(255,255,255,.6)}
+.conf-row{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.conf-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em}
+.conf-high{background:rgba(72,200,140,.2);color:#5DCAA5}
+.conf-med{background:rgba(235,180,60,.2);color:#EF9F27}
+.conf-low{background:rgba(220,80,60,.2);color:#F09595}
+.mode-badge-result{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:500}
+.mbr-id{background:rgba(74,122,102,.25);color:#9FE1CB}
+.mbr-cs{background:rgba(192,57,43,.25);color:#F09595}
+.result-model-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.5);margin-top:5px}
+.rmdot{width:6px;height:6px;border-radius:50%}
+.dot-gf{background:#888888}.dot-gp{background:#EF9F27}.dot-g4{background:#85B7EB}.dot-hf{background:#FF6B35}.dot-cl{background:#CC785C}
+
+.result-card-body{padding:1.1rem 1.4rem}
+.reanalyse-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.reanalyse-btn{padding:5px 12px;border:1px solid var(--border-mid);border-radius:var(--r);font-size:11px;font-family:'DM Sans',sans-serif;color:var(--ink-2);background:var(--surface);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px}
+.reanalyse-btn:hover{background:var(--surface2)}
+.reanalyse-btn.current{background:var(--accent-l);color:var(--accent);border-color:var(--accent-m);font-weight:500}
+.rdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.1rem}
+.stat-box{background:var(--surface2);border-radius:var(--rl);padding:9px 10px;border:1px solid var(--border)}
+.stat-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin-bottom:3px}
+.stat-value{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:var(--ink);line-height:1.2}
+.section-head{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);margin-bottom:8px}
+.tags-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1.1rem}
+.tag{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+.tag-green{background:#EFEFEF;color:#2D4A3E}
+.tag-gold{background:var(--gold-l);color:var(--gold)}
+.tag-stone{background:var(--surface2);color:var(--ink-2);border:1px solid var(--border)}
+.tag-blue{background:#E6EFF8;color:#1A4A7A}
+
+/* ID mode features */
+.features-block{margin-bottom:1.1rem}
+.feature-item{display:flex;gap:8px;align-items:flex-start;padding:7px 8px;margin:0 -8px;border-bottom:1px solid var(--border);font-size:13px;line-height:1.45;color:var(--ink);cursor:pointer;border-radius:var(--r);transition:background .12s}
+.feature-item:last-child{border-bottom:none}
+.feature-item:hover,.feature-item.active{background:var(--accent-l)}
+.feat-swatch{width:9px;height:9px;border-radius:2px;flex-shrink:0;margin-top:5px}
+.feat-label{flex:1}
+.feat-name{font-weight:500}
+.feat-desc{font-size:12px;color:var(--ink-3);margin-top:1px}
+.feat-locate{font-size:10px;color:#666;font-weight:500;margin-left:auto;flex-shrink:0;opacity:0;transition:opacity .15s}
+.feature-item:hover .feat-locate,.feature-item.active .feat-locate{opacity:1}
+
+/* CONDITION items */
+.condition-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;margin:0;border-bottom:1px solid #E8E8E8;cursor:pointer;transition:background .1s}
+.condition-item:last-child{border-bottom:none}
+.condition-item:hover,.condition-item.active{background:#F5F5F5;padding-left:8px;margin-left:-8px;margin-right:-8px;padding-right:8px}
+.condition-sev{width:4px;border-radius:2px;flex-shrink:0;align-self:stretch;min-height:36px}
+.sev-urgent{background:var(--urgent)}
+.sev-monitor{background:var(--monitor)}
+.sev-routine{background:var(--routine)}
+.condition-body{flex:1}
+.condition-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.condition-desc{font-size:12px;color:var(--ink-2);line-height:1.5}
+.condition-action{font-size:11px;font-weight:500;margin-top:4px;padding:2px 8px;border-radius:10px;display:inline-block}
+.ca-urgent{background:var(--urgent-l);color:var(--urgent)}
+.ca-monitor{background:var(--monitor-l);color:var(--monitor)}
+.ca-routine{background:var(--routine-l);color:var(--routine)}
+.condition-locate{font-size:10px;color:var(--ink-3);font-weight:500;margin-left:auto;flex-shrink:0;opacity:0;transition:opacity .15s;padding-top:2px}
+.condition-item:hover .condition-locate,.condition-item.active .condition-locate{opacity:1}
+
+/* SIGNIFICANCE MODE */
+.mode-icon-sig{background:var(--sig1-l)}
+.sig-item{display:flex;gap:10px;align-items:flex-start;padding:10px 10px;margin:0 -10px;border-bottom:1px solid var(--border);cursor:pointer;border-radius:var(--r);transition:background .12s}
+.sig-item:last-child{border-bottom:none}
+.sig-item:hover,.sig-item.active{background:var(--surface2)}
+.sig-grade-bar{width:4px;border-radius:2px;flex-shrink:0;align-self:stretch;min-height:36px}
+.sg-1{background:var(--sig1)}.sg-2{background:var(--sig2)}.sg-3{background:var(--sig3)}.sg-n{background:var(--ink-3)}
+.sig-body{flex:1}
+.sig-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.sig-desc{font-size:12px;color:var(--ink-2);line-height:1.5;margin-bottom:4px}
+.sig-justification{font-size:11px;color:var(--ink-3);font-style:italic;line-height:1.45;margin-bottom:4px}
+.sig-grade-pill{font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;display:inline-block;letter-spacing:.04em}
+.sp-1{background:var(--sig1-l);color:var(--sig1)}
+.sp-2{background:var(--sig2-l);color:var(--sig2)}
+.sp-3{background:var(--sig3-l);color:var(--sig3)}
+.sp-n{background:var(--surface2);color:var(--ink-3)}
+.sig-locate{font-size:10px;color:var(--ink-3);font-weight:500;margin-left:auto;flex-shrink:0;opacity:0;transition:opacity .15s;padding-top:2px}
+.sig-item:hover .sig-locate,.sig-item.active .sig-locate{opacity:1}
+.sig-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1.1rem;padding:10px 12px;background:var(--surface2);border-radius:var(--rl);border:1px solid var(--border)}
+.sig-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-2)}
+.sig-legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.statement-block{background:var(--sig1-l);border-left:3px solid var(--sig1);border-radius:0 var(--rl) var(--rl) 0;padding:12px 14px;margin-bottom:1.1rem}
+.statement-head{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--sig1);margin-bottom:6px}
+.statement-text{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;line-height:1.65;color:var(--sig1)}
+.niah-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rl);padding:10px 14px;margin-bottom:1.1rem;display:flex;gap:10px;align-items:flex-start}
+.niah-icon{width:32px;height:32px;background:var(--sig2-l);border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.niah-body{flex:1}
+.niah-title{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.niah-text{font-size:11px;color:var(--ink-3);line-height:1.5}
+.niah-link{font-size:11px;color:#555;font-weight:500;text-decoration:none;display:inline-block;margin-top:3px}
+.canvas-legend-sig{display:flex;gap:10px;justify-content:center;padding:8px 0 2px;flex-wrap:wrap}
+.mbr-sig{background:rgba(74,26,107,.2);color:#C39BD3}
+
+/* Overall condition score */
+.condition-score{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.1rem}
+.score-box{border-radius:var(--rl);padding:10px 12px;border:1px solid;text-align:center}
+.score-box.urgent{background:var(--urgent-l);border-color:rgba(192,57,43,.25)}
+.score-box.monitor{background:var(--monitor-l);border-color:rgba(183,119,13,.25)}
+.score-box.routine{background:var(--routine-l);border-color:rgba(45,106,79,.25)}
+.score-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1}
+.score-box.urgent .score-num{color:var(--urgent)}
+.score-box.monitor .score-num{color:var(--monitor)}
+.score-box.routine .score-num{color:var(--routine)}
+.score-lbl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+.score-box.urgent .score-lbl{color:var(--urgent)}
+.score-box.monitor .score-lbl{color:var(--monitor)}
+.score-box.routine .score-lbl{color:var(--routine)}
+
+.overall-rating{border-radius:var(--rl);padding:10px 14px;margin-bottom:1.1rem;display:flex;align-items:center;gap:10px}
+.or-urgent{background:var(--urgent-l);border:1px solid rgba(192,57,43,.2)}
+.or-monitor{background:var(--monitor-l);border:1px solid rgba(183,119,13,.2)}
+.or-good{background:var(--routine-l);border:1px solid rgba(45,106,79,.2)}
+.or-label{font-size:12px;font-weight:500}
+.or-urgent .or-label{color:var(--urgent)}
+.or-monitor .or-label{color:var(--monitor)}
+.or-good .or-label{color:var(--routine)}
+.or-desc{font-size:12px;line-height:1.5}
+.or-urgent .or-desc{color:var(--urgent)}
+.or-monitor .or-desc{color:var(--monitor)}
+.or-good .or-desc{color:var(--routine)}
+
+.description-block{background:#F2F2F2;border-left:4px solid #000;border-radius:0;padding:10px 12px;font-family:'Barlow',sans-serif;font-weight:300;font-style:italic;font-size:13px;line-height:1.65;color:#333;margin-bottom:1.1rem}
+.save-btn{width:100%;padding:10px;background:#000;color:#fff;border:none;border-radius:0;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .15s}
+.save-btn:hover{opacity:.88}
+.save-btn:disabled{opacity:.45;cursor:not-allowed;background:var(--surface2);color:var(--ink-2);border:1px solid var(--border)}
+
+/* STATES */
+.state-box{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;text-align:center;padding:2rem}
+.spinner{width:28px;height:28px;border:2px solid var(--border-mid);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite;margin-bottom:1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.state-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;color:var(--ink);margin-bottom:5px}
+.state-sub{font-size:12px;color:var(--ink-3);line-height:1.55}
+.error-box{background:var(--danger-l);border:1px solid rgba(120,40,40,.15);border-radius:var(--rl);padding:1.1rem 1.4rem}
+.error-title{font-size:14px;font-weight:500;color:var(--danger);margin-bottom:5px}
+.error-sub{font-size:13px;color:#A05050;line-height:1.55}
+.error-detail{font-size:11px;color:#A05050;margin-top:6px;font-family:monospace;background:rgba(120,40,40,.06);padding:5px 8px;border-radius:var(--r);word-break:break-all}
+
+/* SAVED */
+.saved-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.25rem}
+.saved-headline{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:var(--ink)}
+.saved-count-text{font-size:13px;color:var(--ink-3)}
+.saved-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+.saved-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rxl);overflow:hidden}
+.saved-card-img{width:100%;height:150px;object-fit:cover;display:block;background:var(--surface2)}
+.saved-card-body{padding:13px 15px}
+.saved-card-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:500;color:var(--ink);margin-bottom:3px;line-height:1.25}
+.saved-card-meta{font-size:12px;color:var(--ink-3);margin-bottom:6px}
+.saved-card-mode{font-size:10px;font-weight:500;padding:2px 8px;border-radius:8px;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px}
+.scm-id{background:var(--accent-l);color:var(--accent)}
+.scm-cs{background:var(--urgent-l);color:var(--urgent)}
+.scm-sig{background:var(--sig1-l);color:var(--sig1)}
+.saved-card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.saved-card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:9px;border-top:1px solid var(--border)}
+.saved-date{font-size:11px;color:var(--ink-3)}
+.del-btn{background:transparent;border:1px solid var(--border);border-radius:var(--r);padding:4px 10px;font-size:11px;color:var(--ink-3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.del-btn:hover{border-color:rgba(120,40,40,.3);color:var(--danger);background:var(--danger-l)}
+.empty-state{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--ink-3)}
+.empty-icon{width:48px;height:48px;margin:0 auto 1rem;background:var(--surface2);border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.empty-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;color:var(--ink-2);margin-bottom:6px}
+.empty-sub{font-size:13px;line-height:1.6}
+
+@media(max-width:720px){
+  header,main{padding-left:1rem;padding-right:1rem}
+  .mode-bar,.model-bar,.key-bar{padding-left:1rem;padding-right:1rem}
+  .upload-headline{font-size:28px}
+  .results-grid{grid-template-columns:1fr}
+  .stat-row,.condition-score{grid-template-columns:1fr 1fr}
+  .nav-btn{padding:6px 9px;font-size:12px}
+  .mode-desc{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <canvas id="eye-canvas" width="320" height="120"></canvas>
+    <div class="logo-wordmark-text">Archi Vision</div>
+  </div>
+  <nav>
+    <button class="nav-btn active" onclick="showPage('identify',this)">Analyse</button>
+    <button class="nav-btn" onclick="showPage('saved',this)">Saved <span class="nav-count" id="saved-count">0</span></button>
+  </nav>
+</header>
+
+<!-- MODE TOGGLE -->
+<div class="mode-bar">
+  <button class="mode-tab active" id="mode-tab-id" onclick="setMode('identify')">
+    <div class="mode-icon mode-icon-id">
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="#555" stroke-width="1.2"/><circle cx="5.5" cy="5.5" r="2" fill="#555"/></svg>
+    </div>
+    Identification
+    <span class="mode-desc">— style, period, features</span>
+  </button>
+  <button class="mode-tab" id="mode-tab-cs" onclick="setMode('survey')">
+    <div class="mode-icon mode-icon-cs">
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1L6.8 4H10L7.4 6.1L8.4 9.5L5.5 7.5L2.6 9.5L3.6 6.1L1 4H4.2L5.5 1Z" stroke="#E5211D" stroke-width="1" fill="none"/></svg>
+    </div>
+    Condition Survey <span class="pro-badge">PRO</span>
+    <span class="mode-desc">— damage, repair, priority</span>
+  </button>
+  <button class="mode-tab" id="mode-tab-sig" onclick="setMode('significance')">
+    <div class="mode-icon mode-icon-sig">
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><rect x="1" y="7" width="2" height="4" fill="#4A1A6B"/><rect x="4.5" y="4" width="2" height="7" fill="#4A1A6B" opacity=".7"/><rect x="8" y="1" width="2" height="10" fill="#4A1A6B" opacity=".4"/></svg>
+    </div>
+    Significance Assessment <span class="pro-badge">PRO</span>
+    <span class="mode-desc">— merit, rarity, conservation grade</span>
+  </button>
+</div>
+
+<!-- MODEL BAR -->
+<div class="model-bar">
+  <button class="model-tab" id="mtab-gemini-flash" onclick="selectModel('gemini-flash',this)">
+    <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#888888" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#888888"/></svg>Gemini 2.0 Flash<span class="mbadge mb-free">Free</span></div>
+    <div class="model-tab-desc">Fast · Google</div>
+  </button>
+  <button class="model-tab" id="mtab-gemini-pro" onclick="selectModel('gemini-pro',this)">
+    <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#EF9F27" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#EF9F27"/></svg>Gemini 2.0 Flash Pro<span class="mbadge mb-better">Better</span></div>
+    <div class="model-tab-desc">Accurate · Google</div>
+  </button>
+  <button class="model-tab" id="mtab-gpt-4o" onclick="selectModel('gpt-4o',this)">
+    <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#85B7EB" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#85B7EB"/></svg>GPT-4o<span class="mbadge mb-best">Best</span></div>
+    <div class="model-tab-desc">Highest accuracy · OpenAI</div>
+  </button>
+  <button class="model-tab" id="mtab-hf-llava" onclick="selectModel('hf-llava',this)">
+    <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#FF6B35" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#FF6B35"/></svg>LLaVA (HF)<span class="mbadge mb-free">Free</span></div>
+    <div class="model-tab-desc">No credit card · Hugging Face</div>
+  </button>
+  <button class="model-tab active" id="mtab-claude-demo" onclick="selectModel('claude-demo',this)">
+    <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#CC785C" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#CC785C"/></svg>Claude<span class="mbadge" style="background:#FDF0EB;color:#CC785C;">Demo</span></div>
+    <div class="model-tab-desc">Test in this chat · Anthropic</div>
+  </button>
+</div>
+
+<!-- Smart key bar — hidden for models with built-in keys, shown for others -->
+<div id="key-bar" style="display:none;background:var(--gold-l);border-bottom:1px solid rgba(139,105,20,.2);padding:7px 2rem;display:none;align-items:center;gap:10px;flex-wrap:wrap;">
+  <label id="key-label" style="font-size:12px;font-weight:500;color:var(--gold);white-space:nowrap;">API key</label>
+  <input type="password" id="key-input" placeholder="Paste your API key…" oninput="saveKey()" autocomplete="off"
+    style="flex:1;min-width:200px;max-width:400px;padding:5px 10px;border:1.5px solid #000;border-radius:0;font-size:12px;font-family:'Barlow',sans-serif;background:#fff;color:#000;">
+  <span id="key-status" style="font-size:11px;padding:3px 10px;border-radius:10px;font-weight:500;background:var(--danger-l);color:var(--danger);">Not set</span>
+  <span id="key-note" style="font-size:11px;color:var(--gold);"></span>
+</div>
+
+<main>
+  <!-- ANALYSE PAGE -->
+  <div id="page-identify" class="page active">
+    <div id="upload-section" class="upload-section">
+      <div class="upload-eyebrow" id="upload-eyebrow">Architectural Analysis</div>
+      <h1 class="upload-headline" id="upload-headline">Identify any <em>church</em><br>from a photograph</h1>
+      <p class="upload-desc" id="upload-desc">Upload a photo to get instant AI analysis — architectural style, construction period, and annotated key features.</p>
+      <div class="active-pill">
+        <div class="active-pill-dot" id="pill-dot" style="background:var(--accent-m)"></div>
+        <span id="pill-mode">Identification mode</span>
+        &nbsp;·&nbsp;
+        <span id="pill-model">Gemini 2.0 Flash</span>
+      </div>
+      <div class="drop-zone" id="drop-zone"
+        onclick="document.getElementById('file-input').click()"
+        ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+        <div class="drop-zone-inner">
+          <div class="drop-icon" id="drop-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="6" width="18" height="13" rx="2" stroke="#000" stroke-width="1.5"/><circle cx="11" cy="12.5" r="3" stroke="#000" stroke-width="1.5"/><path d="M7.5 6V4.5A1.5 1.5 0 019 3h4a1.5 1.5 0 011.5 1.5V6" stroke="#000" stroke-width="1.5"/></svg>
+          </div>
+          <div class="drop-title" id="drop-title">Drop your photo here</div>
+          <div class="drop-sub" id="drop-sub">Facades, interiors, or any architectural detail</div>
+          <button class="choose-btn" id="choose-btn" onclick="event.stopPropagation();document.getElementById('file-input').click()">Choose photo</button>
+          <div class="drop-formats">JPG · PNG · WEBP</div>
+        </div>
+      </div>
+      <input type="file" id="file-input" accept="image/*" onchange="handleFile(this.files[0])">
+    </div>
+
+    <div id="results-section" style="display:none">
+      <button class="back-btn" onclick="resetScan()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="9,2 4,7 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        New scan
+      </button>
+      <div class="results-grid">
+        <div>
+          <div class="church-canvas-wrap"><canvas id="bbox-canvas"></canvas></div>
+          <div id="canvas-legend-wrap"></div>
+          <div class="canvas-hint" id="canvas-hint"></div>
+        </div>
+        <div id="result-panel">
+          <div class="result-card"><div class="state-box"><div class="spinner"></div><div class="state-title">Analysing…</div><div class="state-sub">Please wait</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAVED PAGE -->
+  <div id="page-saved" class="page">
+    <div class="saved-header">
+      <h2 class="saved-headline">Saved analyses</h2>
+      <span class="saved-count-text" id="saved-count-text">0 saved</span>
+    </div>
+    <div class="saved-grid" id="saved-grid"></div>
+  </div>
+</main>
+
+<script>
+/* ============================================================
+   MODELS
+============================================================ */
+// Set this to your Cloudflare Worker URL after deploying
+const CLAUDE_PROXY = 'https://archi-vision.20097956.workers.dev';
+
+const MODELS = {
+  'gemini-flash': { name:'Gemini 2.0 Flash', provider:'google', apiModel:'gemini-2.0-flash', dotCls:'dot-gf', keyLbl:'Gemini API key', keyNote:'Get a free key at aistudio.google.com', keySK:'archi-key-gemini', defaultKey:'AIzaSyAspB5oPOVSmzwupkgMXmns3PLiPgdjNcI' },
+  'gemini-pro':   { name:'Gemini 2.0 Flash Pro',   provider:'google', apiModel:'gemini-2.0-flash-001',   dotCls:'dot-gp', keyLbl:'Gemini API key', keyNote:'Same key as Flash — aistudio.google.com',  keySK:'archi-key-gemini', defaultKey:'AIzaSyAspB5oPOVSmzwupkgMXmns3PLiPgdjNcI' },
+  'gpt-4o':       { name:'GPT-4o',           provider:'openai', apiModel:'gpt-4o',           dotCls:'dot-g4', keyLbl:'OpenAI API key', keyNote:'Get a key at platform.openai.com',          keySK:'archi-key-openai', defaultKey:'' },
+  'hf-llava':     { name:'LLaVA (HF)',        provider:'huggingface', apiModel:'llava-hf/llava-1.5-7b-hf', dotCls:'dot-hf', keyLbl:'Hugging Face token', keyNote:'Free — get a token at huggingface.co/settings/tokens', keySK:'archi-key-hf', defaultKey:'' },
+  'claude-demo':  { name:'Claude (Demo)',     provider:'anthropic', apiModel:'claude-sonnet-4-20250514', dotCls:'dot-cl', keyLbl:'Anthropic API key', keyNote:'Demo mode — runs via Anthropic API', keySK:'archi-key-anthropic', defaultKey:'PROXY' },
+};
+
+/* ID mode bbox colours */
+const ID_COLORS = [
+  {stroke:'#E5211D',fill:'rgba(74,122,102,.13)'},
+  {stroke:'#8B6914',fill:'rgba(139,105,20,.13)'},
+  {stroke:'#1A4A7A',fill:'rgba(26,74,122,.13)'},
+  {stroke:'#7A2C2C',fill:'rgba(122,44,44,.13)'},
+];
+/* Condition mode colours by severity */
+const SEV_COLORS = {
+  urgent:  {stroke:'#C0392B', fill:'rgba(192,57,43,.15)',  label:'Urgent'},
+  monitor: {stroke:'#B7770D', fill:'rgba(183,119,13,.15)', label:'Monitor'},
+  routine: {stroke:'#555', fill:'rgba(45,106,79,.15)',  label:'Routine'},
+};
+const TAG_CLASSES = ['tag-green','tag-gold','tag-stone','tag-blue'];
+const SAVED_KEY = 'archi-vision-saved';
+
+/* ============================================================
+   STATE
+============================================================ */
+let activeMode    = 'identify'; // 'identify' | 'survey'
+let activeModelId = 'claude-demo';
+let baseImage     = null;
+let currentFeatures = [];
+let activeFeatureIdx = -1;
+let currentResult = null;
+let currentImageDataUrl = null;
+let saved = [];
+
+/* ============================================================
+   MODE SWITCHER
+============================================================ */
+function setMode(mode) {
+  activeMode = mode;
+  const isID  = mode === 'identify';
+  const isCS  = mode === 'survey';
+  const isSIG = mode === 'significance';
+
+  document.getElementById('mode-tab-id').classList.toggle('active',isID);
+  document.getElementById('mode-tab-cs').classList.toggle('active',isCS);
+  document.getElementById('mode-tab-sig').classList.toggle('active',isSIG);
+
+  if (isID) {
+    document.getElementById('upload-eyebrow').textContent = 'Architectural Analysis';
+    document.getElementById('upload-headline').innerHTML  = 'Identify any <em>church</em><br>from a photograph';
+    document.getElementById('upload-desc').textContent    = 'Upload a photo to get instant AI analysis — architectural style, construction period, and annotated key features.';
+    document.getElementById('choose-btn').className       = 'choose-btn';
+    document.getElementById('pill-mode').textContent      = 'Identification mode';
+    document.getElementById('pill-dot').style.background  = 'var(--accent-m)';
+  } else if (isCS) {
+    document.getElementById('upload-eyebrow').textContent = 'Condition Survey';
+    document.getElementById('upload-headline').innerHTML  = 'Survey <em>damage</em> &amp;<br>repair needs';
+    document.getElementById('upload-desc').textContent    = 'Upload a facade photo for an AI-assisted preliminary condition assessment — defects mapped, severity rated, and recommended actions listed.';
+    document.getElementById('choose-btn').className       = 'choose-btn survey';
+    document.getElementById('pill-mode').textContent      = 'Condition survey mode';
+    document.getElementById('pill-dot').style.background  = 'var(--urgent)';
+  } else {
+    document.getElementById('upload-eyebrow').textContent = 'Significance Assessment';
+    document.getElementById('upload-headline').innerHTML  = 'Assess <em>architectural</em><br>merit &amp; conservation value';
+    document.getElementById('upload-desc').textContent    = 'Upload a facade photo to get an AI-assisted Statement of Significance — features graded by rarity, intactness, craftsmanship and vulnerability, structured for planning submissions.';
+    document.getElementById('choose-btn').className       = 'choose-btn survey';
+    document.getElementById('pill-mode').textContent      = 'Significance assessment mode';
+    document.getElementById('pill-dot').style.background  = 'var(--sig1)';
+  }
+}
+
+/* ============================================================
+   MODEL SWITCHER
+============================================================ */
+let activeModelId_g = 'gemini-flash';
+function selectModel(id, btn) {
+  activeModelId = id;
+  const m = MODELS[id];
+  document.querySelectorAll('.model-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pill-model').textContent = m.name;
+
+  const bar = document.getElementById('key-bar');
+  if (m.defaultKey) {
+    // Model has a built-in key — hide the bar
+    bar.style.display = 'none';
+  } else {
+    // Model needs a key — show the bar
+    bar.style.display = 'flex';
+    document.getElementById('key-label').textContent = m.keyLbl;
+    document.getElementById('key-note').textContent  = m.keyNote;
+    const saved = localStorage.getItem(m.keySK) || '';
+    document.getElementById('key-input').value = saved;
+    updateKeyStatus(saved);
+  }
+}
+
+function saveKey() {
+  const m = MODELS[activeModelId];
+  const v = document.getElementById('key-input').value.trim();
+  if (v) localStorage.setItem(m.keySK, v);
+  updateKeyStatus(v);
+}
+
+function updateKeyStatus(v) {
+  const el = document.getElementById('key-status');
+  if (!el) return;
+  el.textContent  = v ? 'Key set ✓' : 'Not set';
+  el.style.background = v ? '#E8F0EC' : 'var(--danger-l)';
+  el.style.color      = v ? '#000' : 'var(--danger)';
+}
+
+function getKey() {
+  const m = MODELS[activeModelId];
+  if (m.defaultKey) return m.defaultKey;
+  const input = document.getElementById('key-input');
+  return (input ? input.value.trim() : '') || localStorage.getItem(m.keySK) || '';
+}
+
+function initModelBar() {
+  // Gemini Flash is default and has a built-in key — key bar stays hidden
+  const bar = document.getElementById('key-bar');
+  if (bar) bar.style.display = 'none';
+}
+
+/* ============================================================
+   STORAGE
+============================================================ */
+function loadSaved() {
+  try { const r = localStorage.getItem(SAVED_KEY); if (r) saved = JSON.parse(r); } catch(e) { saved=[]; }
+  updateSavedCount();
+}
+function persistSaved() {
+  try { localStorage.setItem(SAVED_KEY, JSON.stringify(saved)); } catch(e) {}
+  updateSavedCount();
+}
+function updateSavedCount() {
+  const n = saved.length;
+  document.getElementById('saved-count').textContent = n;
+  const ct = document.getElementById('saved-count-text');
+  if (ct) ct.textContent = n + ' saved';
+}
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (name === 'saved') renderSaved();
+}
+
+/* ============================================================
+   CANVAS
+============================================================ */
+function getBboxColor(feature, index) {
+  if (activeMode === 'survey') {
+    const sev = (feature.severity || 'routine').toLowerCase();
+    return SEV_COLORS[sev] || SEV_COLORS.routine;
+  }
+  if (activeMode === 'significance') {
+    const grade = (feature.grade || 'III');
+    if (grade === 'I')   return {stroke:'#4A1A6B', fill:'rgba(74,26,107,.13)'};
+    if (grade === 'II*') return {stroke:'#1A3A6B', fill:'rgba(26,58,107,.13)'};
+    if (grade === 'II')  return {stroke:'#1A5C3A', fill:'rgba(26,92,58,.13)'};
+    return {stroke:'#888780', fill:'rgba(136,135,128,.1)'};
+  }
+  return ID_COLORS[index % ID_COLORS.length];
+}
+
+function drawCanvas(activeIdx) {
+  const canvas = document.getElementById('bbox-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  if (baseImage) ctx.drawImage(baseImage,0,0,W,H);
+  currentFeatures.forEach((f,i) => {
+    if (!f.bbox) return;
+    const [x1r,y1r,x2r,y2r] = f.bbox;
+    const x1=x1r*W, y1=y1r*H, x2=x2r*W, y2=y2r*H;
+    const col = getBboxColor(f, i);
+    const isActive = i === activeIdx;
+    ctx.fillStyle = isActive ? col.stroke+'33' : col.fill;
+    ctx.fillRect(x1,y1,x2-x1,y2-y1);
+    ctx.strokeStyle = col.stroke; ctx.lineWidth = isActive ? 2.5 : 1.5;
+    ctx.strokeRect(x1,y1,x2-x1,y2-y1);
+    const label = f.name||('Item '+(i+1));
+    ctx.font = `500 ${isActive?12:11}px "Barlow",sans-serif`;
+    const tw = ctx.measureText(label).width;
+    const ph=17, pw=tw+12;
+    const lx=x1, ly=Math.max(0,y1-ph-2);
+    rrect(ctx,lx,ly,pw,ph,3);
+    ctx.fillStyle=col.stroke; ctx.fill();
+    ctx.fillStyle='#fff'; ctx.fillText(label,lx+6,ly+ph-5);
+  });
+}
+function rrect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+}
+function highlightFeature(idx) {
+  activeFeatureIdx = idx;
+  drawCanvas(idx);
+  document.querySelectorAll('.feature-item,.condition-item').forEach((el,i)=>el.classList.toggle('active',i===idx));
+  const hint = document.getElementById('canvas-hint');
+  hint.textContent = idx>=0 && currentFeatures[idx]
+    ? 'Showing: '+(currentFeatures[idx].name||'Item '+(idx+1))
+    : (currentFeatures.some(f=>f.bbox) ? 'Click an item to locate it on the photo' : '');
+}
+function showConditionLegend() {
+  const w = document.getElementById('canvas-legend-wrap');
+  if (activeMode === 'survey' && currentFeatures.some(f=>f.bbox)) {
+    w.innerHTML = `<div class="canvas-legend">
+      <div class="legend-item"><div class="legend-dot ld-urgent"></div>Urgent</div>
+      <div class="legend-item"><div class="legend-dot ld-monitor"></div>Monitor</div>
+      <div class="legend-item"><div class="legend-dot ld-routine"></div>Routine</div>
+    </div>`;
+  } else if (activeMode === 'significance' && currentFeatures.some(f=>f.bbox)) {
+    w.innerHTML = `<div class="canvas-legend-sig">
+      <div class="legend-item"><div class="legend-dot" style="background:#4A1A6B"></div>Grade I</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1A3A6B"></div>Grade II*</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1A5C3A"></div>Grade II</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#888780"></div>Grade III</div>
+    </div>`;
+  } else { w.innerHTML = ''; }
+}
+
+/* ============================================================
+   DRAG & DROP / FILE
+============================================================ */
+function handleDragOver(e){e.preventDefault();document.getElementById('drop-zone').classList.add('drag-over')}
+function handleDragLeave(){document.getElementById('drop-zone').classList.remove('drag-over')}
+function handleDrop(e){
+  e.preventDefault();document.getElementById('drop-zone').classList.remove('drag-over');
+  const f=e.dataTransfer.files[0]; if(f) handleFile(f);
+}
+function handleFile(file){
+  if(!file||!file.type.startsWith('image/')) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    currentImageDataUrl=e.target.result;
+    document.getElementById('upload-section').style.display='none';
+    document.getElementById('results-section').style.display='block';
+    const img=new Image();
+    img.onload=()=>{
+      baseImage=img;
+      const canvas=document.getElementById('bbox-canvas');
+      canvas.width=img.naturalWidth; canvas.height=img.naturalHeight;
+      drawCanvas(-1);
+    };
+    img.src=currentImageDataUrl;
+    analyse(currentImageDataUrl, activeModelId, activeMode);
+  };
+  reader.readAsDataURL(file);
+}
+function resetScan(){
+  currentResult=null; currentImageDataUrl=null;
+  baseImage=null; currentFeatures=[]; activeFeatureIdx=-1;
+  const canvas=document.getElementById('bbox-canvas');
+  canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+  document.getElementById('canvas-hint').textContent='';
+  document.getElementById('canvas-legend-wrap').innerHTML='';
+  document.getElementById('upload-section').style.display='flex';
+  document.getElementById('results-section').style.display='none';
+  document.getElementById('file-input').value='';
+}
+
+/* ============================================================
+   PROMPTS
+============================================================ */
+const PROMPT_ID = `You are an expert architectural historian specialising in ecclesiastical architecture.
+Analyse the church in the image. Respond ONLY with a valid JSON object — no markdown, no backticks, no extra text.
+{
+  "name": "Church name if identifiable, or descriptive name",
+  "location": "Country or region, or 'Unknown location'",
+  "confidence": "high|medium|low",
+  "period": "e.g. 12th century, 1840s, c.1200",
+  "style": "Primary architectural style",
+  "architect": "Architect if known, else Unknown",
+  "features": [
+    { "name": "Short feature name", "description": "Brief explanation", "bbox": [x1,y1,x2,y2] }
+  ],
+  "tags": ["tag1","tag2","tag3","tag4"],
+  "description": "2-3 sentence architectural description for students and professionals."
+}
+bbox: normalised 0.0-1.0 (x1,y1=top-left, x2,y2=bottom-right). Provide 4 features. Omit bbox if unsure.
+
+COLUMN ORDER: Greek Doric = no base, shaft from podium directly, fluted, plain capital. Roman/Tuscan Doric = has base. Ionic = volute scrolls. Corinthian = acanthus leaves. Always check for presence/absence of base first.`;
+
+const PROMPT_CS = `You are an expert building surveyor and conservation architect specialising in historic ecclesiastical structures.
+Analyse the church facade in the image for visible defects, damage and maintenance needs.
+Respond ONLY with a valid JSON object — no markdown, no backticks, no extra text.
+{
+  "overall_condition": "good|fair|poor|critical",
+  "overall_summary": "One sentence overall assessment",
+  "urgent_count": 0,
+  "monitor_count": 0,
+  "routine_count": 0,
+  "issues": [
+    {
+      "name": "Short defect name e.g. Spalling stonework",
+      "severity": "urgent|monitor|routine",
+      "description": "What the defect is and why it matters",
+      "action": "Recommended action",
+      "bbox": [x1,y1,x2,y2]
+    }
+  ],
+  "notes": "Any additional observations about the building's condition."
+}
+Severity guide: urgent = immediate risk to structural integrity or safety, attend within weeks. monitor = active deterioration, inspect and plan within 6 months. routine = maintenance needed, schedule within 2 years.
+bbox: normalised 0.0-1.0. Identify up to 6 issues. Omit bbox if location unclear.
+Look for: crack patterns, spalling, efflorescence, mortar erosion, staining, vegetation growth, failed flashings, blocked gutters, damaged decorative elements, inappropriate repairs, settlement signs.`;
+
+const PROMPT_SIG = `You are a conservation architect and architectural historian with deep expertise in ecclesiastical heritage, NIAH assessment methodology, and Historic England conservation principles.
+Assess the architectural significance of the church in the image. Respond ONLY with a valid JSON object — no markdown, no backticks, no extra text.
+{
+  "building_name": "Name if identifiable, or descriptive name",
+  "location": "Country or region",
+  "period": "Construction period",
+  "style": "Architectural style",
+  "overall_grade": "I|II*|II|III",
+  "overall_grade_justification": "One sentence explaining the overall grade",
+  "statement_of_significance": "2-3 sentence formal Statement of Significance suitable for a planning submission, covering architectural, historical and aesthetic value",
+  "niah_equivalent": "Protected Structure|Record of Monuments|Local Interest|Not Listed",
+  "features": [
+    {
+      "name": "Feature name",
+      "grade": "I|II*|II|III|Noted",
+      "criteria": ["rarity","intactness","craftsmanship","historical_association","type_example","vulnerability"],
+      "description": "What the feature is",
+      "significance_justification": "Why it is or isn't significant — be specific about rarity, regional context, survival rate",
+      "niche": true or false,
+      "niche_reason": "If niche=true, explain what makes it rare or exceptional in its regional/national context",
+      "vulnerability": "high|medium|low",
+      "conservation_recommendation": "Specific recommended action for this feature",
+      "bbox": [x1,y1,x2,y2]
+    }
+  ],
+  "architect_notes": "Notes on the architect or builder if identifiable",
+  "comparable_buildings": ["Name of comparable building 1", "Name of comparable building 2"],
+  "references": ["NIAH or other relevant reference if known"]
+}
+Grade guide: I = exceptional national importance. II* = more than special interest. II = special interest warranting preservation. III = local interest only.
+Criteria to assess: rarity (is this unusual for period/region?), intactness (original unaltered fabric?), craftsmanship (exceptional skill or technique?), historical_association (linked to significant person/event?), type_example (best surviving of its kind?), vulnerability (at risk of loss?).
+Set niche:true for features that are: unusual for the building type, rare surviving examples of a technique, exceptionally well-preserved, or of particular regional distinctiveness.
+bbox: normalised 0.0-1.0. Identify 4-6 features. Omit bbox if unsure of location.`;
+
+/* ============================================================
+   ANALYSE ROUTER
+============================================================ */
+async function analyse(dataUrl, modelId, mode) {
+  const m = MODELS[modelId];
+  const isCS  = mode === 'survey';
+  const isSIG = mode === 'significance';
+  const panel = document.getElementById('result-panel');
+  const stateTitle = isCS ? 'Surveying condition…' : isSIG ? 'Assessing significance…' : 'Identifying architecture…';
+  panel.innerHTML = `<div class="result-card"><div class="state-box"><div class="spinner"></div>
+    <div class="state-title">${stateTitle}</div>
+    <div class="state-sub">Using ${escHtml(m.name)}</div>
+  </div></div>`;
+
+  const key = getKey();
+  if (!key) {
+    const keyHints = {
+      'gpt-4o':      'Get a key at platform.openai.com',
+      'hf-llava':    'Get a free token at huggingface.co/settings/tokens',
+      'claude-demo': 'Get a key at console.anthropic.com — paste it in the key bar above',
+    };
+    const hint = keyHints[activeModelId] || 'Paste your key in the bar above.';
+    panel.innerHTML = `<div class="result-card" style="padding:1.4rem"><div class="error-box">
+      <div class="error-title">API key required for ${escHtml(m.name)}</div>
+      <div class="error-sub">${escHtml(hint)}</div>
+    </div></div>`; return;
+  }
+
+  const prompt = isCS ? PROMPT_CS : isSIG ? PROMPT_SIG : PROMPT_ID;
+
+  try {
+    let result;
+    if (m.provider === 'google')           result = await callGemini(dataUrl, m, key, prompt);
+    else if (m.provider === 'huggingface') result = await callHuggingFace(dataUrl, m, key, prompt);
+    else if (m.provider === 'anthropic')   result = await callAnthropic(dataUrl, m, prompt);
+    else                                   result = await callOpenAI(dataUrl, m, key, prompt);
+
+    if (isCS) {
+      result.issues = (result.issues||[]).map(f =>
+        typeof f === 'string' ? {name:f, severity:'routine', description:'', action:'', bbox:null}
+        : {name:f.name||'', severity:(f.severity||'routine').toLowerCase(), description:f.description||'', action:f.action||'', bbox:f.bbox||null}
+      );
+      currentFeatures = result.issues;
+    } else if (isSIG) {
+      result.features = (result.features||[]).map(f =>
+        typeof f === 'string' ? {name:f, grade:'III', criteria:[], description:'', significance_justification:'', niche:false, niche_reason:'', vulnerability:'low', conservation_recommendation:'', bbox:null}
+        : { name:f.name||'', grade:f.grade||'III', criteria:f.criteria||[], description:f.description||'',
+            significance_justification:f.significance_justification||'', niche:!!f.niche, niche_reason:f.niche_reason||'',
+            vulnerability:(f.vulnerability||'low').toLowerCase(), conservation_recommendation:f.conservation_recommendation||'', bbox:f.bbox||null }
+      );
+      currentFeatures = result.features;
+    } else {
+      result.features = (result.features||[]).map(f =>
+        typeof f === 'string' ? {name:f.split(':')[0].trim(), description:f.split(':').slice(1).join(':').trim(), bbox:null}
+        : {name:f.name||'', description:f.description||'', bbox:f.bbox||null}
+      );
+      currentFeatures = result.features;
+    }
+
+    currentResult = result;
+    currentResult._mode  = mode;
+    currentResult._model = modelId;
+    drawCanvas(-1);
+    showConditionLegend();
+    if (currentFeatures.some(f=>f.bbox)) {
+      document.getElementById('canvas-hint').textContent = 'Click an item to locate it on the photo';
+    }
+    if (isCS)       renderConditionResult(result, panel, modelId);
+    else if (isSIG) renderSignificanceResult(result, panel, modelId);
+    else            renderIDResult(result, panel, modelId);
+
+  } catch(err) {
+    let hint = 'Check your API key and internet connection.';
+    if (err.message.includes('401')||err.message.includes('403')) hint = 'Invalid API key. Make sure you copied it correctly.';
+    if (err.message.includes('429')) hint = 'Rate limit reached. Wait a moment and try again.';
+    if (err.message.includes('400')) hint = 'Image may be too large. Try a smaller JPEG.';
+    if (err.message.includes('loading')) hint = err.message;
+    if (err.message.includes('503')) hint = 'The Hugging Face model is cold-starting. Wait 20–30 seconds and try again — it\'s free but slow on first load.';
+    panel.innerHTML = `<div class="result-card" style="padding:1.4rem"><div class="error-box">
+      <div class="error-title">Analysis failed</div>
+      <div class="error-sub">${hint}</div>
+      <div class="error-detail">${escHtml(err.message)}</div>
+    </div></div>`;
+  }
+}
+
+async function callGemini(dataUrl, m, key, prompt) {
+  const base64=dataUrl.split(',')[1], mime=dataUrl.split(';')[0].split(':')[1];
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m.apiModel}:generateContent?key=${key}`,{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({contents:[{parts:[{text:prompt+'\n\nAnalyse this image now.'},{inline_data:{mime_type:mime,data:base64}}]}],generationConfig:{maxOutputTokens:1400,temperature:0.2}})
+  });
+  if(!res.ok){const t=await res.text();throw new Error(`Gemini HTTP ${res.status}: ${t.slice(0,200)}`);}
+  const data=await res.json();
+  return parseJSON(data.candidates?.[0]?.content?.parts?.[0]?.text||'');
+}
+
+async function callOpenAI(dataUrl, m, key, prompt) {
+  const res = await fetch('https://api.openai.com/v1/chat/completions',{
+    method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`},
+    body:JSON.stringify({model:m.apiModel,max_tokens:1400,messages:[
+      {role:'system',content:prompt},
+      {role:'user',content:[{type:'image_url',image_url:{url:dataUrl,detail:'high'}},{type:'text',text:'Analyse this image. Respond only with JSON.'}]}
+    ]})
+  });
+  if(!res.ok){const t=await res.text();throw new Error(`OpenAI HTTP ${res.status}: ${t.slice(0,200)}`);}
+  const data=await res.json();
+  return parseJSON(data.choices?.[0]?.message?.content||'');
+}
+
+async function callHuggingFace(dataUrl, m, key, prompt) {
+  const base64=dataUrl.split(',')[1], mime=dataUrl.split(';')[0].split(':')[1];
+
+  // HF Inference API — conversational endpoint with image
+  const res = await fetch(`https://api-inference.huggingface.co/models/${m.apiModel}/v1/chat/completions`, {
+    method: 'POST',
+    headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${key}` },
+    body: JSON.stringify({
+      model: m.apiModel,
+      max_tokens: 1400,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            { type: 'image_url', image_url: { url: `data:${mime};base64,${base64}` } },
+            { type: 'text', text: prompt + '\n\nAnalyse this image now. Respond only with the JSON object.' }
+          ]
+        }
+      ]
+    })
+  });
+
+  if (res.status === 503) {
+    // Model is loading — common on free tier
+    const t = await res.text();
+    let waitSecs = 20;
+    try { waitSecs = JSON.parse(t).estimated_time || 20; } catch(e) {}
+    throw new Error(`Model is loading on Hugging Face (estimated ${Math.ceil(waitSecs)}s). Wait a moment and try again.`);
+  }
+  if (!res.ok) { const t=await res.text(); throw new Error(`Hugging Face HTTP ${res.status}: ${t.slice(0,200)}`); }
+
+  const data = await res.json();
+  const raw  = data.choices?.[0]?.message?.content || '';
+  if (!raw) throw new Error('Empty response from Hugging Face.');
+  return parseJSON(raw);
+}
+
+async function callAnthropic(dataUrl, m, prompt) {
+  const base64 = dataUrl.split(',')[1];
+  const mime   = dataUrl.split(';')[0].split(':')[1];
+
+  // Use proxy so the API key stays secret server-side
+  const endpoint = CLAUDE_PROXY && !CLAUDE_PROXY.includes('YOUR-NAME')
+    ? CLAUDE_PROXY
+    : 'https://api.anthropic.com/v1/messages';
+
+  const headers = { 'Content-Type': 'application/json' };
+
+  // Only add these headers when calling Anthropic directly (local dev fallback)
+  if (endpoint.includes('anthropic.com')) {
+    const key = getKey();
+    if (key && key !== 'PROXY') {
+      headers['x-api-key'] = key;
+    }
+    headers['anthropic-version'] = '2023-06-01';
+    headers['anthropic-dangerous-direct-browser-access'] = 'true';
+  }
+
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      model: m.apiModel,
+      max_tokens: 1400,
+      system: prompt,
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'image', source: { type: 'base64', media_type: mime, data: base64 } },
+          { type: 'text', text: 'Analyse this image now. Respond only with the JSON object.' }
+        ]
+      }]
+    })
+  });
+  if (!res.ok) { const t=await res.text(); throw new Error(`Anthropic HTTP ${res.status}: ${t.slice(0,200)}`); }
+  const data = await res.json();
+  const raw  = data.content?.[0]?.text || '';
+  if (!raw) throw new Error('Empty response from Anthropic.');
+  return parseJSON(raw);
+}
+
+function parseJSON(raw) {
+  const clean=raw.replace(/```json|```/g,'').trim();
+  const match=clean.match(/\{[\s\S]*\}/);
+  if(!match) throw new Error('Model did not return JSON. Got: '+raw.slice(0,300));
+  return JSON.parse(match[0]);
+}
+
+/* ============================================================
+   RENDER — IDENTIFICATION
+============================================================ */
+function renderIDResult(r, panel, modelId) {
+  const m  = MODELS[modelId]||MODELS['gemini-flash'];
+  const cc = r.confidence==='high'?'conf-high':r.confidence==='medium'?'conf-med':'conf-low';
+  const cl = r.confidence==='high'?'High confidence':r.confidence==='medium'?'Medium confidence':'Low confidence';
+  const tags  = (r.tags||[]).map((t,i)=>`<span class="tag ${TAG_CLASSES[i%4]}">${escHtml(t)}</span>`).join('');
+  const feats = (r.features||[]).map((f,i)=>{
+    const col=ID_COLORS[i%ID_COLORS.length];
+    return `<div class="feature-item" onclick="highlightFeature(${i})">
+      <div class="feat-swatch" style="background:${col.stroke};margin-top:5px"></div>
+      <div class="feat-label"><div class="feat-name">${escHtml(f.name)}</div><div class="feat-desc">${escHtml(f.description)}</div></div>
+      ${f.bbox?'<div class="feat-locate">locate &#9654;</div>':''}
+    </div>`;
+  }).join('');
+  const desc = r.description?`<div class="description-block">${escHtml(r.description)}</div>`:'';
+  const rebtns = Object.entries(MODELS).map(([id,mod])=>`<button class="reanalyse-btn ${id===modelId?'current':''}" onclick="reanalyse('${id}','identify')"><div class="rdot ${mod.dotCls}"></div>${escHtml(mod.name)}</button>`).join('');
+
+  panel.innerHTML = `<div class="result-card">
+    <div class="result-card-header">
+      <div class="result-name">${escHtml(r.name)}</div>
+      <div class="result-sub">${escHtml(r.location)}</div>
+      <div class="conf-row">
+        <span class="conf-badge ${cc}">${cl}</span>
+        <span class="mode-badge-result mbr-id">Identification</span>
+      </div>
+      <div class="result-model-tag"><div class="rmdot ${m.dotCls}"></div>${escHtml(m.name)}</div>
+    </div>
+    <div class="result-card-body">
+      <div class="section-head">Re-analyse with</div>
+      <div class="reanalyse-row">${rebtns}</div>
+      <div class="stat-row">
+        <div class="stat-box"><div class="stat-label">Period</div><div class="stat-value">${escHtml(r.period)}</div></div>
+        <div class="stat-box"><div class="stat-label">Style</div><div class="stat-value">${escHtml(r.style)}</div></div>
+        <div class="stat-box"><div class="stat-label">Architect</div><div class="stat-value">${escHtml(r.architect)}</div></div>
+      </div>
+      <div class="section-head">Style tags</div>
+      <div class="tags-row">${tags}</div>
+      <div class="section-head">Key features — click to locate</div>
+      <div class="features-block">${feats}</div>
+      ${desc}
+      <button class="save-btn" id="save-btn" onclick="saveResult()">Save to library</button>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   RENDER — CONDITION SURVEY
+============================================================ */
+function renderConditionResult(r, panel, modelId) {
+  const m = MODELS[modelId]||MODELS['gemini-flash'];
+  const oc = (r.overall_condition||'fair').toLowerCase();
+  const orClass = oc==='good'?'or-good':oc==='critical'||oc==='poor'?'or-urgent':'or-monitor';
+  const orLabel = oc==='good'?'Good condition':oc==='fair'?'Fair condition':oc==='poor'?'Poor condition':'Critical condition';
+
+  const urgent  = r.urgent_count  || (r.issues||[]).filter(i=>i.severity==='urgent').length;
+  const monitor = r.monitor_count || (r.issues||[]).filter(i=>i.severity==='monitor').length;
+  const routine = r.routine_count || (r.issues||[]).filter(i=>i.severity==='routine').length;
+
+  const issues = (r.issues||[]).map((f,i)=>{
+    const sev = (f.severity||'routine').toLowerCase();
+    const sevCls = sev==='urgent'?'sev-urgent':sev==='monitor'?'sev-monitor':'sev-routine';
+    const actCls = sev==='urgent'?'ca-urgent':sev==='monitor'?'ca-monitor':'ca-routine';
+    const sevLabel = sev==='urgent'?'Urgent action':sev==='monitor'?'Monitor closely':'Routine maintenance';
+    return `<div class="condition-item" onclick="highlightFeature(${i})">
+      <div class="condition-sev ${sevCls}"></div>
+      <div class="condition-body">
+        <div class="condition-name">${escHtml(f.name)}</div>
+        <div class="condition-desc">${escHtml(f.description)}</div>
+        ${f.action?`<span class="condition-action ${actCls}">${escHtml(sevLabel)} — ${escHtml(f.action)}</span>`:''}
+      </div>
+      ${f.bbox?'<div class="condition-locate">locate &#9654;</div>':''}
+    </div>`;
+  }).join('');
+
+  const rebtns = Object.entries(MODELS).map(([id,mod])=>`<button class="reanalyse-btn ${id===modelId?'current':''}" onclick="reanalyse('${id}','survey')"><div class="rdot ${mod.dotCls}"></div>${escHtml(mod.name)}</button>`).join('');
+  const notes = r.notes?`<div class="description-block">${escHtml(r.notes)}</div>`:'';
+
+  panel.innerHTML = `<div class="result-card">
+    <div class="result-card-header">
+      <div class="result-name">Condition Survey</div>
+      <div class="result-sub">Preliminary visual assessment</div>
+      <div class="conf-row">
+        <span class="mode-badge-result mbr-cs">Condition Survey</span>
+      </div>
+      <div class="result-model-tag"><div class="rmdot ${m.dotCls}"></div>${escHtml(m.name)}</div>
+    </div>
+    <div class="result-card-body">
+      <div class="section-head">Re-analyse with</div>
+      <div class="reanalyse-row">${rebtns}</div>
+      <div class="overall-rating ${orClass}">
+        <div>
+          <div class="or-label">${orLabel}</div>
+          <div class="or-desc">${escHtml(r.overall_summary||'')}</div>
+        </div>
+      </div>
+      <div class="condition-score">
+        <div class="score-box urgent"><div class="score-num">${urgent}</div><div class="score-lbl">Urgent</div></div>
+        <div class="score-box monitor"><div class="score-num">${monitor}</div><div class="score-lbl">Monitor</div></div>
+        <div class="score-box routine"><div class="score-num">${routine}</div><div class="score-lbl">Routine</div></div>
+      </div>
+      <div class="section-head">Identified issues — click to locate</div>
+      <div class="features-block">${issues}</div>
+      ${notes}
+      <button class="save-btn" id="save-btn" onclick="saveResult()">Save to library</button>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   RENDER — SIGNIFICANCE ASSESSMENT
+============================================================ */
+function renderSignificanceResult(r, panel, modelId) {
+  const m = MODELS[modelId]||MODELS['gemini-flash'];
+
+  const gradeColor = g => g==='I'?'#4A1A6B':g==='II*'?'#1A3A6B':g==='II'?'#1A5C3A':'#888780';
+  const gradeLabel = g => g==='I'?'Grade I — Exceptional':g==='II*'?'Grade II* — More than special interest':g==='II'?'Grade II — Special interest':'Grade III — Local interest';
+  const gradePillCls = g => g==='I'?'sp-1':g==='II*'?'sp-2':g==='II'?'sp-3':'sp-n';
+  const gradeBarCls  = g => g==='I'?'sg-1':g==='II*'?'sg-2':g==='II'?'sg-3':'sg-n';
+
+  const overallGrade = r.overall_grade || 'II';
+  const gc = gradeColor(overallGrade);
+
+  const nicheFeatCount = (r.features||[]).filter(f=>f.niche).length;
+
+  const featHtml = (r.features||[]).map((f,i) => {
+    const criteriaHtml = (f.criteria||[]).map(c =>
+      `<span style="font-size:10px;padding:1px 7px;border-radius:8px;background:var(--surface2);color:var(--ink-3);margin-right:3px;">${c.replace('_',' ')}</span>`
+    ).join('');
+    const nicheHtml = f.niche ? `<div style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;color:#4A1A6B;background:var(--sig1-l);padding:2px 8px;border-radius:8px;margin-top:4px;">
+      <svg width="9" height="9" viewBox="0 0 9 9"><polygon points="4.5,0 5.5,3 9,3.5 6.5,6 7.2,9 4.5,7.5 1.8,9 2.5,6 0,3.5 3.5,3" fill="#4A1A6B"/></svg>
+      Niche feature of merit
+    </div>` : '';
+    return `<div class="sig-item" onclick="highlightFeature(${i})">
+      <div class="sig-grade-bar ${gradeBarCls(f.grade||'III')}"></div>
+      <div class="sig-body">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
+          <div class="sig-name">${escHtml(f.name)}</div>
+          <span class="sig-grade-pill ${gradePillCls(f.grade||'III')}">${escHtml(f.grade||'III')}</span>
+        </div>
+        <div class="sig-desc">${escHtml(f.description)}</div>
+        <div class="sig-justification">${escHtml(f.significance_justification)}</div>
+        <div style="margin:4px 0 2px;">${criteriaHtml}</div>
+        ${nicheHtml}
+        ${f.conservation_recommendation?`<div style="font-size:11px;color:var(--accent);margin-top:5px;font-weight:500;">&#8594; ${escHtml(f.conservation_recommendation)}</div>`:''}
+      </div>
+      ${f.bbox?'<div class="sig-locate">locate &#9654;</div>':''}
+    </div>`;
+  }).join('');
+
+  const comparables = (r.comparable_buildings||[]).length
+    ? `<div class="section-head" style="margin-top:.8rem;">Comparable buildings</div>
+       <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1rem;">${(r.comparable_buildings||[]).map(b=>`<span class="tag tag-stone">${escHtml(b)}</span>`).join('')}</div>`
+    : '';
+
+  const refs = (r.references||[]).length
+    ? `<div class="section-head">References</div>
+       <div style="font-size:11px;color:var(--ink-3);margin-bottom:1rem;">${(r.references||[]).map(r=>`<div>&#8212; ${escHtml(r)}</div>`).join('')}</div>`
+    : '';
+
+  const niahBox = `<div class="niah-box">
+    <div class="niah-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="#1A3A6B" stroke-width="1.2"/><path d="M5 8h6M5 5h6M5 11h4" stroke="#1A3A6B" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="niah-body">
+      <div class="niah-title">NIAH equivalent: ${escHtml(r.niah_equivalent||'Not assessed')}</div>
+      <div class="niah-text">AI-assisted preliminary assessment only. Formal statutory designation requires inspection by a Conservation Architect and submission to the relevant authority.</div>
+      <a class="niah-link" href="https://www.buildingsofireland.ie" target="_blank">Search NIAH database &#8599;</a>
+    </div>
+  </div>`;
+
+  const rebtns = Object.entries(MODELS).map(([id,mod])=>
+    `<button class="reanalyse-btn ${id===modelId?'current':''}" onclick="reanalyse('${id}','significance')">
+      <div class="rdot ${mod.dotCls}"></div>${escHtml(mod.name)}
+    </button>`).join('');
+
+  panel.innerHTML = `<div class="result-card">
+    <div class="result-card-header" style="background:#2A1A3E;">
+      <div class="result-name">${escHtml(r.building_name||r.name||'Significance Assessment')}</div>
+      <div class="result-sub">${escHtml(r.location||'')} · ${escHtml(r.period||'')}</div>
+      <div class="conf-row" style="margin-top:8px;">
+        <span style="font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,.15);color:#fff;letter-spacing:.04em;">${escHtml(overallGrade)}</span>
+        <span style="font-size:12px;color:rgba(255,255,255,.7);">${gradeLabel(overallGrade)}</span>
+        ${nicheFeatCount>0?`<span class="mode-badge-result" style="background:rgba(74,26,107,.35);color:#C39BD3;">&#9733; ${nicheFeatCount} niche feature${nicheFeatCount>1?'s':''}</span>`:''}
+      </div>
+      <div class="result-model-tag"><div class="rmdot ${m.dotCls}"></div>${escHtml(m.name)}</div>
+    </div>
+    <div class="result-card-body">
+      <div class="section-head">Re-analyse with</div>
+      <div class="reanalyse-row">${rebtns}</div>
+      <div class="statement-block">
+        <div class="statement-head">Statement of Significance</div>
+        <div class="statement-text">${escHtml(r.statement_of_significance||r.overall_grade_justification||'')}</div>
+      </div>
+      ${niahBox}
+      <div class="sig-legend">
+        <div class="sig-legend-item"><div class="sig-legend-dot" style="background:#4A1A6B"></div>Grade I — Exceptional</div>
+        <div class="sig-legend-item"><div class="sig-legend-dot" style="background:#1A3A6B"></div>Grade II* — More than special</div>
+        <div class="sig-legend-item"><div class="sig-legend-dot" style="background:#1A5C3A"></div>Grade II — Special interest</div>
+        <div class="sig-legend-item"><div class="sig-legend-dot" style="background:#888780"></div>Grade III — Local</div>
+        <div class="sig-legend-item"><svg width="9" height="9" viewBox="0 0 9 9"><polygon points="4.5,0 5.5,3 9,3.5 6.5,6 7.2,9 4.5,7.5 1.8,9 2.5,6 0,3.5 3.5,3" fill="#4A1A6B"/></svg><span style="color:#4A1A6B;font-weight:500;">Niche feature</span></div>
+      </div>
+      <div class="section-head">Assessed features — click to locate</div>
+      <div class="features-block">${featHtml}</div>
+      ${r.architect_notes?`<div class="description-block">${escHtml(r.architect_notes)}</div>`:''}
+      ${comparables}
+      ${refs}
+      <button class="save-btn" id="save-btn" onclick="saveResult()">Save to library</button>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   REANALYSE
+============================================================ */
+function reanalyse(modelId, mode) {
+  if (!currentImageDataUrl) return;
+  activeModelId = modelId;
+  if (mode) { activeMode = mode; setMode(mode); }
+  // Trigger full model switch UI update
+  const tab = document.getElementById('mtab-'+modelId);
+  if (tab) selectModel(modelId, tab);
+  currentFeatures=[]; activeFeatureIdx=-1;
+  drawCanvas(-1);
+  document.getElementById('canvas-hint').textContent='';
+  document.getElementById('canvas-legend-wrap').innerHTML='';
+  analyse(currentImageDataUrl, modelId, activeMode);
+}
+
+/* ============================================================
+   SAVE
+============================================================ */
+function saveResult() {
+  if (!currentResult) return;
+  const isCS = currentResult._mode === 'survey';
+  saved.unshift({
+    id: Date.now(), ...currentResult,
+    imageDataUrl: currentImageDataUrl,
+    savedAt: new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
+  });
+  persistSaved();
+  const btn = document.getElementById('save-btn');
+  if (btn) { btn.textContent='Saved!'; btn.disabled=true; }
+}
+
+/* ============================================================
+   RENDER SAVED
+============================================================ */
+function renderSaved() {
+  const grid = document.getElementById('saved-grid');
+  if (!saved.length) {
+    grid.innerHTML=`<div class="empty-state">
+      <div class="empty-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="12" rx="2" stroke="#9C8C78" stroke-width="1.2"/><path d="M7 5V3.5A1.5 1.5 0 018.5 2h3A1.5 1.5 0 0113 3.5V5" stroke="#9C8C78" stroke-width="1.2"/></svg></div>
+      <div class="empty-title">Nothing saved yet</div>
+      <div class="empty-sub">Run an identification or condition survey and save it here.</div>
+    </div>`; return;
+  }
+  grid.innerHTML = saved.map(c => {
+    const m     = MODELS[c._model]||MODELS['gemini-flash'];
+    const isCS  = c._mode === 'survey';
+    const isSIG = c._mode === 'significance';
+    const img   = c.imageDataUrl
+      ? `<img class="saved-card-img" src="${c.imageDataUrl}" alt="${escHtml(c.building_name||c.name||'Analysis')}">`
+      : `<div class="saved-card-img"></div>`;
+    const modePill = isCS
+      ? `<div class="saved-card-mode scm-cs">Condition Survey</div>`
+      : isSIG
+        ? `<div class="saved-card-mode scm-sig">&#9733; Significance Assessment</div>`
+        : `<div class="saved-card-mode scm-id">Identification</div>`;
+    const title = isSIG
+      ? (c.building_name||c.name||'Significance Assessment')
+      : isCS ? 'Condition Survey' : (c.name||'Unknown');
+    const meta = isSIG
+      ? `${escHtml(c.overall_grade||'')} · ${escHtml(c.style||'')} · ${escHtml(c.period||'')}`
+      : isCS
+        ? `${c.urgent_count||0} urgent · ${c.monitor_count||0} monitor · ${c.routine_count||0} routine`
+        : `${c.style||''} · ${c.period||''}`;
+    const nicheFeatCount = isSIG ? (c.features||[]).filter(f=>f.niche).length : 0;
+    const tags = isSIG
+      ? [
+          c.overall_grade ? `<span class="tag" style="background:var(--sig1-l);color:var(--sig1)">Grade ${escHtml(c.overall_grade)}</span>` : '',
+          c.niah_equivalent ? `<span class="tag tag-stone">${escHtml(c.niah_equivalent)}</span>` : '',
+          nicheFeatCount > 0 ? `<span class="tag" style="background:var(--sig1-l);color:var(--sig1)">&#9733; ${nicheFeatCount} niche</span>` : '',
+        ].filter(Boolean).join('')
+      : isCS
+        ? [(c.overall_condition||'').toUpperCase()].filter(Boolean).map(t=>`<span class="tag tag-stone">${escHtml(t)}</span>`).join('')
+        : (c.tags||[]).slice(0,3).map((t,i)=>`<span class="tag ${TAG_CLASSES[i%4]}">${escHtml(t)}</span>`).join('');
+    return `<div class="saved-card">${img}
+      <div class="saved-card-body">
+        <div class="saved-card-name">${escHtml(title)}</div>
+        <div class="saved-card-meta">${meta}</div>
+        ${modePill}
+        <div class="saved-card-tags">${tags}</div>
+        <div class="saved-card-footer">
+          <span class="saved-date">Saved ${escHtml(c.savedAt)} · <span style="display:inline-flex;align-items:center;gap:3px;"><span style="width:5px;height:5px;border-radius:50%;display:inline-block;" class="${m.dotCls}"></span>${escHtml(m.name)}</span></span>
+          <button class="del-btn" onclick="deleteSaved(${c.id})">Remove</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function deleteSaved(id){
+  saved=saved.filter(c=>c.id!==id);
+  persistSaved(); renderSaved();
+}
+
+/* ============================================================
+   UTILS
+============================================================ */
+function escHtml(s){
+  if(!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+initModelBar();
+loadSaved();
+</script>
+
+
+
+
+<script>
+/* =====================================================================
+   ANIMATED EYE — moves with mouse, dilates, looks alive
+   ===================================================================== */
+(function(){
+  const canvas = document.getElementById('eye-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const CX = W/2, CY = H/2;
+
+  // Eye shape parameters
+  const EYE_RX = 130, EYE_RY = 46; // outer eye half-axes
+
+  // Mouse tracking (relative to whole page, mapped to canvas)
+  let targetLookX = 0, targetLookY = 0;
+  let lookX = 0, lookY = 0;
+  let targetDilate = 1.0, dilate = 1.0;
+
+  document.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - (rect.left + rect.width/2);
+    const my = e.clientY - (rect.top  + rect.height/2);
+    // Max iris travel
+    const maxTravel = 18;
+    targetLookX = Math.max(-maxTravel, Math.min(maxTravel, mx * 0.3));
+    targetLookY = Math.max(-maxTravel/2, Math.min(maxTravel/2, my * 0.3));
+    // Dilate when near
+    const dist = Math.sqrt(mx*mx + my*my);
+    targetDilate = dist < 200 ? 1.35 : 1.0;
+  });
+
+  document.addEventListener('mouseleave', () => {
+    targetLookX = 0; targetLookY = 0; targetDilate = 1.0;
+  });
+
+  // Autonomous slow drift
+  let driftAngle = 0;
+
+  function eyelidY(x) {
+    // Upper and lower eyelid curves — almond/eye shape
+    const t = (x - CX) / EYE_RX;
+    if (Math.abs(t) > 1) return null;
+    const base = Math.sqrt(1 - t*t);
+    return {
+      upper: CY - EYE_RY * base * 1.05,
+      lower: CY + EYE_RY * base * 0.85,
+    };
+  }
+
+  function drawEye(lookDX, lookDY, dilateScale) {
+    ctx.clearRect(0, 0, W, H);
+
+    const ink = '#1C1712';
+    const irisR  = 26 * dilateScale;
+    const pupilR = 11 * dilateScale;
+
+    // ── Eyelid clipping path ────────────────────────────────────────────
+    ctx.save();
+    ctx.beginPath();
+    // Upper lid (left to right)
+    ctx.moveTo(CX - EYE_RX, CY);
+    ctx.bezierCurveTo(
+      CX - EYE_RX*0.5, CY - EYE_RY*1.3,
+      CX + EYE_RX*0.5, CY - EYE_RY*1.3,
+      CX + EYE_RX, CY
+    );
+    // Lower lid (right to left)
+    ctx.bezierCurveTo(
+      CX + EYE_RX*0.5, CY + EYE_RY*1.0,
+      CX - EYE_RX*0.5, CY + EYE_RY*1.0,
+      CX - EYE_RX, CY
+    );
+    ctx.closePath();
+    ctx.clip();
+
+    // White of eye
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+
+    // ── Iris ────────────────────────────────────────────────────────────
+    const ix = CX + lookDX, iy = CY + lookDY;
+
+    // Iris gradient — dark ring outer, lighter centre
+    const iriGrad = ctx.createRadialGradient(ix-irisR*0.25, iy-irisR*0.25, irisR*0.1, ix, iy, irisR);
+    iriGrad.addColorStop(0,   '#555');
+    iriGrad.addColorStop(0.5, '#333');
+    iriGrad.addColorStop(1,   '#111');
+    ctx.beginPath();
+    ctx.arc(ix, iy, irisR, 0, Math.PI*2);
+    ctx.fillStyle = iriGrad;
+    ctx.fill();
+
+    // Iris detail lines
+    ctx.save();
+    ctx.globalAlpha = 0.18;
+    for (let a = 0; a < Math.PI*2; a += Math.PI/7) {
+      ctx.beginPath();
+      ctx.moveTo(ix + Math.cos(a)*pupilR*1.1, iy + Math.sin(a)*pupilR*1.1);
+      ctx.lineTo(ix + Math.cos(a)*irisR*0.92, iy + Math.sin(a)*irisR*0.92);
+      ctx.strokeStyle = '#888';
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // Pupil
+    ctx.beginPath();
+    ctx.arc(ix, iy, pupilR, 0, Math.PI*2);
+    ctx.fillStyle = '#000';
+    ctx.fill();
+
+    // Catchlight
+    ctx.beginPath();
+    ctx.arc(ix + irisR*0.28, iy - irisR*0.28, irisR*0.16, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.fill();
+
+    ctx.restore();
+
+    // ── Eyelid outline ──────────────────────────────────────────────────
+    ctx.beginPath();
+    ctx.moveTo(CX - EYE_RX, CY);
+    ctx.bezierCurveTo(
+      CX - EYE_RX*0.5, CY - EYE_RY*1.3,
+      CX + EYE_RX*0.5, CY - EYE_RY*1.3,
+      CX + EYE_RX, CY
+    );
+    ctx.bezierCurveTo(
+      CX + EYE_RX*0.5, CY + EYE_RY*1.0,
+      CX - EYE_RX*0.5, CY + EYE_RY*1.0,
+      CX - EYE_RX, CY
+    );
+    ctx.closePath();
+    ctx.strokeStyle = ink;
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+
+    // ── Eyelashes — upper lid ───────────────────────────────────────────
+    ctx.strokeStyle = ink;
+    ctx.lineWidth = 1.2;
+    for (let i = 0; i <= 12; i++) {
+      const t  = -1 + (2 * i / 12);
+      const lx = CX + t * EYE_RX;
+      const ly = CY - EYE_RY * 1.3 * Math.sqrt(1 - t*t);
+      // Normal direction (outward from curve)
+      const nx = -t * EYE_RY * 1.3;
+      const ny = -EYE_RX * Math.sqrt(1 - t*t);
+      const len = Math.sqrt(nx*nx + ny*ny);
+      const lashLen = 7 + Math.abs(t) * 2;
+      if (len > 0) {
+        ctx.beginPath();
+        ctx.moveTo(lx, ly);
+        ctx.lineTo(lx + (nx/len)*lashLen, ly + (ny/len)*lashLen - 1);
+        ctx.stroke();
+      }
+    }
+  }
+
+  let blinkT = 0, blinking = false, nextBlink = 3000;
+  let lastBlink = Date.now();
+
+  function animate() {
+    // Smooth look interpolation
+    lookX += (targetLookX - lookX) * 0.08;
+    lookY += (targetLookY - lookY) * 0.08;
+    dilate += (targetDilate - dilate) * 0.06;
+
+    // Autonomous drift when no mouse
+    driftAngle += 0.008;
+    const driftX = Math.sin(driftAngle) * 4;
+    const driftY = Math.cos(driftAngle * 0.7) * 2;
+
+    const finalX = lookX + (Math.abs(lookX) < 0.5 ? driftX : 0);
+    const finalY = lookY + (Math.abs(lookY) < 0.5 ? driftY : 0);
+
+    // Blink
+    const now = Date.now();
+    if (!blinking && now - lastBlink > nextBlink) {
+      blinking = true; blinkT = 0;
+      lastBlink = now;
+      nextBlink = 2500 + Math.random() * 3000;
+    }
+    if (blinking) {
+      blinkT += 0.14;
+      if (blinkT > Math.PI) { blinking = false; blinkT = 0; }
+    }
+
+    // Blink scales the eye vertically
+    const blinkScale = blinking ? Math.max(0.02, Math.abs(Math.cos(blinkT))) : 1;
+
+    ctx.save();
+    ctx.translate(CX, CY);
+    ctx.scale(1, blinkScale);
+    ctx.translate(-CX, -CY);
+    drawEye(finalX, finalY * blinkScale, dilate);
+    ctx.restore();
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
+
+</body>
+</html>
   --urgent:#C0392B;--urgent-l:#FDECEA;
   --monitor:#B7770D;--monitor-l:#FEF3DC;
   --routine:#555555;--routine-l:#F2F2F2;
