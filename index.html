@@ -15,37 +15,55 @@
   --bg:#F7F4EE;--surface:#FFF;--surface2:#F0EDE5;
   --border:rgba(60,45,20,.12);--border-mid:rgba(60,45,20,.22);
   --ink:#1C1712;--ink-2:#5C5040;--ink-3:#9C8C78;
-  --accent:#2D4A3E;--accent-l:#E8F0EC;--accent-m:#4A7A66;
-  --gold:#8B6914;--gold-l:#F5EDD4;
+  --accent:#555555;--accent-l:#EFEFEF;--accent-m:#666666;
+  --gold:#777777;--gold-l:#F2F2F2;
   --danger:#7A2C2C;--danger-l:#F5E8E8;
   --urgent:#C0392B;--urgent-l:#FDECEA;
   --monitor:#B7770D;--monitor-l:#FEF3DC;
-  --routine:#2D6A4F;--routine-l:#E8F5EE;
+  --routine:#555555;--routine-l:#F2F2F2;
   --sig1:#4A1A6B;--sig1-l:#F3EAF9;
   --sig2:#1A3A6B;--sig2-l:#EAF0F9;
-  --sig3:#1A5C3A;--sig3-l:#EAF5EE;
+  --sig3:#555555;--sig3-l:#F0F0F0;
   --r:4px;--rl:8px;--rxl:14px;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
 
-/* HEADER */
-header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:200}
-.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);letter-spacing:.04em;display:flex;align-items:center;gap:10px}
-.logo-mark{width:28px;height:28px;background:var(--accent);border-radius:3px;display:flex;align-items:center;justify-content:center}
-nav{display:flex;gap:4px}
-.nav-btn{padding:6px 14px;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;border:1px solid transparent;color:var(--ink-2);background:transparent;transition:all .15s}
+/* HEADER — eye hero */
+header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:2rem 2rem 1.5rem;
+  position:sticky;top:0;z-index:200;
+  gap:0;
+}
+.logo{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+.logo-mark{display:none}
+.logo-wordmark{display:none}
+#eye-canvas{display:block;cursor:none}
+.logo-wordmark-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px;font-weight:400;
+  letter-spacing:.35em;text-transform:uppercase;
+  color:var(--ink-3);margin-top:4px;
+}
+nav{display:flex;gap:4px;position:absolute;top:14px;right:2rem}
+.nav-btn{padding:5px 12px;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;border:1px solid transparent;color:var(--ink-2);background:transparent;transition:all .15s}
 .nav-btn:hover{background:var(--surface2)}
 .nav-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .nav-count{background:var(--gold);color:#fff;border-radius:10px;font-size:11px;padding:1px 6px;margin-left:4px;font-weight:500}
 
-/* MODE TOGGLE */
+
+
+/* MODE TOGGLE — hidden, moved to bottom bar */
 .mode-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:stretch}
 .mode-tab{display:flex;align-items:center;gap:8px;padding:12px 20px;cursor:pointer;border-bottom:3px solid transparent;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink-2);background:transparent;transition:all .15s;white-space:nowrap;border-right:1px solid var(--border)}
 .mode-tab:last-of-type{border-right:none}
 .mode-tab:hover{background:var(--surface2);color:var(--ink)}
 .mode-tab.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--accent-l)}
 .mode-icon{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.mode-icon-id{background:#E8F0EC}
+.mode-icon-id{background:#EFEFEF}
 .mode-icon-cs{background:var(--urgent-l)}
 .mode-desc{font-size:11px;color:var(--ink-3);font-weight:400;margin-left:2px}
 
@@ -59,14 +77,14 @@ nav{display:flex;gap:4px}
 .model-tab-desc{font-size:11px;color:var(--ink-3)}
 .model-tab.active .model-tab-name{color:var(--accent)}
 .mbadge{font-size:10px;font-weight:500;padding:1px 6px;border-radius:8px}
-.mb-free{background:#E8F0EC;color:#2D4A3E}
+.mb-free{background:#EFEFEF;color:#2D4A3E}
 .mb-better{background:var(--gold-l);color:var(--gold)}
 .mb-best{background:#E6EFF8;color:#1A4A7A}
 .pro-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;background:linear-gradient(135deg,#8B6914,#C9A84C);color:#fff;letter-spacing:.04em;vertical-align:middle}
 
 /* KEY BAR - removed */
 .key-st{font-size:11px;padding:3px 10px;border-radius:10px;font-weight:500;white-space:nowrap}
-.key-st.ok{background:#E8F0EC;color:#2D4A3E}
+.key-st.ok{background:#EFEFEF;color:#2D4A3E}
 .key-st.err{background:var(--danger-l);color:var(--danger)}
 
 main{max-width:980px;margin:0 auto;padding:2rem 1.5rem 4rem}
@@ -94,13 +112,13 @@ main{max-width:980px;margin:0 auto;padding:2rem 1.5rem 4rem}
 .drop-formats{font-size:11px;color:var(--ink-3);margin-top:10px}
 input[type=file]{display:none}
 
-/* RESULTS */
-.back-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--border-mid);border-radius:var(--r);font-size:13px;color:var(--ink-2);background:var(--surface);cursor:pointer;margin-bottom:1.25rem;transition:all .15s;font-family:'DM Sans',sans-serif}
-.back-btn:hover{background:var(--surface2)}
+/* RESULTS — TATE STYLE */
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1.5px solid #000;border-radius:0;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#000;background:#fff;cursor:pointer;margin-bottom:1.5rem;transition:all .15s}
+.back-btn:hover{background:#000;color:#fff}
 .results-grid{display:grid;grid-template-columns:1fr 380px;gap:1.5rem;align-items:start}
 .church-canvas-wrap{border-radius:var(--rxl);overflow:hidden;border:1px solid var(--border);background:#111;line-height:0}
 #bbox-canvas{display:block;width:100%;height:auto}
-.canvas-hint{font-size:11px;color:var(--ink-3);text-align:center;padding:6px 0 2px}
+.canvas-hint{font-family:'Barlow',sans-serif;font-size:11px;font-weight:400;color:#888;text-align:center;padding:6px 0 2px;letter-spacing:.04em;text-transform:uppercase}
 
 /* Canvas legend for condition mode */
 .canvas-legend{display:flex;gap:12px;justify-content:center;padding:8px 0 2px;flex-wrap:wrap}
@@ -125,7 +143,7 @@ input[type=file]{display:none}
 .mbr-cs{background:rgba(192,57,43,.25);color:#F09595}
 .result-model-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.5);margin-top:5px}
 .rmdot{width:6px;height:6px;border-radius:50%}
-.dot-gf{background:#5DCAA5}.dot-gp{background:#EF9F27}.dot-g4{background:#85B7EB}.dot-hf{background:#FF6B35}.dot-cl{background:#CC785C}
+.dot-gf{background:#888888}.dot-gp{background:#EF9F27}.dot-g4{background:#85B7EB}.dot-hf{background:#FF6B35}.dot-cl{background:#CC785C}
 
 .result-card-body{padding:1.1rem 1.4rem}
 .reanalyse-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
@@ -141,7 +159,7 @@ input[type=file]{display:none}
 .section-head{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-3);margin-bottom:8px}
 .tags-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1.1rem}
 .tag{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
-.tag-green{background:#E8F0EC;color:#2D4A3E}
+.tag-green{background:#EFEFEF;color:#2D4A3E}
 .tag-gold{background:var(--gold-l);color:var(--gold)}
 .tag-stone{background:var(--surface2);color:var(--ink-2);border:1px solid var(--border)}
 .tag-blue{background:#E6EFF8;color:#1A4A7A}
@@ -155,13 +173,13 @@ input[type=file]{display:none}
 .feat-label{flex:1}
 .feat-name{font-weight:500}
 .feat-desc{font-size:12px;color:var(--ink-3);margin-top:1px}
-.feat-locate{font-size:10px;color:var(--accent-m);font-weight:500;margin-left:auto;flex-shrink:0;opacity:0;transition:opacity .15s}
+.feat-locate{font-size:10px;color:#666;font-weight:500;margin-left:auto;flex-shrink:0;opacity:0;transition:opacity .15s}
 .feature-item:hover .feat-locate,.feature-item.active .feat-locate{opacity:1}
 
 /* CONDITION items */
-.condition-item{display:flex;gap:10px;align-items:flex-start;padding:10px 10px;margin:0 -10px;border-bottom:1px solid var(--border);cursor:pointer;border-radius:var(--r);transition:background .12s}
+.condition-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;margin:0;border-bottom:1px solid #E8E8E8;cursor:pointer;transition:background .1s}
 .condition-item:last-child{border-bottom:none}
-.condition-item:hover,.condition-item.active{background:var(--surface2)}
+.condition-item:hover,.condition-item.active{background:#F5F5F5;padding-left:8px;margin-left:-8px;margin-right:-8px;padding-right:8px}
 .condition-sev{width:4px;border-radius:2px;flex-shrink:0;align-self:stretch;min-height:36px}
 .sev-urgent{background:var(--urgent)}
 .sev-monitor{background:var(--monitor)}
@@ -205,7 +223,7 @@ input[type=file]{display:none}
 .niah-body{flex:1}
 .niah-title{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px}
 .niah-text{font-size:11px;color:var(--ink-3);line-height:1.5}
-.niah-link{font-size:11px;color:var(--sig2);font-weight:500;text-decoration:none;display:inline-block;margin-top:3px}
+.niah-link{font-size:11px;color:#555;font-weight:500;text-decoration:none;display:inline-block;margin-top:3px}
 .canvas-legend-sig{display:flex;gap:10px;justify-content:center;padding:8px 0 2px;flex-wrap:wrap}
 .mbr-sig{background:rgba(74,26,107,.2);color:#C39BD3}
 
@@ -237,8 +255,8 @@ input[type=file]{display:none}
 .or-monitor .or-desc{color:var(--monitor)}
 .or-good .or-desc{color:var(--routine)}
 
-.description-block{background:var(--gold-l);border-left:3px solid var(--gold);border-radius:0 var(--rl) var(--rl) 0;padding:10px 12px;font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;line-height:1.6;color:var(--gold);margin-bottom:1.1rem}
-.save-btn{width:100%;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:opacity .15s}
+.description-block{background:#F2F2F2;border-left:4px solid #000;border-radius:0;padding:10px 12px;font-family:'Barlow',sans-serif;font-weight:300;font-style:italic;font-size:13px;line-height:1.65;color:#333;margin-bottom:1.1rem}
+.save-btn{width:100%;padding:10px;background:#000;color:#fff;border:none;border-radius:0;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .15s}
 .save-btn:hover{opacity:.88}
 .save-btn:disabled{opacity:.45;cursor:not-allowed;background:var(--surface2);color:var(--ink-2);border:1px solid var(--border)}
 
@@ -279,7 +297,7 @@ input[type=file]{display:none}
 
 @media(max-width:720px){
   header,main{padding-left:1rem;padding-right:1rem}
-  .mode-bar,.model-bar{padding-left:1rem;padding-right:1rem}
+  .mode-bar,.model-bar,.key-bar{padding-left:1rem;padding-right:1rem}
   .upload-headline{font-size:28px}
   .results-grid{grid-template-columns:1fr}
   .stat-row,.condition-score{grid-template-columns:1fr 1fr}
@@ -292,14 +310,8 @@ input[type=file]{display:none}
 
 <header>
   <div class="logo">
-    <div class="logo-mark">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-        <path d="M1.5 9C1.5 9 4.5 3 9 3C13.5 3 16.5 9 16.5 9C16.5 9 13.5 15 9 15C4.5 15 1.5 9 1.5 9Z" stroke="white" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
-        <circle cx="9" cy="9" r="2.8" fill="white"/>
-        <circle cx="9.8" cy="8.2" r="1" fill="#2D4A3E"/>
-      </svg>
-    </div>
-    Archi Vision
+    <canvas id="eye-canvas" width="320" height="120"></canvas>
+    <div class="logo-wordmark-text">Archi Vision</div>
   </div>
   <nav>
     <button class="nav-btn active" onclick="showPage('identify',this)">Analyse</button>
@@ -311,14 +323,14 @@ input[type=file]{display:none}
 <div class="mode-bar">
   <button class="mode-tab active" id="mode-tab-id" onclick="setMode('identify')">
     <div class="mode-icon mode-icon-id">
-      <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="#2D4A3E" stroke-width="1.2"/><circle cx="5.5" cy="5.5" r="2" fill="#2D4A3E"/></svg>
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="#555" stroke-width="1.2"/><circle cx="5.5" cy="5.5" r="2" fill="#555"/></svg>
     </div>
     Identification
     <span class="mode-desc">— style, period, features</span>
   </button>
   <button class="mode-tab" id="mode-tab-cs" onclick="setMode('survey')">
     <div class="mode-icon mode-icon-cs">
-      <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1L6.8 4H10L7.4 6.1L8.4 9.5L5.5 7.5L2.6 9.5L3.6 6.1L1 4H4.2L5.5 1Z" stroke="#C0392B" stroke-width="1" fill="none"/></svg>
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1L6.8 4H10L7.4 6.1L8.4 9.5L5.5 7.5L2.6 9.5L3.6 6.1L1 4H4.2L5.5 1Z" stroke="#E5211D" stroke-width="1" fill="none"/></svg>
     </div>
     Condition Survey <span class="pro-badge">PRO</span>
     <span class="mode-desc">— damage, repair, priority</span>
@@ -335,7 +347,7 @@ input[type=file]{display:none}
 <!-- MODEL BAR -->
 <div class="model-bar">
   <button class="model-tab active" id="mtab-gemini-flash" onclick="selectModel('gemini-flash',this)">
-    <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#5DCAA5" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#5DCAA5"/></svg>Gemini 2.0 Flash<span class="mbadge mb-free">Free</span></div>
+    <div class="model-tab-name"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#888888" opacity=".3"/><circle cx="5" cy="5" r="2" fill="#888888"/></svg>Gemini 2.0 Flash<span class="mbadge mb-free">Free</span></div>
     <div class="model-tab-desc">Fast · Google</div>
   </button>
   <button class="model-tab" id="mtab-gemini-pro" onclick="selectModel('gemini-pro',this)">
@@ -360,7 +372,7 @@ input[type=file]{display:none}
 <div id="key-bar" style="display:none;background:var(--gold-l);border-bottom:1px solid rgba(139,105,20,.2);padding:7px 2rem;display:none;align-items:center;gap:10px;flex-wrap:wrap;">
   <label id="key-label" style="font-size:12px;font-weight:500;color:var(--gold);white-space:nowrap;">API key</label>
   <input type="password" id="key-input" placeholder="Paste your API key…" oninput="saveKey()" autocomplete="off"
-    style="flex:1;min-width:200px;max-width:400px;padding:5px 10px;border:1px solid rgba(139,105,20,.3);border-radius:var(--r);font-size:12px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--ink);">
+    style="flex:1;min-width:200px;max-width:400px;padding:5px 10px;border:1.5px solid #000;border-radius:0;font-size:12px;font-family:'Barlow',sans-serif;background:#fff;color:#000;">
   <span id="key-status" style="font-size:11px;padding:3px 10px;border-radius:10px;font-weight:500;background:var(--danger-l);color:var(--danger);">Not set</span>
   <span id="key-note" style="font-size:11px;color:var(--gold);"></span>
 </div>
@@ -383,7 +395,7 @@ input[type=file]{display:none}
         ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
         <div class="drop-zone-inner">
           <div class="drop-icon" id="drop-icon">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="6" width="18" height="13" rx="2" stroke="#4A7A66" stroke-width="1.5"/><circle cx="11" cy="12.5" r="3" stroke="#4A7A66" stroke-width="1.5"/><path d="M7.5 6V4.5A1.5 1.5 0 019 3h4a1.5 1.5 0 011.5 1.5V6" stroke="#4A7A66" stroke-width="1.5"/></svg>
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="6" width="18" height="13" rx="2" stroke="#000" stroke-width="1.5"/><circle cx="11" cy="12.5" r="3" stroke="#000" stroke-width="1.5"/><path d="M7.5 6V4.5A1.5 1.5 0 019 3h4a1.5 1.5 0 011.5 1.5V6" stroke="#000" stroke-width="1.5"/></svg>
           </div>
           <div class="drop-title" id="drop-title">Drop your photo here</div>
           <div class="drop-sub" id="drop-sub">Facades, interiors, or any architectural detail</div>
@@ -436,7 +448,7 @@ const MODELS = {
 
 /* ID mode bbox colours */
 const ID_COLORS = [
-  {stroke:'#4A7A66',fill:'rgba(74,122,102,.13)'},
+  {stroke:'#E5211D',fill:'rgba(74,122,102,.13)'},
   {stroke:'#8B6914',fill:'rgba(139,105,20,.13)'},
   {stroke:'#1A4A7A',fill:'rgba(26,74,122,.13)'},
   {stroke:'#7A2C2C',fill:'rgba(122,44,44,.13)'},
@@ -445,7 +457,7 @@ const ID_COLORS = [
 const SEV_COLORS = {
   urgent:  {stroke:'#C0392B', fill:'rgba(192,57,43,.15)',  label:'Urgent'},
   monitor: {stroke:'#B7770D', fill:'rgba(183,119,13,.15)', label:'Monitor'},
-  routine: {stroke:'#2D6A4F', fill:'rgba(45,106,79,.15)',  label:'Routine'},
+  routine: {stroke:'#555', fill:'rgba(45,106,79,.15)',  label:'Routine'},
 };
 const TAG_CLASSES = ['tag-green','tag-gold','tag-stone','tag-blue'];
 const SAVED_KEY = 'archi-vision-saved';
@@ -471,9 +483,9 @@ function setMode(mode) {
   const isCS  = mode === 'survey';
   const isSIG = mode === 'significance';
 
-  document.getElementById('mode-tab-id').classList.toggle('active',  isID);
-  document.getElementById('mode-tab-cs').classList.toggle('active',  isCS);
-  document.getElementById('mode-tab-sig').classList.toggle('active', isSIG);
+  document.getElementById('mode-tab-id').classList.toggle('active',isID);
+  document.getElementById('mode-tab-cs').classList.toggle('active',isCS);
+  document.getElementById('mode-tab-sig').classList.toggle('active',isSIG);
 
   if (isID) {
     document.getElementById('upload-eyebrow').textContent = 'Architectural Analysis';
@@ -537,7 +549,7 @@ function updateKeyStatus(v) {
   if (!el) return;
   el.textContent  = v ? 'Key set ✓' : 'Not set';
   el.style.background = v ? '#E8F0EC' : 'var(--danger-l)';
-  el.style.color      = v ? '#2D4A3E' : 'var(--danger)';
+  el.style.color      = v ? '#000' : 'var(--danger)';
 }
 
 function getKey() {
@@ -617,7 +629,7 @@ function drawCanvas(activeIdx) {
     ctx.strokeStyle = col.stroke; ctx.lineWidth = isActive ? 2.5 : 1.5;
     ctx.strokeRect(x1,y1,x2-x1,y2-y1);
     const label = f.name||('Item '+(i+1));
-    ctx.font = `500 ${isActive?12:11}px "DM Sans",sans-serif`;
+    ctx.font = `500 ${isActive?12:11}px "Barlow",sans-serif`;
     const tw = ctx.measureText(label).width;
     const ph=17, pw=tw+12;
     const lx=x1, ly=Math.max(0,y1-ph-2);
@@ -1285,5 +1297,213 @@ function escHtml(s){
 initModelBar();
 loadSaved();
 </script>
+
+
+
+
+<script>
+/* =====================================================================
+   ANIMATED EYE — moves with mouse, dilates, looks alive
+   ===================================================================== */
+(function(){
+  const canvas = document.getElementById('eye-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const CX = W/2, CY = H/2;
+
+  // Eye shape parameters
+  const EYE_RX = 130, EYE_RY = 46; // outer eye half-axes
+
+  // Mouse tracking (relative to whole page, mapped to canvas)
+  let targetLookX = 0, targetLookY = 0;
+  let lookX = 0, lookY = 0;
+  let targetDilate = 1.0, dilate = 1.0;
+
+  document.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - (rect.left + rect.width/2);
+    const my = e.clientY - (rect.top  + rect.height/2);
+    // Max iris travel
+    const maxTravel = 18;
+    targetLookX = Math.max(-maxTravel, Math.min(maxTravel, mx * 0.3));
+    targetLookY = Math.max(-maxTravel/2, Math.min(maxTravel/2, my * 0.3));
+    // Dilate when near
+    const dist = Math.sqrt(mx*mx + my*my);
+    targetDilate = dist < 200 ? 1.35 : 1.0;
+  });
+
+  document.addEventListener('mouseleave', () => {
+    targetLookX = 0; targetLookY = 0; targetDilate = 1.0;
+  });
+
+  // Autonomous slow drift
+  let driftAngle = 0;
+
+  function eyelidY(x) {
+    // Upper and lower eyelid curves — almond/eye shape
+    const t = (x - CX) / EYE_RX;
+    if (Math.abs(t) > 1) return null;
+    const base = Math.sqrt(1 - t*t);
+    return {
+      upper: CY - EYE_RY * base * 1.05,
+      lower: CY + EYE_RY * base * 0.85,
+    };
+  }
+
+  function drawEye(lookDX, lookDY, dilateScale) {
+    ctx.clearRect(0, 0, W, H);
+
+    const ink = '#1C1712';
+    const irisR  = 26 * dilateScale;
+    const pupilR = 11 * dilateScale;
+
+    // ── Eyelid clipping path ────────────────────────────────────────────
+    ctx.save();
+    ctx.beginPath();
+    // Upper lid (left to right)
+    ctx.moveTo(CX - EYE_RX, CY);
+    ctx.bezierCurveTo(
+      CX - EYE_RX*0.5, CY - EYE_RY*1.3,
+      CX + EYE_RX*0.5, CY - EYE_RY*1.3,
+      CX + EYE_RX, CY
+    );
+    // Lower lid (right to left)
+    ctx.bezierCurveTo(
+      CX + EYE_RX*0.5, CY + EYE_RY*1.0,
+      CX - EYE_RX*0.5, CY + EYE_RY*1.0,
+      CX - EYE_RX, CY
+    );
+    ctx.closePath();
+    ctx.clip();
+
+    // White of eye
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
+
+    // ── Iris ────────────────────────────────────────────────────────────
+    const ix = CX + lookDX, iy = CY + lookDY;
+
+    // Iris gradient — dark ring outer, lighter centre
+    const iriGrad = ctx.createRadialGradient(ix-irisR*0.25, iy-irisR*0.25, irisR*0.1, ix, iy, irisR);
+    iriGrad.addColorStop(0,   '#555');
+    iriGrad.addColorStop(0.5, '#333');
+    iriGrad.addColorStop(1,   '#111');
+    ctx.beginPath();
+    ctx.arc(ix, iy, irisR, 0, Math.PI*2);
+    ctx.fillStyle = iriGrad;
+    ctx.fill();
+
+    // Iris detail lines
+    ctx.save();
+    ctx.globalAlpha = 0.18;
+    for (let a = 0; a < Math.PI*2; a += Math.PI/7) {
+      ctx.beginPath();
+      ctx.moveTo(ix + Math.cos(a)*pupilR*1.1, iy + Math.sin(a)*pupilR*1.1);
+      ctx.lineTo(ix + Math.cos(a)*irisR*0.92, iy + Math.sin(a)*irisR*0.92);
+      ctx.strokeStyle = '#888';
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // Pupil
+    ctx.beginPath();
+    ctx.arc(ix, iy, pupilR, 0, Math.PI*2);
+    ctx.fillStyle = '#000';
+    ctx.fill();
+
+    // Catchlight
+    ctx.beginPath();
+    ctx.arc(ix + irisR*0.28, iy - irisR*0.28, irisR*0.16, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.fill();
+
+    ctx.restore();
+
+    // ── Eyelid outline ──────────────────────────────────────────────────
+    ctx.beginPath();
+    ctx.moveTo(CX - EYE_RX, CY);
+    ctx.bezierCurveTo(
+      CX - EYE_RX*0.5, CY - EYE_RY*1.3,
+      CX + EYE_RX*0.5, CY - EYE_RY*1.3,
+      CX + EYE_RX, CY
+    );
+    ctx.bezierCurveTo(
+      CX + EYE_RX*0.5, CY + EYE_RY*1.0,
+      CX - EYE_RX*0.5, CY + EYE_RY*1.0,
+      CX - EYE_RX, CY
+    );
+    ctx.closePath();
+    ctx.strokeStyle = ink;
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+
+    // ── Eyelashes — upper lid ───────────────────────────────────────────
+    ctx.strokeStyle = ink;
+    ctx.lineWidth = 1.2;
+    for (let i = 0; i <= 12; i++) {
+      const t  = -1 + (2 * i / 12);
+      const lx = CX + t * EYE_RX;
+      const ly = CY - EYE_RY * 1.3 * Math.sqrt(1 - t*t);
+      // Normal direction (outward from curve)
+      const nx = -t * EYE_RY * 1.3;
+      const ny = -EYE_RX * Math.sqrt(1 - t*t);
+      const len = Math.sqrt(nx*nx + ny*ny);
+      const lashLen = 7 + Math.abs(t) * 2;
+      if (len > 0) {
+        ctx.beginPath();
+        ctx.moveTo(lx, ly);
+        ctx.lineTo(lx + (nx/len)*lashLen, ly + (ny/len)*lashLen - 1);
+        ctx.stroke();
+      }
+    }
+  }
+
+  let blinkT = 0, blinking = false, nextBlink = 3000;
+  let lastBlink = Date.now();
+
+  function animate() {
+    // Smooth look interpolation
+    lookX += (targetLookX - lookX) * 0.08;
+    lookY += (targetLookY - lookY) * 0.08;
+    dilate += (targetDilate - dilate) * 0.06;
+
+    // Autonomous drift when no mouse
+    driftAngle += 0.008;
+    const driftX = Math.sin(driftAngle) * 4;
+    const driftY = Math.cos(driftAngle * 0.7) * 2;
+
+    const finalX = lookX + (Math.abs(lookX) < 0.5 ? driftX : 0);
+    const finalY = lookY + (Math.abs(lookY) < 0.5 ? driftY : 0);
+
+    // Blink
+    const now = Date.now();
+    if (!blinking && now - lastBlink > nextBlink) {
+      blinking = true; blinkT = 0;
+      lastBlink = now;
+      nextBlink = 2500 + Math.random() * 3000;
+    }
+    if (blinking) {
+      blinkT += 0.14;
+      if (blinkT > Math.PI) { blinking = false; blinkT = 0; }
+    }
+
+    // Blink scales the eye vertically
+    const blinkScale = blinking ? Math.max(0.02, Math.abs(Math.cos(blinkT))) : 1;
+
+    ctx.save();
+    ctx.translate(CX, CY);
+    ctx.scale(1, blinkScale);
+    ctx.translate(-CX, -CY);
+    drawEye(finalX, finalY * blinkScale, dilate);
+    ctx.restore();
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
+
 </body>
 </html>
