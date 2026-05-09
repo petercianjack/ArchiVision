@@ -297,7 +297,7 @@ input[type=file]{display:none}
 
 @media(max-width:720px){
   header,main{padding-left:1rem;padding-right:1rem}
-  .mode-bar,.model-bar,.key-bar{padding-left:1rem;padding-right:1rem}
+  .mode-bar,.model-bar{padding-left:1rem;padding-right:1rem}
   .upload-headline{font-size:28px}
   .results-grid{grid-template-columns:1fr}
   .stat-row,.condition-score{grid-template-columns:1fr 1fr}
@@ -346,14 +346,6 @@ input[type=file]{display:none}
 
 <!-- Model: Claude Sonnet (via Cloudflare Worker) -->
 
-<!-- Smart key bar — hidden for models with built-in keys, shown for others -->
-<div id="key-bar" style="display:none;background:var(--gold-l);border-bottom:1px solid rgba(139,105,20,.2);padding:7px 2rem;display:none;align-items:center;gap:10px;flex-wrap:wrap;">
-  <label id="key-label" style="font-size:12px;font-weight:500;color:var(--gold);white-space:nowrap;">API key</label>
-  <input type="password" id="key-input" placeholder="Paste your API key…" oninput="saveKey()" autocomplete="off"
-    style="flex:1;min-width:200px;max-width:400px;padding:5px 10px;border:1.5px solid #000;border-radius:0;font-size:12px;font-family:'Barlow',sans-serif;background:#fff;color:#000;">
-  <span id="key-status" style="font-size:11px;padding:3px 10px;border-radius:10px;font-weight:500;background:var(--danger-l);color:var(--danger);">Not set</span>
-  <span id="key-note" style="font-size:11px;color:var(--gold);"></span>
-</div>
 
 <main>
   <!-- ANALYSE PAGE -->
@@ -491,55 +483,21 @@ function setMode(mode) {
    MODEL SWITCHER
 ============================================================ */
 function selectModel(id, btn) {
-  id = 'claude'; // only Claude available
-  activeModelId = id;
-  const m = MODELS[id];
-  document.querySelectorAll('.model-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('pill-model').textContent = 'Claude Sonnet';
-
-  const bar = document.getElementById('key-bar');
-  if (m.defaultKey) {
-    // Model has a built-in key — hide the bar
-    bar.style.display = 'none';
-  } else {
-    // Model needs a key — show the bar
-    bar.style.display = 'flex';
-    document.getElementById('key-label').textContent = m.keyLbl;
-    document.getElementById('key-note').textContent  = m.keyNote;
-    const saved = localStorage.getItem(m.keySK) || '';
-    document.getElementById('key-input').value = saved;
-    updateKeyStatus(saved);
-  }
+  // Only Claude available
+  activeModelId = 'claude';
 }
 
-function saveKey() {
-  const m = MODELS[activeModelId];
-  const v = document.getElementById('key-input').value.trim();
-  if (v) localStorage.setItem(m.keySK, v);
-  updateKeyStatus(v);
-}
-
-function updateKeyStatus(v) {
-  const el = document.getElementById('key-status');
-  if (!el) return;
-  el.textContent  = v ? 'Key set ✓' : 'Not set';
-  el.style.background = v ? '#E8F0EC' : 'var(--danger-l)';
-  el.style.color      = v ? '#000' : 'var(--danger)';
-}
+function saveKey() {}
+function updateKeyStatus(v) {}
 
 function getKey() {
-  const m = MODELS[activeModelId];
-  if (m.defaultKey) return m.defaultKey;
-  const input = document.getElementById('key-input');
-  return (input ? input.value.trim() : '') || localStorage.getItem(m.keySK) || '';
+  return 'PROXY'; // key lives in Deno server
 }
 
 function initModelBar() {
-  // Gemini Flash is default and has a built-in key — key bar stays hidden
-  const bar = document.getElementById('key-bar');
-  if (bar) bar.style.display = 'none';
+  document.getElementById('pill-model').textContent = 'Claude Sonnet';
 }
+
 
 /* ============================================================
    STORAGE
@@ -783,14 +741,9 @@ async function analyse(dataUrl, modelId, mode) {
     <div class="state-sub">Using ${escHtml(m.name)}</div>
   </div></div>`;
 
-  const key = getKey();
+  const key = 'PROXY';
   if (!key) {
-    const keyHints = {
-      'gpt-4o':      'Get a key at platform.openai.com',
-      'hf-llava':    'Get a free token at huggingface.co/settings/tokens',
-      'claude': 'Get a key at console.anthropic.com — paste it in the key bar above',
-    };
-    const hint = keyHints[activeModelId] || 'Paste your key in the bar above.';
+    const hint = 'Contact the site administrator.';
     panel.innerHTML = `<div class="result-card" style="padding:1.4rem"><div class="error-box">
       <div class="error-title">API key required for ${escHtml(m.name)}</div>
       <div class="error-sub">${escHtml(hint)}</div>
@@ -801,10 +754,7 @@ async function analyse(dataUrl, modelId, mode) {
 
   try {
     let result;
-    if (m.provider === 'google')           result = await callGemini(dataUrl, m, key, prompt);
-    else if (m.provider === 'huggingface') result = await callHuggingFace(dataUrl, m, key, prompt);
-    else if (m.provider === 'anthropic')   result = await callAnthropic(dataUrl, m, prompt);
-    else                                   result = await callOpenAI(dataUrl, m, key, prompt);
+    result = await callAnthropic(dataUrl, m, prompt, isSIG);
 
     if (isCS) {
       result.issues = (result.issues||[]).map(f =>
@@ -855,84 +805,20 @@ async function analyse(dataUrl, modelId, mode) {
   }
 }
 
-async function callGemini(dataUrl, m, key, prompt) {
-  const base64=dataUrl.split(',')[1], mime=dataUrl.split(';')[0].split(':')[1];
-  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m.apiModel}:generateContent?key=${key}`,{
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({contents:[{parts:[{text:prompt+'\n\nAnalyse this image now.'},{inline_data:{mime_type:mime,data:base64}}]}],generationConfig:{maxOutputTokens:1400,temperature:0.2}})
-  });
-  if(!res.ok){const t=await res.text();throw new Error(`Gemini HTTP ${res.status}: ${t.slice(0,200)}`);}
-  const data=await res.json();
-  return parseJSON(data.candidates?.[0]?.content?.parts?.[0]?.text||'');
-}
 
-async function callOpenAI(dataUrl, m, key, prompt) {
-  const res = await fetch('https://api.openai.com/v1/chat/completions',{
-    method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`},
-    body:JSON.stringify({model:m.apiModel,max_tokens:1400,messages:[
-      {role:'system',content:prompt},
-      {role:'user',content:[{type:'image_url',image_url:{url:dataUrl,detail:'high'}},{type:'text',text:'Analyse this image. Respond only with JSON.'}]}
-    ]})
-  });
-  if(!res.ok){const t=await res.text();throw new Error(`OpenAI HTTP ${res.status}: ${t.slice(0,200)}`);}
-  const data=await res.json();
-  return parseJSON(data.choices?.[0]?.message?.content||'');
-}
-
-async function callHuggingFace(dataUrl, m, key, prompt) {
-  const base64=dataUrl.split(',')[1], mime=dataUrl.split(';')[0].split(':')[1];
-
-  // HF Inference API — conversational endpoint with image
-  const res = await fetch(`https://api-inference.huggingface.co/models/${m.apiModel}/v1/chat/completions`, {
-    method: 'POST',
-    headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${key}` },
-    body: JSON.stringify({
-      model: m.apiModel,
-      max_tokens: 1400,
-      messages: [
-        {
-          role: 'user',
-          content: [
-            { type: 'image_url', image_url: { url: `data:${mime};base64,${base64}` } },
-            { type: 'text', text: prompt + '\n\nAnalyse this image now. Respond only with the JSON object.' }
-          ]
-        }
-      ]
-    })
-  });
-
-  if (res.status === 503) {
-    // Model is loading — common on free tier
-    const t = await res.text();
-    let waitSecs = 20;
-    try { waitSecs = JSON.parse(t).estimated_time || 20; } catch(e) {}
-    throw new Error(`Model is loading on Hugging Face (estimated ${Math.ceil(waitSecs)}s). Wait a moment and try again.`);
-  }
-  if (!res.ok) { const t=await res.text(); throw new Error(`Hugging Face HTTP ${res.status}: ${t.slice(0,200)}`); }
-
-  const data = await res.json();
-  const raw  = data.choices?.[0]?.message?.content || '';
-  if (!raw) throw new Error('Empty response from Hugging Face.');
-  return parseJSON(raw);
-}
-
-async function callAnthropic(dataUrl, m, prompt) {
+async function callAnthropic(dataUrl, m, prompt, isSIG=false) {
   const base64 = dataUrl.split(',')[1];
   const mime   = dataUrl.split(';')[0].split(':')[1];
 
-  // Use proxy so the API key stays secret server-side
   const endpoint = CLAUDE_PROXY && !CLAUDE_PROXY.includes('YOUR-NAME')
     ? CLAUDE_PROXY
     : 'https://api.anthropic.com/v1/messages';
 
   const headers = { 'Content-Type': 'application/json' };
 
-  // Only add these headers when calling Anthropic directly (local dev fallback)
   if (endpoint.includes('anthropic.com')) {
     const key = getKey();
-    if (key && key !== 'PROXY') {
-      headers['x-api-key'] = key;
-    }
+    if (key && key !== 'PROXY') headers['x-api-key'] = key;
     headers['anthropic-version'] = '2023-06-01';
     headers['anthropic-dangerous-direct-browser-access'] = 'true';
   }
@@ -942,7 +828,7 @@ async function callAnthropic(dataUrl, m, prompt) {
     headers,
     body: JSON.stringify({
       model: m.apiModel,
-      max_tokens: 1400,
+      max_tokens: isSIG ? 2800 : 1400,
       system: prompt,
       messages: [{
         role: 'user',
@@ -961,10 +847,48 @@ async function callAnthropic(dataUrl, m, prompt) {
 }
 
 function parseJSON(raw) {
-  const clean=raw.replace(/```json|```/g,'').trim();
-  const match=clean.match(/\{[\s\S]*\}/);
-  if(!match) throw new Error('Model did not return JSON. Got: '+raw.slice(0,300));
-  return JSON.parse(match[0]);
+  // Strip markdown code fences
+  let clean = raw.replace(/```json|```/g, '').trim();
+
+  // Extract the outermost JSON object
+  const match = clean.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('Model did not return JSON. Got: ' + raw.slice(0, 300));
+  clean = match[0];
+
+  // First try direct parse
+  try { return JSON.parse(clean); } catch(e1) {}
+
+  // Fix common AI JSON mistakes:
+  // 1. Trailing commas before } or ]
+  clean = clean.replace(/,(\s*[}\]])/g, '$1');
+
+  // 2. Unescaped apostrophes inside strings — tricky, use a safer approach
+  // Replace \n inside strings with \\n
+  clean = clean.replace(/("(?:[^"\\]|\\.)*")/g, s =>
+    s.replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t')
+  );
+
+  try { return JSON.parse(clean); } catch(e2) {}
+
+  // 3. Try to extract just up to the last valid closing brace
+  // by progressively truncating
+  let depth = 0, lastValid = -1;
+  for (let i = 0; i < clean.length; i++) {
+    if (clean[i] === '{' || clean[i] === '[') depth++;
+    else if (clean[i] === '}' || clean[i] === ']') {
+      depth--;
+      if (depth === 0) { lastValid = i; break; }
+    }
+  }
+  if (lastValid > 0) {
+    const truncated = clean.slice(0, lastValid + 1);
+    try { return JSON.parse(truncated); } catch(e3) {}
+    // Final attempt: remove trailing commas again on truncated
+    const fixed = truncated.replace(/,(\s*[}\]])/g, '$1');
+    try { return JSON.parse(fixed); } catch(e4) {}
+  }
+
+  throw new Error('Could not parse model response as JSON: ' + clean.slice(0, 200));
 }
 
 /* ============================================================
