@@ -106,9 +106,21 @@ main{max-width:980px;margin:0 auto;padding:2rem 1.5rem 4rem}
 .drop-icon{width:52px;height:52px;margin:0 auto 1rem;background:var(--surface2);border-radius:50%;display:flex;align-items:center;justify-content:center}
 .drop-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:var(--ink);margin-bottom:6px}
 .drop-sub{font-size:13px;color:var(--ink-3);margin-bottom:1.5rem;line-height:1.55}
-.choose-btn{display:inline-block;padding:10px 26px;background:var(--accent);color:#fff;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:opacity .15s}
+.upload-btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.choose-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 22px;background:var(--accent);color:#fff;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:opacity .15s}
 .choose-btn:hover{opacity:.88}
 .choose-btn.survey{background:var(--urgent)}
+.camera-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 22px;background:var(--surface);color:var(--ink);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid var(--border-mid);transition:all .15s}
+.camera-btn:hover{background:var(--surface2)}
+.camera-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:1000;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.camera-modal.open{display:flex}
+.camera-video{width:min(90vw,560px);border-radius:var(--rxl);overflow:hidden;background:#000;aspect-ratio:4/3;object-fit:cover;display:block}
+.camera-controls{display:flex;gap:12px;align-items:center}
+.camera-snap{width:64px;height:64px;border-radius:50%;background:#fff;border:4px solid var(--accent);cursor:pointer;transition:transform .1s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.camera-snap:active{transform:scale(.9)}
+.camera-close,.camera-switch{padding:8px 18px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:background .15s}
+.camera-close:hover,.camera-switch:hover{background:rgba(255,255,255,.28)}
+.camera-hint{font-size:12px;color:rgba(255,255,255,.55);text-align:center}
 .drop-formats{font-size:11px;color:var(--ink-3);margin-top:10px}
 input[type=file]{display:none}
 
@@ -369,8 +381,17 @@ input[type=file]{display:none}
           </div>
           <div class="drop-title" id="drop-title">Drop your photo here</div>
           <div class="drop-sub" id="drop-sub">Facades, interiors, or any architectural detail</div>
-          <button class="choose-btn" id="choose-btn" onclick="event.stopPropagation();document.getElementById('file-input').click()">Choose photo</button>
-          <div class="drop-formats">JPG · PNG · WEBP</div>
+          <div class="upload-btn-row">
+            <button class="choose-btn" id="choose-btn" onclick="event.stopPropagation();document.getElementById('file-input').click()">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12V4.5A1.5 1.5 0 013.5 3h9A1.5 1.5 0 0114 4.5V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M1 12h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+              Choose photo
+            </button>
+            <button class="camera-btn" onclick="event.stopPropagation();openCamera()">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="4" width="14" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 4V3A1 1 0 016.5 2h3A1 1 0 0110.5 3v1" stroke="currentColor" stroke-width="1.5"/><circle cx="12.5" cy="6.5" r=".75" fill="currentColor"/></svg>
+              Take photo
+            </button>
+          </div>
+          <div class="drop-formats">JPG · PNG · WEBP · or use camera</div>
         </div>
       </div>
       <input type="file" id="file-input" accept="image/*" onchange="handleFile(this.files[0])">
@@ -1440,6 +1461,86 @@ loadSaved();
   }
   animate();
 })();
+</script>
+
+
+<!-- Camera Modal -->
+<div class="camera-modal" id="camera-modal">
+  <div class="camera-hint">Position the building in frame, then tap the shutter</div>
+  <video class="camera-video" id="camera-video" autoplay playsinline muted></video>
+  <canvas id="camera-canvas" style="display:none"></canvas>
+  <div class="camera-controls">
+    <button class="camera-close" onclick="closeCamera()">✕ Cancel</button>
+    <button class="camera-snap" onclick="snapPhoto()" title="Take photo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="8" fill="var(--accent)"/>
+      </svg>
+    </button>
+    <button class="camera-switch" onclick="switchCamera()">⟳ Flip</button>
+  </div>
+</div>
+
+<script>
+/* ── CAMERA ────────────────────────────────────────────────────── */
+let cameraStream = null;
+let facingMode = 'environment'; // rear camera by default
+
+async function openCamera() {
+  const modal = document.getElementById('camera-modal');
+  modal.classList.add('open');
+  await startCamera();
+}
+
+async function startCamera() {
+  // Stop any existing stream
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(t => t.stop());
+    cameraStream = null;
+  }
+  const video = document.getElementById('camera-video');
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode, width: { ideal: 1920 }, height: { ideal: 1080 } },
+      audio: false
+    });
+    video.srcObject = cameraStream;
+  } catch(err) {
+    closeCamera();
+    alert('Camera not available: ' + err.message);
+  }
+}
+
+async function switchCamera() {
+  facingMode = facingMode === 'environment' ? 'user' : 'environment';
+  await startCamera();
+}
+
+function snapPhoto() {
+  const video  = document.getElementById('camera-video');
+  const canvas = document.getElementById('camera-canvas');
+  canvas.width  = video.videoWidth  || 1280;
+  canvas.height = video.videoHeight || 720;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  closeCamera();
+  // Convert to blob and pass through handleFile pipeline (includes compression)
+  canvas.toBlob(blob => {
+    const file = new File([blob], 'camera-photo.jpg', { type: 'image/jpeg' });
+    handleFile(file);
+  }, 'image/jpeg', 0.92);
+}
+
+function closeCamera() {
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(t => t.stop());
+    cameraStream = null;
+  }
+  document.getElementById('camera-modal').classList.remove('open');
+}
+
+// Close modal on backdrop click
+document.getElementById('camera-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeCamera();
+});
 </script>
 
 </body>
